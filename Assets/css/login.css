@@ -1,0 +1,119 @@
+/*Estilos del login*/
+
+* {
+  font-family: "Arial";
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  height: 100vh;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url(../img/Fondo1.jpg) no-repeat;
+  background-position: center;
+  background-size: cover; 
+}
+
+.contenedor {
+  width: 40%;
+  /* background: #314158; */
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  border-radius: 15px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+  padding: 40px;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+}
+
+.contenedor h1 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 33px;
+}
+
+.input-container input {
+  width: 70%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 255, 255, .2);
+  border-radius: 8px;
+  background: transparent;
+  font-size: 16px;
+  color: #fff;
+}
+
+.input-container input::placeholder {
+  color: #fff;
+}
+
+.input-container i {
+  font-size: 20px;
+  top: 10px;
+  color: #fff;
+}  
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-weight: bold;
+}
+
+.acceder {
+  /* background: rgb(22, 126, 72); */
+  background: #314158;
+}
+
+.acceder:hover {
+  transition: 0.5s;
+  transform: scale(1.05);
+  background-color: #212d41;
+  color: #155DFC;
+  /* background: rgba(22, 126, 72, 0.856); */
+}
+
+.limpiar {
+  background: rgb(238, 98, 98);
+  width: 20%;
+  border-radius: 10px;
+  transition: transform 0.5s;
+}
+
+.limpiar:hover {
+  transition: 0.5s;
+  transform: scale(1.05);
+  background: rgb(253, 17, 17);
+}
+
+.ver {
+  background: rgb(103, 103, 255);
+  width: 20%;
+  border-radius: 10px;
+  transition: transform 0.5s;
+}
+
+.ver:hover {
+  transition: 0.5s;
+  transform: scale(1.05);
+  background: rgba(64, 61, 231, 0.856);
+}
+
+img {
+  font-weight: bold;
+  width: 130px;
+}
+
+.ver input[type="password"] {
+  width: 70%;
+}
