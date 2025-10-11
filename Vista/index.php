@@ -22,7 +22,7 @@
 
                 <form id="frmInicio" method="POST">
                     <img src="<?php echo APP_URL; ?>Assets/img/Logo.png" title="Logo de la empresa">
-                    <!-- <h1>Iniciar Sesión</h1> -->
+                    <h1>Iniciar Sesión</h1>
 
                     <div class="input-container">
                         <i class="fa-solid fa-user"></i>
