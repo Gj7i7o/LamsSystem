@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/miversion/Proveedores/list?page=" + currentPage
+        "http://localhost/LamsSystem/Proveedores/list?page=" + currentPage
       );
 
       // Si la respuesta no es exitosa, lanza un error

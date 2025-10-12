@@ -10,9 +10,6 @@
 
 <!-- <script src="<?php echo APP_URL; ?>Assets/js/jquery.min.js"></script> -->
 <script src="<?php echo APP_URL; ?>Assets/js/sweetalert2.all.min.js"></script>
-<!-- <script src="<?php echo APP_URL; ?>Assets/js/dataTables.min.js"></script> -->
-<!-- <script src="<?php echo APP_URL; ?>Assets/js/api.js"></script> -->
-<!-- <script src="<?php echo APP_URL; ?>Assets/js/all.min.js"></script> -->
 <script src="<?php echo APP_URL; ?>Assets/js/App.js"></script>
 <script>
     const APP_URL = "<?php echo APP_URL; ?>";

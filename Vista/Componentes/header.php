@@ -11,9 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>Assets/css/styles.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>Assets/css/all.min.css">
-    <!-- <link rel="stylesheet" href="<?php echo APP_URL; ?>Assets/css/datatable.min.css"> -->
-    <!-- <link rel="stylesheet" href="<?php echo APP_URL; ?>Assets/css/table/datatable.min.css"> -->
-    <!-- <link rel="stylesheet" href="<?php echo APP_URL; ?>Assets/css/api.css"> -->
     <title>LAMS system</title>
 </head>
 
