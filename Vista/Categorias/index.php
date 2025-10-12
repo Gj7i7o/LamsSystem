@@ -1,6 +1,7 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categoria/script.js"></script>
 
 <!-- Index.php encargado de la vista de las Categorías -->
 

@@ -24,15 +24,21 @@ class Marcas extends Controlador
     y a su vez coloca en cada una los botones de editar y eliminar*/
     public function list()
     {
-        $data = $this->model->getMarca();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-                <button class="warning" type="button" onclick="btnDelMarca(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-                </div>';
+     try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getMarca($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditMarcas(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDelMarcas(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
 
     /*Almacenaje: Se encarga de almacenar los datos de una nueva marca en la base de datos*/

@@ -10,10 +10,18 @@ class MarcasModel extends Query
         parent::__construct();
     }
 
-    /*getMarca: Toma todas las marcas de la base de datos*/
-    public function getMarca()
+    public function getCount()
     {
         $sql = "SELECT * FROM marca";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    /*getMarca: Toma todas las marcas de la base de datos*/
+    public function getMarca(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM marca" : "SELECT * FROM marca LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

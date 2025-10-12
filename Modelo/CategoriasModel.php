@@ -10,10 +10,17 @@ class CategoriasModel extends Query
         parent::__construct();
     }
 
-    /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getCategory()
+    public function getCount()
     {
         $sql = "SELECT * FROM categoria";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+    /*getCategory: Toma todas las categorías de la base de datos*/
+    public function getCategory(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM categoria" : "SELECT * FROM categoria LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
