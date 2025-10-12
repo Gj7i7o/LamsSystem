@@ -6,12 +6,12 @@ include 'Vista/Componentes/header.php';
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-home"></i> -->
         <h1>Panel de Control</h1>
     </div>
     <div class="main-top-text">
         <p>Bienvenido, este es el resumen general de tu inventario:</p>
     </div>
+
     <!-- Muestra en unas cartas el total de objetos que hay en el sistema -->
 
     <div class="main-skills">

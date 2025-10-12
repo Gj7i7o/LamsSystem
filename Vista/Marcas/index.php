@@ -1,13 +1,12 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marca/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/script.js"></script>
 
 <!-- Index.php encargado de la vista de las Marcas -->
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-copyright"></i> -->
         <h1>Marcas</h1>
     </div>
     <div class="main-top-text">
@@ -21,13 +20,13 @@ include "Vista/Componentes/header.php";
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaMarcas">
-                <thead>
-                    <tr>
-                    <th data-column="nombre" data-order="desc">Nombre</th>
-                    <th data-column="estado" data-order="desc">Estado</th>
-                    <th data-column="acciones" data-order="desc">Acciones</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th data-column="nombre" data-order="desc">Nombre</th>
+                            <th data-column="estado" data-order="desc">Estado</th>
+                            <th data-column="acciones" data-order="desc">Acciones</th>
+                        </tr>
+                    </thead>
                     <tbody>
                     </tbody>
                 </table>

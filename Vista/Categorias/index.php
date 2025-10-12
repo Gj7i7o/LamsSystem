@@ -1,13 +1,12 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categoria/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/script.js"></script>
 
 <!-- Index.php encargado de la vista de las Categorías -->
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-layer-group"></i> -->
         <h1>Categorias</h1>
     </div>
     <div class="main-top-text">
@@ -21,14 +20,14 @@ include "Vista/Componentes/header.php";
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaCategorias">
-                <thead>
-                    <tr>
-                    <th data-column="nombre" data-order="desc">Nombre</th>
-                    <th data-column="descrip" data-order="desc">Descripción</th>
-                    <th data-column="estado" data-order="desc">Estado</th>
-                    <th data-column="acciones" data-order="desc">Acciones</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th data-column="nombre" data-order="desc">Nombre</th>
+                            <th data-column="descrip" data-order="desc">Descripción</th>
+                            <th data-column="estado" data-order="desc">Estado</th>
+                            <th data-column="acciones" data-order="desc">Acciones</th>
+                        </tr>
+                    </thead>
                     <tbody>
                     </tbody>
                 </table>
@@ -49,11 +48,11 @@ include "Vista/Componentes/header.php";
         <h2>Registrar Categoria</h2>
 
         <form id="categoriaForm" class="form">
-          <input type="number" id="id" hidden="true">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required>
-          
-          <button type="submit">Registrar</button>
+            <input type="number" id="id" hidden="true">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <button type="submit">Registrar</button>
         </form>
     </div>
 </div>

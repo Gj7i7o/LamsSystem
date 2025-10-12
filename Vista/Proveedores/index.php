@@ -7,7 +7,6 @@ include "Vista/Componentes/header.php";
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-boxes-packing"></i> -->
         <h1>Proveedores</h1>
     </div>
     <div class="main-top-text">

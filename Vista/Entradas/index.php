@@ -6,7 +6,6 @@ include "Vista/Componentes/header.php";
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-layer-group"></i> -->
         <h1>Entradas disponibles</h1>
     </div>
     <div class="main-top-text">
@@ -95,7 +94,7 @@ include "Vista/Componentes/header.php";
 </div>
 
 <!-- Modal para añadir cantidad -->
- 
+
 <div id="sumar_cantidad" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -6,7 +6,6 @@ include "Vista/Componentes/header.php";
 
 <section class="main">
     <div class="main-top">
-        <!-- <i class="fas fa-layer-group"></i> -->
         <h1>Salidas disponibles</h1>
     </div>
     <div class="main-top-text">
@@ -90,9 +89,9 @@ include "Vista/Componentes/header.php";
                 </form>
             </div>
 
+        </div>
     </div>
-</div>
 
-<?php
-include "Vista/Componentes/footer.php";
-?>
+    <?php
+    include "Vista/Componentes/footer.php";
+    ?>
