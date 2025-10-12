@@ -10,6 +10,13 @@ class UsuariosModel extends Query
         parent::__construct();
     }
 
+    public function getCount()
+    {
+        $sql = "SELECT * FROM usuario";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
     /*getUser: En base a la contraseña y nombre de usuario ingresados, traerá un usuario que coincida con estos*/
     public function getUser(string $user, string $password)
     {
@@ -19,9 +26,10 @@ class UsuariosModel extends Query
     }
 
     /*getUsers: Toma todos los usuarios de la base de datos*/
-    public function getUsers()
+    public function getUsers(int $page = 0)
     {
-        $sql = "SELECT * FROM usuario";
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM usuario" : "SELECT * FROM usuario LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

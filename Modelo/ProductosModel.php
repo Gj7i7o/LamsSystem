@@ -10,11 +10,18 @@ class ProductosModel extends Query
         parent::__construct();
     }
 
-    /*getProduct: Toma todos los productos de la base de datos*/
-    public function getProduct()
+     public function getCount()
     {
-        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado      
-        FROM producto p LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id";
+        $sql = "SELECT * FROM producto";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    /*getProduct: Toma todos los productos de la base de datos*/
+    public function getProduct(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM producto" : "SELECT * FROM producto LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -30,7 +37,7 @@ class ProductosModel extends Query
         $verificar = "SELECT * FROM producto WHERE nombre = '$this->name' AND codigo = '$this->code'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO producto (codigo, nombre, precio, cantidad, idcategoria, idmarca, estado) VALUES (?,?,?,0,?,?,'activo')";
+            $sql = "INSERT INTO producto (codigo, nombre, precio, cantidad, idcategoria, idmarca, estado) VALUES (?,?,?,?,?,?,'activo')";
             $datos = array($this->code, $this->name, $this->price, $this->idcat, $this->idmar);
             $data = $this->save($sql, $datos);
             if ($data == 1) {

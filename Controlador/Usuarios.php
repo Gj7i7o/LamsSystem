@@ -24,15 +24,21 @@ class Usuarios extends Controlador
     y a su vez coloca en cada uno los botones de editar y eliminar*/
     public function list()
     {
-        $data = $this->model->getUsers();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditUser(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-                <button class="warning" type="button" onclick="btnDelUser(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-                </div>';
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getUsers($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditUsuarios(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDelUsuarios(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
 
     /*Validación: Comprueba si el usuario y contraseña ingresados corresponde a algún usuario 

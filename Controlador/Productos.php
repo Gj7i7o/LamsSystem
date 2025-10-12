@@ -24,15 +24,21 @@ class Productos extends Controlador
     y a su vez coloca en cada uno los botones de editar y eliminar*/
     public function list()
     {
-        $data = $this->model->getProduct();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditProduct(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-                <button class="warning" type="button" onclick="btnDelProduct(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-                </div>';
+       try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getProduct($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditProductos(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDelProductos(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
 
     /*Almacenaje: Se encarga de almacenar los datos de un nuevo producto en la base de datos*/
