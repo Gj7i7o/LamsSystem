@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchDataAndRenderTable() {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
-      const response = await fetch( 
+      const response = await fetch(
         "http://localhost/LamsSystem/Productos/list?page=" + currentPage
       );
 
@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.nombre}</td>
                 <td>${item.precio}</td>
                 <td>${item.cantidad}</td>
-                <td>${item.idcategoria}</td>
-                <td>${item.idmarca}</td>
+                <td>${item.categoria}</td>
+                <td>${item.marca}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>
             `;

@@ -23,9 +23,9 @@ include "Vista/Componentes/header.php";
                 <table id="TablaProveedores">
                     <thead>
                         <tr>
+                            <th data-column="rif" data-order="desc">Rif</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
                             <th data-column="apellido" data-order="desc">Apellido</th>
-                            <th data-column="rif" data-order="desc">Rif</th>
                             <th data-column="direccion" data-order="desc">Dirección</th>
                             <th data-column="estado" data-order="desc">Estado</th>
                             <th data-column="acciones" data-order="desc">Acciones</th>
@@ -43,6 +43,31 @@ include "Vista/Componentes/header.php";
         </div>
     </section>
 </section>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" title="Cerrar">&times;</span>
+
+        <h2>Registrar Proveedor</h2>
+
+        <form id="" class="form">
+            <input type="number" id="id" hidden="true">
+            <label for="rif">Rif:</label>
+            <input type="text" id="rif" name="rif" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="dir">Dirección:</label>
+            <input type="email" id="dir" name="dir" required>
+
+            <button type="submit" id="btnAccion">Registrar</button>
+        </form>
+    </div>
+</div>
 
 <?php
 include "Vista/Componentes/footer.php";

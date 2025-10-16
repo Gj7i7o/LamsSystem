@@ -40,6 +40,22 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" title="Cerrar">&times;</span>
+
+        <h2>Registrar Marca</h2>
+
+        <form id="" class="form">
+            <input type="number" id="id" hidden="true">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <button type="submit" id="btnAccion">Registrar</button>
+        </form>
+    </div>
+</div>
+
 <?php
 include "Vista/Componentes/footer.php";
 ?>

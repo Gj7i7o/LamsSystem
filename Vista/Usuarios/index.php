@@ -16,7 +16,7 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Usuarios -->
 
     <section class="main-course">
-        <button class="button" type="button" id="abrirModalBtn" title="Crear Usuario"><i class="fas fa-plus"></i></button>
+        <button class="button" type="button" id="registrarUsuario" title="Crear Usuario"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaUsuarios">
@@ -45,7 +45,7 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="miModalUsuario" class="modal">
+<div id="modal" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
@@ -71,7 +71,7 @@ include "Vista/Componentes/header.php";
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Registrar</button>
+            <button type="submit" id="btnAccion">Registrar</button>
         </form>
     </div>
 </div>

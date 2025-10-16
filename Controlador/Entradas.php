@@ -22,16 +22,22 @@ class Entradas extends Controlador
 
     /*Listado: Se encarga de colocar las categorías existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
-    public function listProductEntrada()
+    public function list()
     {
-        $data = $this->model->getProduct();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnAddCantidad(' . $data[$i]['id'] . ');" title="Cantidad de entrada"><i class="fas fa-plus"></i></button>
-                </div>';
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getEntradaProducto($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btn(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
 
     public function listEntrada()
@@ -53,7 +59,7 @@ class Entradas extends Controlador
         $id = $_POST['id'];
         $numeros = "/^\d+(\.\d{1,2})?$/";
         if (
-            empty($cantidad) 
+            empty($cantidad)
         ) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
@@ -61,18 +67,18 @@ class Entradas extends Controlador
                 if (!preg_match($numeros, $cantidad)) {
                     $msg = array('msg' => 'Solo números en la cantidad', 'icono' => 'warning');
                 } else {
-                /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
+                    /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
                 por ende lleva los datos a la función modifyProduct en el Models/ProductosModel.php*/
-                $data = $this->model->modifyEntrada($cantidad, $id);
-                if ($data == "modificado") {
-                    $msg = array('msg' => 'Entrada modificado', 'icono' => 'success');
-                } else {
-                    $msg = array('msg' => 'Error al modificar el entrada', 'icono' => 'error');
+                    $data = $this->model->modifyEntrada($cantidad, $id);
+                    if ($data == "modificado") {
+                        $msg = array('msg' => 'Entrada modificado', 'icono' => 'success');
+                    } else {
+                        $msg = array('msg' => 'Error al modificar el entrada', 'icono' => 'error');
+                    }
                 }
             }
-        }
-        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
-        die();
+            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 

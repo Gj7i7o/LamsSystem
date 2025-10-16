@@ -10,7 +10,7 @@ class ProductosModel extends Query
         parent::__construct();
     }
 
-     public function getCount()
+    public function getCount()
     {
         $sql = "SELECT * FROM producto";
         $data = $this->selectAll($sql);
@@ -21,7 +21,10 @@ class ProductosModel extends Query
     public function getProduct(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM producto" : "SELECT * FROM producto LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id" :
+            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

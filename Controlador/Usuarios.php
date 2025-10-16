@@ -30,8 +30,8 @@ class Usuarios extends Controlador
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditUsuarios(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelUsuarios(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDelUsuario(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -151,13 +151,13 @@ class Usuarios extends Controlador
             $msg = array('msg' => 'No puede desactivar su propio Usuario', 'icono' => 'error');
         } else if ($_SESSION['rango'] != "administrador") {
             $msg = array('msg' => 'No tiene el rango necesario para desactivar un Usuario', 'icono' => 'error');
-           } else {
+        } else {
             $data = $this->model->deleteUser($id);
             if ($data == 1) {
                 $msg = array('msg' => 'Error al desactivar el Usuario', 'icono' => 'error');
             } else {
                 $msg = array('msg' => 'Usuario desactivado', 'icono' => 'success');
-            }            
+            }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

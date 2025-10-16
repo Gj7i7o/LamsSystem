@@ -24,14 +24,14 @@ class Categorias extends Controlador
     y a su vez coloca en cada una los botones de editar y eliminar*/
     public function list()
     {
-       try {
+        try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->getCategory($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditCategorias(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelCategorias(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="warning" type="button" onclick="btnDelCategory(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);

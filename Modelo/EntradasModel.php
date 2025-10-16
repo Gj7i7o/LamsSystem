@@ -10,15 +10,26 @@ class EntradasModel extends Query
         parent::__construct();
     }
 
-    /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getProduct()
+    public function getCount()
     {
-        $sql = "SELECT * FROM producto";
+        $sql = "SELECT * FROM entradaproducto";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    /*getEntrada: Toma todas las entradas de la base de datos*/
+    public function getEntradaProducto(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT ep.id, ep.cantidad, ep.precio, p.nombre AS nombre
+        FROM entradaproducto ep LEFT JOIN producto p ON ep.idproducto = p.id " :
+            "SELECT ep.id, ep.cantidad, ep.precio, p.nombre AS nombre
+        FROM entradaproducto ep LEFT JOIN producto p ON ep.idproducto = p.id WHERE p.estado = 'activo' LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
 
-    public function getEntrada()
+    public function getEn()
     {
         $sql = "SELECT ep.id, ep.cantidad, ep.precio, p.nombre AS nombre, e.fecha AS fecha, e.hora AS hora
         FROM entradaproducto ep LEFT JOIN producto p ON ep.idproducto = p.id LEFT JOIN entrada e ON ep.identrada = e.id ";

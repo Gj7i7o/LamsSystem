@@ -38,7 +38,7 @@ section {
 }
 
 .input-container input {
-  width: 70%;
+  width: 90%;
   padding: 12px;
   margin-bottom: 20px;
   border: 2px solid rgba(255, 255, 255, .2);
@@ -59,7 +59,7 @@ section {
 }  
 
 button {
-  width: 100%;
+  width: 79%;
   padding: 12px;
   border: none;
   color: white;
@@ -96,24 +96,7 @@ button {
   background: rgb(253, 17, 17);
 }
 
-.ver {
-  background: rgb(103, 103, 255);
-  width: 20%;
-  border-radius: 10px;
-  transition: transform 0.5s;
-}
-
-.ver:hover {
-  transition: 0.5s;
-  transform: scale(1.05);
-  background: rgba(64, 61, 231, 0.856);
-}
-
 img {
   font-weight: bold;
-  width: 130px;
-}
-
-.ver input[type="password"] {
-  width: 70%;
+  width: 160px;
 }

@@ -47,7 +47,7 @@
                 </li>
                 <li>
                     <a href="<?php echo APP_URL; ?>Categorias" title="Categorias de productos">
-                        <span class="nav-item"><i class="fa-solid fa-list"></i> Categorias</span>
+                        <span class="nav-item"><i class="fa-solid fa-list"></i> Categorías</span>
                     </a>
                 </li>
                 <li>

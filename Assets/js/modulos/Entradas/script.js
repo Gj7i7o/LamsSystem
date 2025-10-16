@@ -1,27 +1,27 @@
 /*
-Script de usuarios: Sección de JavaScript propio para las funciones del módulo
-de usuarios. 
+Script de entradas: Sección de JavaScript propio para las funciones del módulo
+de entradas. 
 */
 
-//Tabla Usuarios
+//Tabla Entradas
 document.addEventListener("DOMContentLoaded", () => {
-  const tableBody = document.querySelector("#TablaUsuarios tbody");
-  const headers = document.querySelectorAll("#TablaUsuarios th");
+  const tableBody = document.querySelector("#tablaEntradas tbody");
+  const headers = document.querySelectorAll("#tablaEntradas th");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const pageInfo = document.getElementById("pageInfo");
 
-  let paginaActual = 1;
+  let currentPage = 1;
   const rowsPerPage = 5;
   let currentData = [];
   let currentTotal = 0;
 
   // 2. Función para obtener los datos del servidor
-  async function tablaUsuarios() {
+  async function fetchDataAndRenderTable() {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Usuarios/list?page=" + paginaActual
+        "http://localhost/LamsSystem/Entradas/list?page=" + currentPage
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -35,20 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
       currentTotal = total;
 
       // Llama a renderTable para mostrar los datos obtenidos
-      mostrarTabla();
+      renderTable();
     } catch (error) {
       console.error("No se pudo obtener la data:", error);
       // Puedes mostrar un mensaje de error al usuario aquí
     }
   }
 
-  function mostrarTabla() {
+  function renderTable() {
     tableBody.innerHTML = "";
     const paginatedData = currentData;
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="4">No hay entradas disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -56,13 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-                <td>${item.usuario}</td>
                 <td>${item.nombre}</td>
-                <td>${item.apellido}</td>
-                <td>${item.correo}</td>
-                <td>${item.telef}</td>
-                <td>${item.rango}</td>
-                <td>${item.estado}</td>
+                <td>${item.cantidad}</td>
+                <td>${item.precio}$</td>
                 <td>${item.acciones}</td>
             `;
       tableBody.appendChild(row);
@@ -73,9 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function updatePaginationInfo() {
     const pages = getTotalPages();
-    pageInfo.textContent = `Página ${paginaActual} de ${pages}`;
-    prevBtn.disabled = paginaActual === 1;
-    nextBtn.disabled = paginaActual === pages || pages === 0;
+    pageInfo.textContent = `Página ${currentPage} de ${pages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === pages || pages === 0;
   }
 
   function sortTable(column, order) {
@@ -86,8 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (valA > valB) return order === "asc" ? 1 : -1;
       return 0;
     });
-    paginaActual = 1;
-    mostrarTabla();
+    currentPage = 1;
+    renderTable();
   }
 
   headers.forEach((header) => {
@@ -107,48 +103,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   prevBtn.addEventListener("click", async () => {
-    if (paginaActual > 1) {
-      paginaActual--;
-      await tablaUsuarios();
-      mostrarTabla();
+    if (currentPage > 1) {
+      currentPage--;
+      await fetchDataAndRenderTable();
+      renderTable();
     }
   });
 
   nextBtn.addEventListener("click", async () => {
     const totalPages = getTotalPages();
-    if (paginaActual < totalPages) {
-      paginaActual++;
-      await tablaUsuarios();
-      mostrarTabla();
+    if (currentPage < totalPages) {
+      currentPage++;
+      await fetchDataAndRenderTable();
+      renderTable();
     }
   });
 
   // 3. Llama a la función para iniciar el proceso
-  tablaUsuarios();
+  fetchDataAndRenderTable();
 });
-
-/*Botón para desactivar proveedores*/
-function btnDelUsuario(id) {
-  Swal.fire({
-    title: "Está seguro de desactivar el usuario?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si",
-    cancelButtonText: "No",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const url = APP_URL + "Usuarios/destroy/" + id;
-      const http = new XMLHttpRequest();
-      http.open("GET", url, true);
-      http.send();
-      http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          const res = JSON.parse(this.responseText);
-          alertas(res.msg, res.icono);
-        }
-      };
-    }
-  });
-}

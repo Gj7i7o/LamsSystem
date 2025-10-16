@@ -11,17 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.getElementById("nextBtn");
   const pageInfo = document.getElementById("pageInfo");
 
-  let currentPage = 1;
+  let paginaActual = 1;
   const rowsPerPage = 5;
   let currentData = [];
   let currentTotal = 0;
 
-  // 2. Función para obtener los datos del servidor
-  async function fetchDataAndRenderTable() {
+  async function tablaMarcas() {
     try {
-      // Reemplaza '/api/productos' con la URL real de tu backend
-      const response = await fetch( 
-        "http://localhost/LamsSystem/Marcas/list?page=" + currentPage
+      const response = await fetch(
+        "http://localhost/LamsSystem/Marcas/list?page=" + paginaActual
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -34,21 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
       currentData = [...data];
       currentTotal = total;
 
-      // Llama a renderTable para mostrar los datos obtenidos
-      renderTable();
+      // Llama a mostrarTabla para mostrar los datos obtenidos
+      mostrarTabla();
     } catch (error) {
       console.error("No se pudo obtener la data:", error);
-      // Puedes mostrar un mensaje de error al usuario aquí
     }
   }
 
-  function renderTable() {
+  function mostrarTabla() {
     tableBody.innerHTML = "";
     const paginatedData = currentData;
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="3">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -56,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-
                 <td>${item.nombre}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>
@@ -69,9 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function updatePaginationInfo() {
     const pages = getTotalPages();
-    pageInfo.textContent = `Página ${currentPage} de ${pages}`;
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === pages || pages === 0;
+    pageInfo.textContent = `Página ${paginaActual} de ${pages}`;
+    prevBtn.disabled = paginaActual === 1;
+    nextBtn.disabled = paginaActual === pages || pages === 0;
   }
 
   function sortTable(column, order) {
@@ -82,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (valA > valB) return order === "asc" ? 1 : -1;
       return 0;
     });
-    currentPage = 1;
-    renderTable();
+    paginaActual = 1;
+    mostrarTabla();
   }
 
   headers.forEach((header) => {
@@ -103,28 +99,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   prevBtn.addEventListener("click", async () => {
-    if (currentPage > 1) {
-      currentPage--;
-      await fetchDataAndRenderTable();
-      renderTable();
+    if (paginaActual > 1) {
+      paginaActual--;
+      await tablaMarcas();
+      mostrarTabla();
     }
   });
 
   nextBtn.addEventListener("click", async () => {
     const totalPages = getTotalPages();
-    if (currentPage < totalPages) {
-      currentPage++;
-      await fetchDataAndRenderTable();
-      renderTable();
+    if (paginaActual < totalPages) {
+      paginaActual++;
+      await tablaMarcas();
+      mostrarTabla();
     }
   });
 
-  // 3. Llama a la función para iniciar el proceso
-  fetchDataAndRenderTable();
+  tablaMarcas();
 });
 
 /*Botón para desactivar marcas*/
-function btnDelProducto(id) {
+function btnDelMarca(id) {
   Swal.fire({
     title: "Está seguro de desactivar la marca?",
     icon: "warning",

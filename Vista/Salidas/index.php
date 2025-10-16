@@ -15,7 +15,6 @@ include "Vista/Componentes/header.php";
     <!-- Tabla de productos -->
 
     <section class="main-course">
-        <!-- <button class="button" type="button" onclick="frmJoin();" title="Añadir cantidad a producto"><i class="fas fa-plus"></i></button> -->
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table class="table" id="tblOut">

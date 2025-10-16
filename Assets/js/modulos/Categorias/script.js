@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchDataAndRenderTable() {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
-      const response = await fetch( 
+      const response = await fetch(
         "http://localhost/LamsSystem/Categorias/list?page=" + currentPage
       );
 
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*Botón para desactivar categorias*/
-function btnDelProducto(id) {
+function btnDelCategory(id) {
   Swal.fire({
     title: "Está seguro de desactivar la categoria?",
     icon: "warning",

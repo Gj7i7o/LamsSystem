@@ -7,10 +7,10 @@ include "Vista/Componentes/header.php";
 
 <section class="main">
     <div class="main-top">
-        <h1>Categorias</h1>
+        <h1>Categorías</h1>
     </div>
     <div class="main-top-text">
-        <p>Categorias y opciones disponibles:</p>
+        <p>Categorías y opciones disponibles:</p>
     </div>
 
     <!-- Tabla Categorías -->
@@ -41,16 +41,19 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="miModalCategoria" class="modal">
+<div id="" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar Categoria</h2>
+        <h2>Registrar Categoría</h2>
 
-        <form id="categoriaForm" class="form">
+        <form id="" class="form">
             <input type="number" id="id" hidden="true">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
+
+            <label for="des">Descripción:</label>
+            <input type="text" id="des" name="des" required>
 
             <button type="submit">Registrar</button>
         </form>

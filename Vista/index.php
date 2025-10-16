@@ -27,16 +27,15 @@
                     <div class="input-container">
                         <i class="fa-solid fa-user"></i>
                         <input type="text" name="usuario" id="usuario" title="Nombre de usuario" placeholder="Usuario" required>
-                        <button class="limpiar" title="Limpiar campos">Limpiar</button>
                     </div>
 
                     <div class="input-container">
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" name="contrasena" id="contrasena" title="Contraseña" placeholder="Contraseña" required>
-                        <button class="ver" id="togglePassword" title="Ver/Ocultar contraseña">Ver</button>
                     </div>
 
                     <button class="acceder" type="submit" onclick="frmInicio(event);" title="Acceder al sistema">Acceder</button>
+                    <button class="limpiar" title="Limpiar campos">Limpiar</button>
 
                 </form>
             </div>
