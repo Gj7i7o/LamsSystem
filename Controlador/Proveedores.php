@@ -30,8 +30,8 @@ class Proveedores extends Controlador
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProveedores(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelProveedores(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesProveedor(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);

@@ -20,6 +20,18 @@ class Categorias extends Controlador
         $this->vista->getView($this, "index");
     }
 
+
+    public function getSelect()
+    {
+        $result = [];
+        $data = $this->model->getCategory();
+        foreach ($data as $categoria) {
+            $result[] = ['id' => $categoria['id'], 'etiqueta' => $categoria['nombre']];
+        }
+        echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     /*Listado: Se encarga de colocar las categorías existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
     public function list()
@@ -30,8 +42,8 @@ class Categorias extends Controlador
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditCategorias(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelCategory(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesCategoria(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -44,7 +56,7 @@ class Categorias extends Controlador
     /*Almacenaje: Se encarga de almacenar los datos de una nueva categoría en la base de datos*/
     public function store()
     {
-        $name = $_POST['name'];
+        $name = $_POST['nombre'];
         $des = $_POST['des'];
         $id = $_POST['id'];
         if (empty($name) || empty($des)) {

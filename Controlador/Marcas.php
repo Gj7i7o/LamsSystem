@@ -20,6 +20,17 @@ class Marcas extends Controlador
         $this->vista->getView($this, "index");
     }
 
+    public function getSelect()
+    {
+        $result = [];
+        $data = $this->model->getMarca();
+        foreach ($data as $marca) {
+            $result[] = ['id' => $marca['id'], 'etiqueta' => $marca['nombre']];
+        }
+        echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     /*Listado: Se encarga de colocar las marcas existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
     public function list()
@@ -31,7 +42,7 @@ class Marcas extends Controlador
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelMarca(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="warning" type="button" onclick="btnDesMarca(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);

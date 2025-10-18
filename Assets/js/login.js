@@ -41,12 +41,3 @@ function frmInicio(e) {
     };
   }
 }
-
-const passwordField = document.getElementById('contrasena');
-const togglePasswordButton = document.getElementById('togglePassword');
-
-togglePasswordButton.addEventListener('click', function () {
-    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordField.setAttribute('type', type);
-    this.textContent = (type === 'password') ? 'Ver' : 'Ocultar';
-});

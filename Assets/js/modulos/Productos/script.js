@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="8">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*Botón para desactivar proveedores*/
-function btnDelProducto(id) {
+function btnDesProducto(id) {
   Swal.fire({
     title: "Está seguro de desactivar el producto?",
     icon: "warning",
@@ -151,4 +151,116 @@ function btnDelProducto(id) {
       };
     }
   });
+}
+
+async function getListadoCategoria() {
+  const response = await fetch(
+    "http://localhost/LamsSystem/Categorias/getSelect"
+  );
+  const { data: opciones } = await response.json();
+  const select = document.getElementById("categoria");
+  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  await opciones.forEach((opcion) => {
+    opcionesHtml += `
+    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    `;
+  });
+  select.innerHTML = opcionesHtml;
+}
+
+async function getListadoMarca() {
+  const response = await fetch("http://localhost/LamsSystem/Marcas/getSelect");
+  const { data: opciones } = await response.json();
+  const select = document.getElementById("marca");
+  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  await opciones.forEach((opcion) => {
+    opcionesHtml += `
+    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    `;
+  });
+  select.innerHTML = opcionesHtml;
+}
+
+/*Modal para registrar producto*/
+// Obtener los elementos del DOM
+const modal = document.getElementById("modalProducto");
+const btn = document.getElementById("registrarProducto");
+const span = document.getElementsByClassName("close")[0];
+
+// Cuando el usuario hace clic en el botón, abre el modal
+btn.onclick = function () {
+  getListadoCategoria();
+  document.getElementById("title").innerHTML = "Registrar Producto";
+  document.getElementById("btnAccion").innerHTML = "Registrar";
+  modal.style.display = "block";
+};
+
+// Cuando el usuario hace clic en la <span> (x), cierra el modal
+span.onclick = function () {
+  modal.style.display = "none";
+  limpiarFormulario();
+};
+
+function limpiarFormulario() {
+  document.getElementById("id").value = "";
+  document.getElementById("codigo").value = "";
+  document.getElementById("nombre").value = "";
+  document.getElementById("precio").value = "";
+}
+
+/*Botón de editar categoria*/
+function btnEditProducto(id) {
+  document.getElementById("title").innerHTML = "Actualizar Producto";
+  document.getElementById("btnAccion").innerHTML = "Modificar";
+  const url = APP_URL + "Productos/edit/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = async function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = await JSON.parse(this.responseText);
+      await getListadoCategoria();
+      await getListadoMarca();
+      document.getElementById("id").value = res.id;
+      document.getElementById("codigo").value = res.codigo;
+      document.getElementById("nombre").value = res.nombre;
+      document.getElementById("precio").value = res.precio;
+      document.getElementById("categoria").value = res.idcategoria;
+      document.getElementById("marca").value = res.idmarca;
+      modal.style.display = "block";
+    }
+  };
+}
+
+/*Acción de registrar producto, validaciones y alertas*/
+function registrarProduct(e) {
+  e.preventDefault();
+  const codigo = document.getElementById("codigo");
+  const nombre = document.getElementById("nombre");
+  const precio = document.getElementById("precio");
+  const idcat = document.getElementById("categoria");
+  const idmar = document.getElementById("marca");
+  if (
+    codigo.value == "" ||
+    nombre.value == "" ||
+    precio.value == "" ||
+    idcat.value == "" ||
+    idmar.value == ""
+  ) {
+    alertas("Todos los campos son obligatorios", "warning");
+  } else {
+    const url = APP_URL + "Productos/store";
+    const frm = document.getElementById("formProducto");
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        const res = JSON.parse(this.responseText);
+        $("#new_product").modal("hide");
+        alertas(res.msg, res.icono);
+        tblProduct.ajax.reload();
+      }
+    };
+  }
 }

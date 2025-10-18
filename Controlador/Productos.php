@@ -24,14 +24,14 @@ class Productos extends Controlador
     y a su vez coloca en cada uno los botones de editar y eliminar*/
     public function list()
     {
-       try {
+        try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->getProduct($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProductos(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelProductos(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);

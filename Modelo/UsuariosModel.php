@@ -91,7 +91,7 @@ class UsuariosModel extends Query
     }
 
     /*deleteUser: Hace la consulta SQL que traerá al usuario que posteriormente se eliminará*/
-    public function deleteUser(int $id)
+    public function desUsuario(int $id)
     {
         $sql = "UPDATE usuario SET estado = 'Inactivo' WHERE id = $id";
         $data = $this->select($sql);

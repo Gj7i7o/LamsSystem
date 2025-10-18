@@ -1,7 +1,6 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/script.js"></script>
 
 <!-- Index.php encargado de la vista de los Usuarios -->
 
@@ -45,13 +44,13 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="modal" class="modal">
+<div id="modalUsuario" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar usuario</h2>
+        <h2 id="title">Registrar Usuario</h2>
 
-        <form id="userForm" class="form">
+        <form id="userForm" class="form" method="POST">
             <input type="number" id="id" hidden="true">
             <label for="usuario">Usuario:</label>
             <input type="text" id="usuario" name="usuario" required>
@@ -76,6 +75,7 @@ include "Vista/Componentes/header.php";
     </div>
 </div>
 
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

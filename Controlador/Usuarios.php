@@ -31,7 +31,7 @@ class Usuarios extends Controlador
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDelUsuario(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="warning" type="button" onclick="btnDesUsuario(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -145,14 +145,14 @@ class Usuarios extends Controlador
     }
 
     /*Eliminar: Envía a la función deleteUser del Models/UsuariosModel.php con el id correspondiente*/
-    public function destroy(int $id)
+    public function desactivar(int $id)
     {
         if ($_SESSION['id_usuario'] == $id) {
             $msg = array('msg' => 'No puede desactivar su propio Usuario', 'icono' => 'error');
         } else if ($_SESSION['rango'] != "administrador") {
             $msg = array('msg' => 'No tiene el rango necesario para desactivar un Usuario', 'icono' => 'error');
         } else {
-            $data = $this->model->deleteUser($id);
+            $data = $this->model->desUsuario($id);
             if ($data == 1) {
                 $msg = array('msg' => 'Error al desactivar el Usuario', 'icono' => 'error');
             } else {

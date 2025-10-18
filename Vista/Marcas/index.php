@@ -1,7 +1,6 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/script.js"></script>
 
 <!-- Index.php encargado de la vista de las Marcas -->
 
@@ -16,7 +15,7 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Marcas -->
 
     <section class="main-course">
-        <button class="button" type="button" onclick="frmMarca();" title="Crear categoria"><i class="fas fa-plus"></i></button>
+        <button class="button" type="button" id="registrarMarca" title="Crear categoria"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaMarcas">
@@ -40,11 +39,11 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="modal" class="modal">
+<div id="modalMarca" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar Marca</h2>
+        <h2 id="title">Registrar Marca</h2>
 
         <form id="" class="form">
             <input type="number" id="id" hidden="true">
@@ -56,6 +55,7 @@ include "Vista/Componentes/header.php";
     </div>
 </div>
 
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

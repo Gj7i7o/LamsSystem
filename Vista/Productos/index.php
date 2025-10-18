@@ -1,7 +1,6 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Productos/script.js"></script>
 
 <!-- Index.php encargado de la vista de los Productos -->
 
@@ -16,7 +15,7 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Productos -->
 
     <section class="main-course">
-        <button class="button" type="button" onclick="frmProduct();" title="Crear Producto"><i class="fas fa-plus"></i></button>
+        <button class="button" type="button" id="registrarProducto" title="Crear Producto"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaProductos">
@@ -45,16 +44,16 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="modal" class="modal">
+<div id="modalProducto" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar Producto</h2>
+        <h2 id="title">Registrar Producto</h2>
 
-        <form id="" class="form">
+        <form id="formProducto" class="form">
             <input type="number" id="id" hidden="true">
             <label for="codigo">Código:</label>
-            <input type="text" id="usuario" name="usuario" required>
+            <input type="text" id="codigo" name="codigo" required>
 
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -62,17 +61,22 @@ include "Vista/Componentes/header.php";
             <label for="precio">Precio:</label>
             <input type="text" id="precio" name="precio" required>
 
-            <label for="categoria">Categoía:</label>
-            <input type="email" id="categoria" name="categoria" required>
+            <label for="categoria">Categoría:</label>
+            <select name="categoria" id="categoria">
+                <option value=""></option>
+            </select>
 
             <label for="marca">Marca:</label>
-            <input type="text" id="marca" name="marca" required>
+            <select name="marca" id="marca">
+                <option value=""></option>
+            </select>
 
-            <button type="submit" id="btnAccion">Registrar</button>
+            <button type="submit" id="btnAccion" onclick="registrarProducto(event);">Registrar</button>
         </form>
     </div>
 </div>
 
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Productos/script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

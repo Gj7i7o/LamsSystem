@@ -1,7 +1,6 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/script.js"></script>
 
 <!-- Index.php encargado de la vista de Proveedores -->
 
@@ -9,15 +8,13 @@ include "Vista/Componentes/header.php";
     <div class="main-top">
         <h1>Proveedores</h1>
     </div>
-    <div class="main-top-text">
+    <!-- <div class="main-top-text">
         <p>Proveedores y opciones disponibles:</p>
-    </div>
+    </div> -->
 
     <!-- Tabla de Proveedores -->
-    <input type="hidden" id="abrirModalBtn">
-    <span type="hidden" class="close"></span>
     <section class="main-course">
-        <button class="button" type="button" onclick="frmProveedor();" title="Crear Producto"><i class="fas fa-plus"></i></button>
+        <button class="button" type="button" id="registrarProveedor" title="Crear Producto"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaProveedores">
@@ -44,16 +41,16 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="modal" class="modal">
+<div id="modalProveedor" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar Proveedor</h2>
+        <h2 id="title">Registrar Proveedor</h2>
 
         <form id="" class="form">
             <input type="number" id="id" hidden="true">
-            <label for="rif">Rif:</label>
-            <input type="text" id="rif" name="rif" required>
+            <label for="rif">Rif/CI:</label>
+            <input type="text" id="rif" name="rif" placeholder="J-123456789" require>
 
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -62,13 +59,14 @@ include "Vista/Componentes/header.php";
             <input type="text" id="apellido" name="apellido" required>
 
             <label for="dir">Dirección:</label>
-            <input type="email" id="dir" name="dir" required>
+            <input type="text" id="dir" name="dir" required>
 
             <button type="submit" id="btnAccion">Registrar</button>
         </form>
     </div>
 </div>
 
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

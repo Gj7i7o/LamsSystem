@@ -1,7 +1,6 @@
 <?php
 include "Vista/Componentes/header.php";
 ?>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/script.js"></script>
 
 <!-- Index.php encargado de la vista de las Categorías -->
 
@@ -16,7 +15,7 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Categorías -->
 
     <section class="main-course">
-        <button class="button" type="button" onclick="frmCategory();" title="Crear categoria"><i class="fas fa-plus"></i></button>
+        <button class="button" type="button" id="registrarCategoria" title="Crear categoria"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
                 <table id="TablaCategorias">
@@ -41,11 +40,11 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
-<div id="" class="modal">
+<div id="modalCategoria" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
 
-        <h2>Registrar Categoría</h2>
+        <h2 id="title">Registrar Categoría</h2>
 
         <form id="" class="form">
             <input type="number" id="id" hidden="true">
@@ -55,11 +54,12 @@ include "Vista/Componentes/header.php";
             <label for="des">Descripción:</label>
             <input type="text" id="des" name="des" required>
 
-            <button type="submit">Registrar</button>
+            <button type="submit" id="btnAccion">Registrar</button>
         </form>
     </div>
 </div>
 
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>
