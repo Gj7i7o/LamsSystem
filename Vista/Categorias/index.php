@@ -8,9 +8,6 @@ include "Vista/Componentes/header.php";
     <div class="main-top">
         <h1>Categorías</h1>
     </div>
-    <div class="main-top-text">
-        <p>Categorías y opciones disponibles:</p>
-    </div>
 
     <!-- Tabla Categorías -->
 
@@ -46,7 +43,7 @@ include "Vista/Componentes/header.php";
 
         <h2 id="title">Registrar Categoría</h2>
 
-        <form id="" class="form">
+        <form id="formularioCategoria" class="form">
             <input type="number" id="id" hidden="true">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -54,12 +51,13 @@ include "Vista/Componentes/header.php";
             <label for="des">Descripción:</label>
             <input type="text" id="des" name="des" required>
 
-            <button type="submit" id="btnAccion">Registrar</button>
+            <button type="submit" id="btnAccion" onclick="registrarCategoria(event);">Registrar</button>
         </form>
     </div>
 </div>
 
 <script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/modal_script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

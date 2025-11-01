@@ -190,6 +190,7 @@ const span = document.getElementsByClassName("close")[0];
 // Cuando el usuario hace clic en el botón, abre el modal
 btn.onclick = function () {
   getListadoCategoria();
+  getListadoMarca();
   document.getElementById("title").innerHTML = "Registrar Producto";
   document.getElementById("btnAccion").innerHTML = "Registrar";
   modal.style.display = "block";

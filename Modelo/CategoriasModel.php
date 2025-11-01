@@ -17,7 +17,7 @@ class CategoriasModel extends Query
         return count($data);
     }
     /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getCategory(int $page = 0)
+    public function getCategoria(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM categoria" : "SELECT * FROM categoria LIMIT 5 OFFSET $offset";

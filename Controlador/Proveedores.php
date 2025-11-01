@@ -20,6 +20,17 @@ class Proveedores extends Controlador
         $this->vista->getView($this, "index");
     }
 
+    public function getSelect()
+    {
+        $result = [];
+        $data = $this->model->getProveedores();
+        foreach ($data as $proveedor) {
+            $result[] = ['id' => $proveedor['id'], 'etiqueta' => $proveedor['nombre']];
+        }
+        echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     /*Listado: Se encarga de colocar los proveedores existentes en la base de datos 
     y a su vez coloca en cada uno los botones de editar y eliminar*/
     public function list()

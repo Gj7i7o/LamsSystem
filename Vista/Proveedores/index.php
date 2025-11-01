@@ -8,9 +8,6 @@ include "Vista/Componentes/header.php";
     <div class="main-top">
         <h1>Proveedores</h1>
     </div>
-    <!-- <div class="main-top-text">
-        <p>Proveedores y opciones disponibles:</p>
-    </div> -->
 
     <!-- Tabla de Proveedores -->
     <section class="main-course">

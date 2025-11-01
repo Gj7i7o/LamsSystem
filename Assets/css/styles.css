@@ -434,8 +434,7 @@ tr:nth-child(even) {
   margin: 5% auto; /* 5% desde arriba y centrado horizontalmente */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Ancho del contenido */
-  max-width: 500px; /* Ancho máximo para pantallas grandes */
+  width: 60%; /* Ancho del contenido */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative; /* Necesario para posicionar el botón de cerrar */
@@ -497,3 +496,49 @@ tr:nth-child(even) {
   transform: scale(1.1);
   background: rgba(22, 126, 72, 0.856);
 }
+
+.input_form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.input_form > div {
+  padding-inline: 10px;
+  width: 30%;
+}
+
+.buttonToLine {
+  display: flex;
+  padding-top: 13px;
+  align-items: center;
+}
+
+.buttonToLine > button {
+  background: rgb(238, 98, 98);
+}
+
+.buttonToLine > button:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgb(253, 17, 17);
+}
+
+.input_form_input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} 
+
+.input_form_select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} 
+

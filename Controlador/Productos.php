@@ -20,6 +20,17 @@ class Productos extends Controlador
         $this->vista->getView($this, "index");
     }
 
+    public function getSelect()
+    {
+        $result = [];
+        $data = $this->model->getProduct();
+        foreach ($data as $producto) {
+            $result[] = ['id' => $producto['id'], 'etiqueta' => $producto['nombre']];
+        }
+        echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     /*Listado: Se encarga de colocar los productos existentes en la base de datos 
     y a su vez coloca en cada uno los botones de editar y eliminar*/
     public function list()

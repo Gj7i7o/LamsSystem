@@ -8,9 +8,6 @@ include "Vista/Componentes/header.php";
     <div class="main-top">
         <h1>Marcas</h1>
     </div>
-    <div class="main-top-text">
-        <p>Marcas y opciones disponibles:</p>
-    </div>
 
     <!-- Tabla Marcas -->
 

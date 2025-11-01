@@ -24,7 +24,7 @@ class Categorias extends Controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getCategory();
+        $data = $this->model->getCategoria();
         foreach ($data as $categoria) {
             $result[] = ['id' => $categoria['id'], 'etiqueta' => $categoria['nombre']];
         }
@@ -38,7 +38,7 @@ class Categorias extends Controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getCategory($page);
+            $data = $this->model->getCategoria($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -65,7 +65,7 @@ class Categorias extends Controlador
             if ($id == "") {
                 $data = $this->model->storeCategory($name, $des);
                 if ($data == "ok") {
-                    $msg = array('msg' => 'Categoria Registrada', 'icono' => 'success');
+                    $msg = array('msg' => 'Categoría Registrada', 'icono' => 'success');
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'La categoría ya está registrada', 'icono' => 'warning');
                 } else {

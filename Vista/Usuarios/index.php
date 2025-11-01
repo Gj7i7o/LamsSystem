@@ -8,9 +8,6 @@ include "Vista/Componentes/header.php";
     <div class="main-top">
         <h1>Usuarios</h1>
     </div>
-    <div class="main-top-text">
-        <p>Usuarios y opciones disponibles:</p>
-    </div>
 
     <!-- Tabla Usuarios -->
 
