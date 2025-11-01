@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador de la Categoría*/
+/*Controlador de la Salida*/
 
 class Salidas extends Controlador
 {
@@ -22,28 +22,46 @@ class Salidas extends Controlador
 
     /*Listado: Se encarga de colocar las categorías existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
-    public function listProductSalida()
+    public function list()
     {
-        $data = $this->model->getProduct();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="warning" type="button" onclick="btn(' . $data[$i]['id'] . ');" title="Cantidad de salida"><i class="fa-solid fa-minus"></i></button>
-                </div>';
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getSalida($page);
+            $total = $this->model->getCount();
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
 
-    public function listSalida()
+    /*Almacenaje: Se encarga de almacenar los datos de un nuevo producto en la base de datos*/
+    public function store()
     {
-        $data = $this->model->getSalida();
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['acciones'] = '<div>
-                <button class="info" type="button" onclick="btnShowInfo(' . $data[$i]['id'] . ');" title="Información extra"><i class="fa-solid fa-info"></i></button>
-                </div>';
+        $cantidad = $_POST['cantidad'];
+        $id = $_POST['id'];
+        $numeros = "/^\d+(\.\d{1,2})?$/";
+        if (
+            empty($cantidad)
+        ) {
+            $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
+        } else {
+            if ($id == "") {
+                if (!preg_match($numeros, $cantidad)) {
+                    $msg = array('msg' => 'Solo números en la cantidad', 'icono' => 'warning');
+                } else {
+                    /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
+                por ende lleva los datos a la función modifyProduct en el Models/ProductosModel.php*/
+                    $data = $this->model->modifySalida($cantidad, $id);
+                    if ($data == "modificado") {
+                        $msg = array('msg' => 'Salida modificada', 'icono' => 'success');
+                    } else {
+                        $msg = array('msg' => 'Error al modificar la salida', 'icono' => 'error');
+                    }
+                }
+            }
+            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+            die();
         }
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-        die();
     }
-
 }

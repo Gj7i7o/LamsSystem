@@ -6,88 +6,59 @@ include "Vista/Componentes/header.php";
 
 <section class="main">
     <div class="main-top">
-        <h1>Salidas disponibles</h1>
+        <h1>Historial de Salidas</h1>
     </div>
 
     <!-- Tabla de productos -->
 
     <section class="main-course">
+        <button class="button" type="button" id="registrarSalida" title="Crear nueva salida"><i class="fas fa-plus"></i></button>
         <div class="course-box">
             <div class="recent-orders tabla">
-                <table class="table" id="tblOut">
-                    <thead class="thead-light">
+                <table id="tablaSalidas">
+                    <thead>
                         <tr>
-                            <td>Producto</td>
-                            <td>Cantidad</td>
-                            <td>Acciones</td>
+                            <th data-column="producto" data-order="desc">Producto</th>
+                            <th data-column="usuario" data-order="desc">Usuario</th>
+                            <th data-column="cantidad" data-order="desc">Cantidad</th>
+                            <th data-column="fecha" data-order="desc">Fecha</th>
+                            <th data-column="hora" data-order="desc">Hora</th>
                         </tr>
                     </thead>
-                    <tbody class="table__body">
+                    <tbody>
                     </tbody>
                 </table>
+                <div id="pagination">
+                    <button id="prevBtn">Anterior</button>
+                    <span id="pageInfo"></span>
+                    <button id="nextBtn">Siguiente</button>
+                </div>
             </div>
         </div>
     </section>
-    <div class="main-top">
-        <!-- <i class="fas fa-layer-group"></i> -->
-        <h1>Salidas realizadas</h1>
-    </div>
-    <section class="main-course">
-        <!-- <button class="button" type="button" onclick="frmJoin();" title="Añadir cantidad a producto"><i class="fas fa-plus"></i></button> -->
-        <div class="course-box">
-            <div class="recent-orders tabla">
-                <table class="table" id="tblSalida">
-                    <thead class="thead-light">
-                        <tr>
-                            <td>Cantidad</td>
-                            <td>Precio $</td>
-                            <td>Nombre</td>
-                            <td>Fecha</td>
-                            <td>Hora</td>
-                            <td>Acciones</td>
-                        </tr>
-                    </thead>
-                    <tbody class="table__body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-</section>
 
-<!-- Modal para ingresar nuevo proveedor -->
-
-<div id="show_proveedor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div id="modalSalida" class="modal">
         <div class="modal-content">
-            <div class="modal-header ba-primary">
-                <h5 class="modal-title title-modal titleColor" id="title">Proveedor</h5>
-            </div>
-            <div class="modal-body">
-                <form method="post" id="frmProveedor">
-                    <div class="form-group">
-                        <input type="hidden" id="id" name="id">
-                        <!-- <label for="name" class="text-label">Nombre</label> -->
-                        <input id="name" class="form-control" type="text" name="name" placeholder="Nombre" title="Nombre del proveedor">
-                    </div>
-                    <div class="form-group">
-                        <!-- <label for="ape" class="text-label">Apellido</label> -->
-                        <input id="ape" class="form-control" type="text" name="ape" placeholder="Apellido" title="Apellido del proveedor">
-                    </div>
-                    <div class="form-group">
-                        <!-- <label for="rif" class="text-label">Rif</label> -->
-                        <input id="rif" class="form-control" type="text" name="rif" placeholder="Rif" title="Rif del proveedor">
-                    </div>
-                    <div class="form-group">
-                        <!-- <label for="dir" class="text-label">Dirección</label> -->
-                        <input id="dir" class="form-control" type="text" name="dir" placeholder="Dirección" title="Ubicación del proveedor">
-                    </div>
-                </form>
-            </div>
+            <span class="close" title="Cerrar">&times;</span>
 
+            <h2 id="title">Registrar Salida</h2>
+            <button class="button" type="button" id="addLine" title=""><i class="fas fa-plus"></i></button>
+
+            <form id="formularioSalidas" class="form">
+                <div id="formularioSañoda">
+                    <div class="buttonToLine">
+                        <button class="button" type="button" data-idx="0" id="deleteLine"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div style="margin-top: 15px">
+                    <button type="submit" id="btnAccion">Registrar</button>
+                </div>
+            </form>
         </div>
     </div>
 
+    <script src="<?php echo APP_URL; ?>Assets/js/modulos/Salidas/script.js"></script>
+    <script src="<?php echo APP_URL; ?>Assets/js/modulos/Salidas/modal_script.js"></script>
     <?php
     include "Vista/Componentes/footer.php";
     ?>

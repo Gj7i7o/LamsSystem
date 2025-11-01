@@ -4,23 +4,25 @@
 
 class SalidasModel extends Query
 {
+    private $cantidad, $id;
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getProduct()
+    public function getCount()
     {
-        $sql = "SELECT * FROM producto";
+        $sql = "SELECT * FROM salidaproducto";
         $data = $this->selectAll($sql);
-        return $data;
+        return count($data);
     }
 
-    public function getSalida()
+    /*getEntrada: Toma todas las entradas de la base de datos*/
+    public function getSalida(int $page = 0)
     {
-        $sql = "SELECT sp.id, sp.cantidad, sp.precio, p.nombre AS nombre, s.fecha AS fecha, s.hora AS hora
-        FROM salidaproducto sp LEFT JOIN producto p ON sp.idproducto = p.id LEFT JOIN salida s ON sp.idsalida = s.id";
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT sp.id, p.nombre AS producto, sp.cantidad, sp.precio, s.fecha, s.hora, u.nombre AS usuario FROM salidaproducto sp LEFT JOIN producto p ON sp.idproducto = p.id LEFT JOIN salida s ON sp.idsalida = s.id LEFT JOIN usuario u ON s.idusuario = u.id" :
+            "SELECT sp.id, p.nombre AS producto, sp.cantidad, sp.precio, s.fecha, s.hora, u.nombre AS usuario FROM salidaproducto sp LEFT JOIN producto p ON sp.idproducto = p.id LEFT JOIN salida s ON sp.idsalida = s.id LEFT JOIN usuario u ON s.idusuario = u.id LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

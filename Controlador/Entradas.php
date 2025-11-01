@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador de la Categoría*/
+/*Controlador de la Entrada*/
 
 class Entradas extends Controlador
 {
