@@ -340,6 +340,22 @@ a:hover {
   background: rgb(253, 17, 17);
 }
 
+.secure {
+  background: rgb(21, 139, 44);
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.secure:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgb(55, 183, 81);
+}
+
 .info {
   background: rgb(68, 67, 83);
   color: #fff;
@@ -542,3 +558,20 @@ tr:nth-child(even) {
   box-sizing: border-box;
 } 
 
+.buscador {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.buscador > input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.filtros {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}

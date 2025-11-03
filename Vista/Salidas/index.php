@@ -12,9 +12,13 @@ include "Vista/Componentes/header.php";
     <!-- Tabla de productos -->
 
     <section class="main-course">
-        <button class="button" type="button" id="registrarSalida" title="Crear nueva salida"><i class="fas fa-plus"></i></button>
         <div class="course-box">
-            <div class="recent-orders tabla">
+            <button class="button" type="button" id="registrarSalida" title="Crear nueva salida"><i class="fas fa-plus"></i></button>
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass">
+                </i><input type="text" name="" id="">
+            </div>
+            <div>
                 <table id="tablaSalidas">
                     <thead>
                         <tr>
@@ -44,8 +48,8 @@ include "Vista/Componentes/header.php";
             <h2 id="title">Registrar Salida</h2>
             <button class="button" type="button" id="addLine" title=""><i class="fas fa-plus"></i></button>
 
-            <form id="formularioSalidas" class="form">
-                <div id="formularioSañoda">
+            <form id="formularioSalidas" class="form" method="POST">
+                <div id="formularioSalida">
                     <div class="buttonToLine">
                         <button class="button" type="button" data-idx="0" id="deleteLine"><i class="fas fa-trash"></i></button>
                     </div>

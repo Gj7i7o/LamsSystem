@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Proveedores/list?page=" + currentPage
+        "http://localhost/LamsSystem/Proveedores/listarActivos?page=" +
+          currentPage
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -151,50 +152,28 @@ function btnDesProveedor(id) {
   });
 }
 
-/*Modal para registrar proveedor*/
-// Obtener los elementos del DOM
-const modal = document.getElementById("modalProveedor");
-const btn = document.getElementById("registrarProveedor");
-const span = document.getElementsByClassName("close")[0];
-
-// Cuando el usuario hace clic en el botón, abre el modal
-btn.onclick = function () {
-  document.getElementById("title").innerHTML = "Registrar Proveedor";
-  document.getElementById("btnAccion").innerHTML = "Registrar";
-  modal.style.display = "block";
-};
-
-// Cuando el usuario hace clic en la <span> (x), cierra el modal
-span.onclick = function () {
-  modal.style.display = "none";
-  limpiarFormulario();
-};
-
-function limpiarFormulario() {
-  document.getElementById("id").value = "";
-  document.getElementById("rif").value = "";
-  document.getElementById("nombre").value = "";
-  document.getElementById("apellido").value = "";
-  document.getElementById("dir").value = "";
-}
-
-/*Botón de editar usuario*/
-function btnEditProveedor(id) {
-  document.getElementById("title").innerHTML = "Actualizar Proveedor";
-  document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Proveedores/edit/" + id;
-  const http = new XMLHttpRequest();
-  http.open("GET", url, true);
-  http.send();
-  http.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      const res = JSON.parse(this.responseText);
-      document.getElementById("id").value = res.id;
-      document.getElementById("rif").value = res.rif;
-      document.getElementById("nombre").value = res.nombre;
-      document.getElementById("apellido").value = res.apellido;
-      document.getElementById("dir").value = res.direccion;
-      modal.style.display = "block";
+/*Botón para activar proveedores*/
+function btnActProveedor(id) {
+  Swal.fire({
+    title: "Activar proveedor?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "Proveedores/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+        }
+      };
     }
-  };
+  });
 }

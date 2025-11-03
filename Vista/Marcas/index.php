@@ -12,9 +12,13 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Marcas -->
 
     <section class="main-course">
-        <button class="button" type="button" id="registrarMarca" title="Crear categoria"><i class="fas fa-plus"></i></button>
         <div class="course-box">
-            <div class="recent-orders tabla">
+            <button class="button" type="button" id="registrarMarca" title="Crear categoria"><i class="fas fa-plus"></i></button>
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass">
+                </i><input type="text" name="" id="">
+            </div>
+            <div>
                 <table id="TablaMarcas">
                     <thead>
                         <tr>
@@ -42,10 +46,10 @@ include "Vista/Componentes/header.php";
 
         <h2 id="title">Registrar Marca</h2>
 
-        <form id="" class="form">
-            <input type="number" id="id" hidden="true">
+        <form id="formularioMarca" class="form" method="POST">
+            <input type="number" id="id" name="id" hidden="true">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Ford" required>
 
             <button type="submit" id="btnAccion">Registrar</button>
         </form>
@@ -53,6 +57,7 @@ include "Vista/Componentes/header.php";
 </div>
 
 <script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/modal_script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

@@ -12,7 +12,7 @@ class DashboardModel extends Query
     /*getDate: Selecciona una tabla y obtiene el total de objetos/items que poseé*/
     public function getDate(string $table)
     {
-        $sql = "SELECT COUNT(*) AS total FROM $table";
+        $sql = "SELECT COUNT(*) AS total FROM $table WHERE estado = 'activo'";
         $data = $this->select($sql);
         return $data;
     }

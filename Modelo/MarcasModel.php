@@ -18,10 +18,19 @@ class MarcasModel extends Query
     }
 
     /*getMarca: Toma todas las marcas de la base de datos*/
-    public function getMarca(int $page = 0)
+    public function getInMarca(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM marca" : "SELECT * FROM marca LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'inactivo'" : "SELECT * FROM marca WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*getMarca: Toma todas las marcas de la base de datos*/
+    public function getAcMarca(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'activo'" : "SELECT * FROM marca WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -75,7 +84,16 @@ class MarcasModel extends Query
     /*deleteMarca: Hace la consulta SQL que traerá la marca que posteriormente se eliminará*/
     public function deleteMarca(int $id)
     {
-        $sql = "UPDATE marca SET estado = 'Inactivo' WHERE id = $id";
+        $sql = "UPDATE marca SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+
+    /*activarMarca: Hace la consulta SQL que traerá la marca que posteriormente se eliminará*/
+    public function activarMarca(int $id)
+    {
+        $sql = "UPDATE marca SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

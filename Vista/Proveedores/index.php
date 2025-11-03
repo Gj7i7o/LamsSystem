@@ -11,9 +11,13 @@ include "Vista/Componentes/header.php";
 
     <!-- Tabla de Proveedores -->
     <section class="main-course">
-        <button class="button" type="button" id="registrarProveedor" title="Crear Producto"><i class="fas fa-plus"></i></button>
         <div class="course-box">
-            <div class="recent-orders tabla">
+            <button class="button" type="button" id="registrarProveedor" title="Crear Producto"><i class="fas fa-plus"></i></button>
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass">
+                </i><input type="text" name="" id="">
+            </div>
+            <div>
                 <table id="TablaProveedores">
                     <thead>
                         <tr>
@@ -44,19 +48,19 @@ include "Vista/Componentes/header.php";
 
         <h2 id="title">Registrar Proveedor</h2>
 
-        <form id="" class="form">
-            <input type="number" id="id" hidden="true">
+        <form id="formularioProveedor" class="form" method="POST">
+            <input type="number" id="id" name="id" hidden="true">
             <label for="rif">Rif/CI:</label>
-            <input type="text" id="rif" name="rif" placeholder="J-123456789" require>
+            <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
 
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
 
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
 
             <label for="dir">Dirección:</label>
-            <input type="text" id="dir" name="dir" required>
+            <input type="text" id="dir" name="dir" placeholder="Calle Acosta casa Nº..." required>
 
             <button type="submit" id="btnAccion">Registrar</button>
         </form>
@@ -64,6 +68,7 @@ include "Vista/Componentes/header.php";
 </div>
 
 <script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/modal_script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

@@ -22,16 +22,37 @@ class Usuarios extends Controlador
 
     /*Listado: Se encarga de colocar los usuarios existentes en la base de datos 
     y a su vez coloca en cada uno los botones de editar y eliminar*/
-    public function list()
+    public function listarInactivos()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getUsers($page);
+            $data = $this->model->getInaUsuarios($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesUsuario(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="secure" type="button" onclick="btnActUsuario(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    /*Listado: Se encarga de colocar los usuarios existentes en la base de datos 
+    y a su vez coloca en cada uno los botones de editar y eliminar*/
+    public function listarActivos()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getActUsuarios($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesUsuario(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -159,6 +180,20 @@ class Usuarios extends Controlador
                 $msg = array('msg' => 'Usuario desactivado', 'icono' => 'success');
             }
         }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*Eliminar: Envía a la función deleteUser del Models/UsuariosModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->activarUsuario($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar el Usuario', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Usuario activado', 'icono' => 'success');
+        }
+
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }

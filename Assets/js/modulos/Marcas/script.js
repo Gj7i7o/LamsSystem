@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function tablaMarcas() {
     try {
       const response = await fetch(
-        "http://localhost/LamsSystem/Marcas/list?page=" + paginaActual
+        "http://localhost/LamsSystem/Marcas/listarActivas?page=" + paginaActual
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -144,44 +144,28 @@ function btnDesMarca(id) {
   });
 }
 
-/*Modal para registrar marca*/
-// Obtener los elementos del DOM
-const modal = document.getElementById("modalMarca");
-const btn = document.getElementById("registrarMarca");
-const span = document.getElementsByClassName("close")[0];
-
-// Cuando el usuario hace clic en el botón, abre el modal
-btn.onclick = function () {
-  document.getElementById("title").innerHTML = "Registrar Marca";
-  document.getElementById("btnAccion").innerHTML = "Registrar";
-  modal.style.display = "block";
-};
-
-// Cuando el usuario hace clic en la <span> (x), cierra el modal
-span.onclick = function () {
-  modal.style.display = "none";
-  limpiarFormulario();
-};
-
-function limpiarFormulario() {
-  document.getElementById("id").value = "";
-  document.getElementById("nombre").value = "";
-}
-
-/*Botón de editar usuario*/
-function btnEditMarca(id) {
-  document.getElementById("title").innerHTML = "Actualizar Marca";
-  document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Marcas/edit/" + id;
-  const http = new XMLHttpRequest();
-  http.open("GET", url, true);
-  http.send();
-  http.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      const res = JSON.parse(this.responseText);
-      document.getElementById("id").value = res.id;
-      document.getElementById("nombre").value = res.nombre;
-      modal.style.display = "block";
+/*Botón para activar marcas*/
+function btnActMarca(id) {
+  Swal.fire({
+    title: "Activar marca?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "Marcas/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+        }
+      };
     }
-  };
+  });
 }

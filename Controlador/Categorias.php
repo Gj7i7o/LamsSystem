@@ -24,7 +24,7 @@ class Categorias extends Controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getCategoria();
+        $data = $this->model->getActCategoria();
         foreach ($data as $categoria) {
             $result[] = ['id' => $categoria['id'], 'etiqueta' => $categoria['nombre']];
         }
@@ -34,16 +34,35 @@ class Categorias extends Controlador
 
     /*Listado: Se encarga de colocar las categorías existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
-    public function list()
+    public function listarActivas()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getCategoria($page);
+            $data = $this->model->getActCategoria($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesCategoria(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="warning" type="button" onclick="btnDesCategoria(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    public function listarInactivas()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getInaCategoria($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="secure" type="button" onclick="btnActCategoria(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -102,6 +121,19 @@ class Categorias extends Controlador
             $msg = array('msg' => 'Error al desactivar la categoría', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Categoría desactivada', 'icono' => 'success');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*Activar: Envía a la función deleteCategory del Models/CategoriasModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->activarCategoria($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar la categoría', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Categoría activada', 'icono' => 'success');
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

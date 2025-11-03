@@ -18,15 +18,28 @@ class ProductosModel extends Query
     }
 
     /*getProduct: Toma todos los productos de la base de datos*/
-    public function getProduct(int $page = 0)
+    public function getProduct(int $page = 0, $filters = [])
     {
+        $queryFilter = $this->getFilters($filters);
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id" :
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE 1 = 1 $queryFilter" :
             "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE 1 = 1 $queryFilter LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
+    }
+
+    public function getFilters($filters)
+    {
+        $filterConnect = "";
+        if (empty($filters)) {
+            return "";
+        }
+        if (isset($filters["estado"]) && $filters["estado"] != "") {
+            $filterConnect += " AND p.estado = $filters ";
+        }
+        return $filterConnect;
     }
 
     /*storeProduct: Guarda el producto, y además verifica si el producto existe, en base al nombre, precio y stock ingresados*/
@@ -40,7 +53,7 @@ class ProductosModel extends Query
         $verificar = "SELECT * FROM producto WHERE nombre = '$this->name' AND codigo = '$this->code'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO producto (codigo, nombre, precio, cantidad, idcategoria, idmarca, estado) VALUES (?,?,?,?,?,?,'activo')";
+            $sql = "INSERT INTO producto (codigo, nombre, precio, idcategoria, idmarca, cantidad, estado) VALUES (?,?,?,?,?,0,'activo')";
             $datos = array($this->code, $this->name, $this->price, $this->idcat, $this->idmar);
             $data = $this->save($sql, $datos);
             if ($data == 1) {

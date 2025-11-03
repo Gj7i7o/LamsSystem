@@ -12,9 +12,13 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Categorías -->
 
     <section class="main-course">
-        <button class="button" type="button" id="registrarCategoria" title="Crear categoria"><i class="fas fa-plus"></i></button>
         <div class="course-box">
-            <div class="recent-orders tabla">
+            <button class="button" type="button" id="registrarCategoria" title="Crear categoria"><i class="fas fa-plus"></i></button>
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass">
+                </i><input type="text" name="" id="">
+            </div>
+            <div>
                 <table id="TablaCategorias">
                     <thead>
                         <tr>
@@ -43,15 +47,15 @@ include "Vista/Componentes/header.php";
 
         <h2 id="title">Registrar Categoría</h2>
 
-        <form id="formularioCategoria" class="form">
-            <input type="number" id="id" hidden="true">
+        <form id="formularioCategoria" class="form" method="POST">
+            <input type="number" id="id" name="id" hidden="true">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
 
             <label for="des">Descripción:</label>
-            <input type="text" id="des" name="des" required>
+            <input type="text" id="des" name="des" placeholder="Accesorios decorativos para vehículos" required>
 
-            <button type="submit" id="btnAccion" onclick="registrarCategoria(event);">Registrar</button>
+            <button type="submit" id="btnAccion">Registrar</button>
         </form>
     </div>
 </div>

@@ -26,10 +26,19 @@ class UsuariosModel extends Query
     }
 
     /*getUsers: Toma todos los usuarios de la base de datos*/
-    public function getUsers(int $page = 0)
+    public function getInaUsuarios(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM usuario" : "SELECT * FROM usuario LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'inactivo'" : "SELECT * FROM usuario WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*getUsers: Toma todos los usuarios de la base de datos*/
+    public function getActUsuarios(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'activo'" : "SELECT * FROM usuario WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -93,7 +102,15 @@ class UsuariosModel extends Query
     /*deleteUser: Hace la consulta SQL que traerá al usuario que posteriormente se eliminará*/
     public function desUsuario(int $id)
     {
-        $sql = "UPDATE usuario SET estado = 'Inactivo' WHERE id = $id";
+        $sql = "UPDATE usuario SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*deleteUser: Hace la consulta SQL que traerá al usuario que posteriormente se eliminará*/
+    public function activarUsuario(int $id)
+    {
+        $sql = "UPDATE usuario SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

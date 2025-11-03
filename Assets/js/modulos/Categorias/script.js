@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Categorias/list?page=" + currentPage
+        "http://localhost/LamsSystem/Categorias/listarActivas?page=" +
+          currentPage
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -127,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /*Botón para desactivar categorias*/
 function btnDesCategoria(id) {
   Swal.fire({
-    title: "Está seguro de desactivar la categoria?",
+    title: "Está seguro de desactivar la categoría?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -137,6 +138,32 @@ function btnDesCategoria(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       const url = APP_URL + "Categorias/destroy/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+        }
+      };
+    }
+  });
+}
+
+/*Botón para desactivar categorias*/
+function btnActCategoria(id) {
+  Swal.fire({
+    title: "Activar categoría?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "Categorias/activar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

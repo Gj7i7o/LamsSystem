@@ -5,20 +5,22 @@ const btn = document.getElementById("registrarSalida");
 const span = document.getElementsByClassName("close")[0];
 const form = document.getElementById("formularioSalida");
 const btnAddLine = document.getElementById("addLine");
+let opcionesProveedor = "";
+let opcionesProducto = "";
 let idx = 0;
 const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     <div>
-                      <input type="number" id="id" hidden="true">
+                      <input type="number" name="lines[${idx}][id]" id="id" hidden="true">
                       <label for="producto">Producto</label>
-                      <select name="lines[${idx}][usuario]" id="producto" class="input_form_select">
-                        <option value=""></option>
+                      <select name="lines[${idx}][producto]" id="producto" class="input_form_select">
+                        ${opcionesProducto}                        
                       </select>
                     </div>
 
                     <div>
-                        <label for="usuario">Usuario</label>
-                        <select name="lines[${idx}][usuario]" id="usuario" class="input_form_select">
-                          <option value=""></option>
+                        <label for="proveedor">Proveedor</label>
+                        <select name="lines[${idx}][proveedor]" id="proveedor" class="input_form_select">
+                          ${opcionesProveedor}
                         </select>
                     </div>
 
@@ -32,17 +34,17 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     </div>`;
 
 const newFormLine = (index) => `<div>
-                      <input type="number" id="id" hidden="true">
+                      <input type="number" name="lines[${index}][id]" id="id" hidden="true">
                       <label for="producto">Producto</label>
                       <select name="lines[${index}][producto]" id="producto" class="input_form_select">
-                        <option value=""></option>
+                        ${opcionesProducto}
                       </select>
                     </div>
 
                     <div>
-                        <label for="usuario">Usuario</label>
-                        <select name="lines[${index}][usuario]" id="usuario" class="input_form_select">
-                          <option value=""></option>
+                        <label for="proveedor">Proveedor</label>
+                        <select name="lines[${index}][proveedor]" id="proveedor" class="input_form_select">
+                          ${opcionesProveedor}
                         </select>
                     </div>
 
@@ -64,14 +66,15 @@ async function getListadoProducto() {
     `;
   });
   select.innerHTML = opcionesHtml;
+  opcionesProducto = opcionesHtml;
 }
 
-async function getListadoUsuario() {
+async function getListadoProveedor() {
   const response = await fetch(
-    "http://localhost/LamsSystem/Usuario/getSelect"
+    "http://localhost/LamsSystem/Proveedores/getSelect"
   );
   const { data: opciones } = await response.json();
-  const select = document.getElementById("usuario");
+  const select = document.getElementById("proveedor");
   let opcionesHtml = `<option value="">Selecciones...</option>`;
   await opciones.forEach((opcion) => {
     opcionesHtml += `
@@ -79,6 +82,7 @@ async function getListadoUsuario() {
     `;
   });
   select.innerHTML = opcionesHtml;
+  opcionesProveedor = opcionesHtml;
 }
 
 btnAddLine.onclick = function () {
@@ -101,7 +105,7 @@ function deleteLine(idx) {
 // Cuando el usuario hace clic en el botón, abre el modal
 btn.onclick = function () {
   getListadoProducto();
-  getListadoUsuario();
+  getListadoProveedor();
   document.getElementById("title").innerHTML = "Registrar Salida";
   document.getElementById("btnAccion").innerHTML = "Registrar";
   form.innerHTML = formLine;
@@ -118,11 +122,6 @@ function limpiarFormulario() {
   document.getElementById("id").value = "";
 }
 
-// function registrarEntrada(e) {
-//   e.preventDefault();
-//   console.log("Evento: ", e.target.elements);
-// }
-
 const formulario = document.getElementById("formularioSalidas");
 
 formulario.addEventListener("submit", function (e) {
@@ -134,18 +133,22 @@ formulario.addEventListener("submit", function (e) {
   const lineasDelFormulario = formulario.querySelectorAll(".input_form");
 
   lineasDelFormulario.forEach((lineaDiv) => {
-    // const id = lineaDiv.querySelector('input[name*="[id]"]').value;
-    // let producto = lineaDiv.querySelector('select[name*="[producto]"]').value;
-    // let proveedor = lineaDiv.querySelector('select[name*="[proveedor]"]').value;
-    let cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]').value;
-    console.log("Error: ", cantidad);
-
-    lineas.push({
-      id: id,
-      producto: producto,
-      proveedor: proveedor,
-      cantidad: parseInt(cantidad), // Convierte a número si es necesario
-    });
+    const id = lineaDiv.querySelector('input[name*="[id]"]').value;
+    const producto = lineaDiv.querySelector('select[name*="[producto]"]').value;
+    const proveedor = lineaDiv.querySelector(
+      'select[name*="[proveedor]"]'
+    ).value;
+    const cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]').value;
+    if (producto == "" || proveedor == "" || cantidad == "") {
+      console.log("Error, datos nulos", producto, proveedor, cantidad);
+    } else {
+      lineas.push({
+        id: id,
+        producto: producto,
+        proveedor: proveedor,
+        cantidad: parseInt(cantidad), // Convierte a número si es necesario
+      });
+    }
   });
 
   console.log(lineas);

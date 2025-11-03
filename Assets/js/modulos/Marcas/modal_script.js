@@ -1,12 +1,12 @@
-/*Modal para registrar categoria*/
+/*Modal para registrar marca*/
 // Obtener los elementos del DOM
-const modal = document.getElementById("modalCategoria");
-const btn = document.getElementById("registrarCategoria");
+const modal = document.getElementById("modalMarca");
+const btn = document.getElementById("registrarMarca");
 const span = document.getElementsByClassName("close")[0];
 
 // Cuando el usuario hace clic en el botón, abre el modal
 btn.onclick = function () {
-  document.getElementById("title").innerHTML = "Registrar Categoría";
+  document.getElementById("title").innerHTML = "Registrar Marca";
   document.getElementById("btnAccion").innerHTML = "Registrar";
   modal.style.display = "block";
 };
@@ -20,14 +20,13 @@ span.onclick = function () {
 function limpiarFormulario() {
   document.getElementById("id").value = "";
   document.getElementById("nombre").value = "";
-  document.getElementById("des").value = "";
 }
 
 /*Botón de editar usuario*/
-function btnEditCategoria(id) {
-  document.getElementById("title").innerHTML = "Actualizar Categoría";
+function btnEditMarca(id) {
+  document.getElementById("title").innerHTML = "Actualizar Marca";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Categorias/edit/" + id;
+  const url = APP_URL + "Marcas/edit/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -36,26 +35,24 @@ function btnEditCategoria(id) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id").value = res.id;
       document.getElementById("nombre").value = res.nombre;
-      document.getElementById("des").value = res.descrip;
       modal.style.display = "block";
     }
   };
 }
 
 // Manejar el envío del formulario (opcional)
-formularioCategoria.addEventListener("submit", function (event) {
+formularioMarca.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
   const name = document.getElementById("nombre");
-  const des = document.getElementById("des");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
-  if (name.value == "" || des.value == "") {
+  if (name.value == "") {
     alertas("Todos los campos SON obligatorios", "warning");
   } else if (letras.test(name)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
   } else {
-    const url = APP_URL + "Categorias/store";
-    const frm = document.getElementById("formularioCategoria");
+    const url = APP_URL + "Marcas/store";
+    const frm = document.getElementById("formularioMarca");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.send(new FormData(frm));

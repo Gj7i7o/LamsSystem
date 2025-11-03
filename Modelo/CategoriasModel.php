@@ -16,11 +16,21 @@ class CategoriasModel extends Query
         $data = $this->selectAll($sql);
         return count($data);
     }
+
     /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getCategoria(int $page = 0)
+    public function getActCategoria(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM categoria" : "SELECT * FROM categoria LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'activo'" : "SELECT * FROM categoria WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*getCategory: Toma todas las categorías de la base de datos*/
+    public function getInaCategoria(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'Inactivo'" : "SELECT * FROM categoria WHERE estado = 'Inactivo' LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -76,7 +86,15 @@ class CategoriasModel extends Query
     /*deleteCategory: Hace la consulta SQL que traerá la categoría que posteriormente se eliminará*/
     public function deleteCategory(int $id)
     {
-        $sql = "UPDATE categoria SET estado = 'Inactivo' WHERE id = $id";
+        $sql = "UPDATE categoria SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*deleteCategory: Hace la consulta SQL que traerá la categoría que posteriormente se eliminará*/
+    public function activarCategoria(int $id)
+    {
+        $sql = "UPDATE categoria SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

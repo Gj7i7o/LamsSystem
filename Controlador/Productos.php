@@ -36,13 +36,15 @@ class Productos extends Controlador
     public function list()
     {
         try {
+            $estado = $_GET["estado"] ?? "";
+            $filters = ["estado" => $estado];
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getProduct($page);
+            $data = $this->model->getProduct($page, $filters);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -55,11 +57,11 @@ class Productos extends Controlador
     /*Almacenaje: Se encarga de almacenar los datos de un nuevo producto en la base de datos*/
     public function store()
     {
-        $code = $_POST['code'];
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $idcat = $_POST['idcat'];
-        $idmar = $_POST['idmar'];
+        $code = $_POST['codigo'];
+        $name = $_POST['nombre'];
+        $price = $_POST['precio'];
+        $idcat = $_POST['categoria'];
+        $idmar = $_POST['marca'];
         $id = $_POST['id'];
         $numeros = "/^\d+(\.\d{1,2})?$/";
         if (

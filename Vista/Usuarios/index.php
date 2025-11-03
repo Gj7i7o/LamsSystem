@@ -12,9 +12,13 @@ include "Vista/Componentes/header.php";
     <!-- Tabla Usuarios -->
 
     <section class="main-course">
-        <button class="button" type="button" id="registrarUsuario" title="Crear Usuario"><i class="fas fa-plus"></i></button>
         <div class="course-box">
-            <div class="recent-orders tabla">
+            <button class="button" type="button" id="registrarUsuario" title="Crear Usuario"><i class="fas fa-plus"></i></button>
+            <div class="buscador">
+                <i class="fa-solid fa-magnifying-glass">
+                </i><input type="text" name="" id="">
+            </div>
+            <div>
                 <table id="TablaUsuarios">
                     <thead>
                         <tr>
@@ -47,32 +51,44 @@ include "Vista/Componentes/header.php";
 
         <h2 id="title">Registrar Usuario</h2>
 
-        <form id="userForm" class="form" method="POST">
-            <input type="number" id="id" hidden="true">
+        <form id="formularioUsuario" class="form" method="POST">
+            <input type="number" id="id" name="id" hidden="true">
             <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required>
+            <input type="text" id="usuario" name="usuario" placeholder="UserMax123" required>
 
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Pedro" required>
 
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" name="apellido" placeholder="López" required>
 
             <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required>
+            <input type="email" id="correo" name="correo" placeholder="correoreal@gmail.com" required>
 
             <label for="telef">Teléfono:</label>
-            <input type="text" id="telef" name="telef" required>
+            <input type="text" id="telef" name="telef" placeholder="0414-1234567" required>
 
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-
+            <div id="passwords">
+                <div>
+                    <div>
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="password" name="password" placeholder="Pedro*15">
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label for="confirm">Confirmar Contraseña:</label>
+                        <input type="password" id="confirm" name="confirm" placeholder="Pedro*15">
+                    </div>
+                </div>
+            </div>
             <button type="submit" id="btnAccion">Registrar</button>
         </form>
     </div>
 </div>
 
 <script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/script.js"></script>
+<script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/modal_script.js"></script>
 <?php
 include "Vista/Componentes/footer.php";
 ?>

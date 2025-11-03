@@ -23,7 +23,7 @@ class Proveedores extends Controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getProveedores();
+        $data = $this->model->getActProveedores();
         foreach ($data as $proveedor) {
             $result[] = ['id' => $proveedor['id'], 'etiqueta' => $proveedor['nombre']];
         }
@@ -33,16 +33,37 @@ class Proveedores extends Controlador
 
     /*Listado: Se encarga de colocar los proveedores existentes en la base de datos 
     y a su vez coloca en cada uno los botones de editar y eliminar*/
-    public function list()
+    public function listarInactivos()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getProveedores($page);
+            $data = $this->model->getInaProveedores($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesProveedor(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="secure" type="button" onclick="btnActProveedor(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    /*Listado: Se encarga de colocar los proveedores existentes en la base de datos 
+    y a su vez coloca en cada uno los botones de editar y eliminar*/
+    public function listarActivos()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getActProveedores($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesProveedor(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -55,9 +76,9 @@ class Proveedores extends Controlador
     /*Almacenaje: Se encarga de almacenar los datos de un nuevo proveedor en la base de datos*/
     public function store()
     {
-        $name = $_POST['name'];
-        $ape = $_POST['ape'];
         $rif = $_POST['rif'];
+        $name = $_POST['nombre'];
+        $ape = $_POST['apellido'];
         $dir = $_POST['dir'];
         $id = $_POST['id'];
         $letras = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/";
@@ -123,6 +144,19 @@ class Proveedores extends Controlador
             $msg = array('msg' => 'Error al desactivar el proveedor', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Proveedor desactivado', 'icono' => 'success');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*Eliminar: Envía a la función deleteProveedores del Models/ProveedoresModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->activarProveedores($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar el proveedor', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Proveedor activado', 'icono' => 'success');
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

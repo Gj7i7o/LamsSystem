@@ -18,10 +18,19 @@ class ProveedoresModel extends Query
     }
 
     /*getProveedores: Toma todos los proveedores de la base de datos*/
-    public function getProveedores(int $page = 0)
+    public function getInaProveedores(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM proveedor" : "SELECT * FROM proveedor LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT * FROM proveedor WHERE estado = 'Inactivo'" : "SELECT * FROM proveedor WHERE estado = 'Inactivo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*getProveedores: Toma todos los proveedores de la base de datos*/
+    public function getActProveedores(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM proveedor WHERE estado = 'activo'" : "SELECT * FROM proveedor WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -81,7 +90,15 @@ class ProveedoresModel extends Query
     /*deleteProveedor: Hace la consulta SQL que traerá al proveedor que posteriormente se eliminará*/
     public function deleteProveedores(int $id)
     {
-        $sql = "UPDATE proveedor SET estado = 'Inactivo' WHERE id = $id";
+        $sql = "UPDATE proveedor SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*deleteProveedor: Hace la consulta SQL que traerá al proveedor que posteriormente se eliminará*/
+    public function activarProveedores(int $id)
+    {
+        $sql = "UPDATE proveedor SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

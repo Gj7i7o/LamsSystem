@@ -23,7 +23,7 @@ class Marcas extends Controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getMarca();
+        $data = $this->model->getAcMarca();
         foreach ($data as $marca) {
             $result[] = ['id' => $marca['id'], 'etiqueta' => $marca['nombre']];
         }
@@ -33,16 +33,37 @@ class Marcas extends Controlador
 
     /*Listado: Se encarga de colocar las marcas existentes en la base de datos 
     y a su vez coloca en cada una los botones de editar y eliminar*/
-    public function list()
+    public function listarInactivas()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getMarca($page);
+            $data = $this->model->getInMarca($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesMarca(' . $data[$i]['id'] . ');" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="secure" type="button" onclick="btnActMarca(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    /*Listado: Se encarga de colocar las marcas existentes en la base de datos 
+    y a su vez coloca en cada una los botones de editar y eliminar*/
+    public function listarActivas()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->getAcMarca($page);
+            $total = $this->model->getCount();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesMarca(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
             </div>';
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -55,7 +76,7 @@ class Marcas extends Controlador
     /*Almacenaje: Se encarga de almacenar los datos de una nueva marca en la base de datos*/
     public function store()
     {
-        $name = $_POST['name'];
+        $name = $_POST['nombre'];
         $id = $_POST['id'];
         /*Patrones de validación*/
         $letrasNumeros = "/^[a-zA-Z0-9\s'-]+$/";
@@ -108,6 +129,19 @@ class Marcas extends Controlador
             $msg = array('msg' => 'Error al desactivar la marca', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Marca desactivada', 'icono' => 'success');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*activar: Envía a la función deleteMarca del Models/MarcasModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->activarMarca($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar la marca', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Marca activada', 'icono' => 'success');
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
