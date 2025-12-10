@@ -2,7 +2,7 @@
 
 /*Modelo del Usuario*/
 
-class UsuariosModel extends Query
+class usuariosModel extends query
 {
     private $user, $name, $ape, $email, $telef, $password, $id;
     public function __construct()

@@ -2,7 +2,7 @@
 
 /*Modelo del Proveedor*/
 
-class ProveedoresModel extends Query
+class proveedoresModel extends query
 {
     private $name, $ape, $rif, $dir, $id;
     public function __construct()

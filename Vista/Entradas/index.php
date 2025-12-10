@@ -1,5 +1,5 @@
 <?php
-include "Vista/Componentes/header.php";
+include "vista/componentes/header.php";
 ?>
 
 <!-- Index.php encargado de la vista de las Entradas -->
@@ -13,6 +13,7 @@ include "Vista/Componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
+            <!-- Botón de registrar -->
             <button class="button" type="button" id="registrarEntrada" title="Crear nueva entrada"><i class="fas fa-plus"></i></button>
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass">
@@ -41,28 +42,34 @@ include "Vista/Componentes/header.php";
         </div>
     </section>
 
+    <!-- Modal -->
     <div id="modalEntrada" class="modal">
         <div class="modal-content">
             <span class="close" title="Cerrar">&times;</span>
-
-            <h2 id="title">Registrar Entrada</h2>
+            <div class="modal-header">
+                <h2 id="title">Registrar Entrada</h2>
+                <!-- <button class="button" type="button" id="addLine" title=""><i class="fas fa-plus"></i></button> -->
+            </div>
             <button class="button" type="button" id="addLine" title=""><i class="fas fa-plus"></i></button>
-
             <form id="formularioEntradas" class="form" method="POST">
                 <div id="formularioEntrada">
                     <div class="buttonToLine">
                         <button class="button" type="button" data-idx="0" id="deleteLine"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
-                <div style="margin-top: 15px">
-                    <button type="submit" id="btnAccion">Registrar</button>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
+
+                    <button type="submit" id="btnAccion" class="btn-submit">
+                        <i class="fas fa-save"></i> Registrar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="<?php echo APP_URL; ?>Assets/js/modulos/Entradas/script.js"></script>
-    <script src="<?php echo APP_URL; ?>Assets/js/modulos/Entradas/modal_script.js"></script>
+    <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/script.js"></script>
+    <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/modal_script.js"></script>
     <?php
-    include "Vista/Componentes/footer.php";
+    include "vista/componentes/footer.php";
     ?>

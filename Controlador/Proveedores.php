@@ -2,7 +2,7 @@
 
 /*Controlador del Proveedor*/
 
-class Proveedores extends Controlador
+class proveedores extends controlador
 {
 
     public function __construct()

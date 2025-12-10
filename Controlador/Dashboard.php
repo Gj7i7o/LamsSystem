@@ -2,7 +2,7 @@
 
 /*Controlador Dashboard*/
 
-class Dashboard extends Controlador
+class dashboard extends controlador
 {
     public function __construct()
     {

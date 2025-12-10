@@ -1,5 +1,5 @@
 <?php
-include "Vista/Componentes/header.php";
+include "vista/componentes/header.php";
 ?>
 
 <!-- Index.php encargado de la vista de las Marcas -->
@@ -13,6 +13,7 @@ include "Vista/Componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
+            <!-- Botón de registrar -->
             <button class="button" type="button" id="registrarMarca" title="Crear categoria"><i class="fas fa-plus"></i></button>
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass">
@@ -40,24 +41,33 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
+<!-- Modal -->
 <div id="modalMarca" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
-
-        <h2 id="title">Registrar Marca</h2>
-
+        <div class="modal-header">
+            <h2 id="title">Registrar Marca</h2>
+        </div>
         <form id="formularioMarca" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ford" required>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ford" title="Nombre de la marca" required>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
-            <button type="submit" id="btnAccion">Registrar</button>
+                <button type="submit" id="btnAccion" class="btn-submit">
+                    <i class="fas fa-save"></i> Registrar
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/script.js"></script>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Marcas/modal_script.js"></script>
+<!-- Scripts de los javaScripts del modal y el módulo -->
+<script src="<?php echo APP_URL; ?>assets/js/modulos/marcas/script.js"></script>
+<script src="<?php echo APP_URL; ?>assets/js/modulos/marcas/modal_script.js"></script>
 <?php
-include "Vista/Componentes/footer.php";
+include "vista/componentes/footer.php";
 ?>

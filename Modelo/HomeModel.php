@@ -2,7 +2,7 @@
 
 /*Modelo del Home*/
 
-class HomeModel extends Query
+class homeModel extends query
 {
 
     public function __construct()

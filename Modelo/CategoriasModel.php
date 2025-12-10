@@ -2,7 +2,7 @@
 
 /*Modelo de la Categoría*/
 
-class CategoriasModel extends Query
+class categoriasModel extends query
 {
     private $name, $des, $id;
     public function __construct()

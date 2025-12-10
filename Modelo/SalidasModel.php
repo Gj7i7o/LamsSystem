@@ -2,7 +2,7 @@
 
 /*Modelo de la Salida*/
 
-class SalidasModel extends Query
+class salidasModel extends query
 {
     private $cantidad, $id;
     public function __construct()

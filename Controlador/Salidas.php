@@ -2,7 +2,7 @@
 
 /*Controlador de la Salida*/
 
-class Salidas extends Controlador
+class salidas extends controlador
 {
 
     public function __construct()
@@ -20,8 +20,8 @@ class Salidas extends Controlador
         $this->vista->getView($this, "index");
     }
 
-    /*Listado: Se encarga de colocar las categorías existentes en la base de datos 
-    y a su vez coloca en cada una los botones de editar y eliminar*/
+    /*Listado: Se encarga de obtener el listado de las salidas realizadas 
+    y almacenadas en la base de datos*/
     public function list()
     {
         try {

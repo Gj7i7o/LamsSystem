@@ -2,7 +2,7 @@
 
 /*Modelo del Dashboard*/
 
-class DashboardModel extends Query
+class dashboardModel extends query
 {
     public function __construct()
     {

@@ -2,12 +2,12 @@
 
 /*Es la clase encargada de recibir y mandar las consultas SQL a la base de datos*/
 
-class Query extends Conexion
+class query extends conexion
 {
     private $pdo, $con, $sql, $datos;
     public function __construct()
     {
-        $this->pdo = new Conexion();
+        $this->pdo = new conexion();
         $this->con = $this->pdo->conect();
     }
 

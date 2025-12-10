@@ -1,5 +1,5 @@
 <?php
-include "Vista/Componentes/header.php";
+include "vista/componentes/header.php";
 ?>
 
 <!-- Index.php encargado de la vista de las Categorías -->
@@ -41,27 +41,37 @@ include "Vista/Componentes/header.php";
     </section>
 </section>
 
+<!-- Modal -->
 <div id="modalCategoria" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
-
-        <h2 id="title">Registrar Categoría</h2>
-
+        <div class="modal-header">
+            <h2 id="title">Registrar Categoría</h2>
+        </div>
         <form id="formularioCategoria" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
+            </div>
+            <div class="form-group">
+                <label for="des">Descripción:</label>
+                <input type="text" id="des" name="des" placeholder="Accesorios decorativos para vehículos" required>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
-            <label for="des">Descripción:</label>
-            <input type="text" id="des" name="des" placeholder="Accesorios decorativos para vehículos" required>
-
-            <button type="submit" id="btnAccion">Registrar</button>
+                <button type="submit" id="btnAccion" class="btn-submit">
+                    <i class="fas fa-save"></i> Registrar
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/script.js"></script>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Categorias/modal_script.js"></script>
+<!-- Scripts de los javaScripts del modal y el módulo -->
+<script src="<?php echo APP_URL; ?>assets/js/modulos/categorias/script.js"></script>
+<script src="<?php echo APP_URL; ?>assets/js/modulos/categorias/modal_script.js"></script>
 <?php
-include "Vista/Componentes/footer.php";
+include "vista/componentes/footer.php";
 ?>

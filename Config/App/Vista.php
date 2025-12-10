@@ -2,15 +2,15 @@
 
 /*La clase Views redirecciona dependiendo del controlador y la vista en el momento*/
 
-class Vista
+class vista
 {
     public function getView($controlador, $vista, $data = "")
     {
         $controlador = get_class($controlador);
-        if ($controlador == "Home") {
-            $vista = "Vista/" . $vista . ".php";
+        if ($controlador == "home") {
+            $vista = "vista/" . $vista . ".php";
         } else {
-            $vista = "Vista/" . $controlador . "/" . $vista . ".php";
+            $vista = "vista/" . $controlador . "/" . $vista . ".php";
         }
         require $vista;
     }

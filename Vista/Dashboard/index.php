@@ -1,5 +1,5 @@
 <?php
-include 'Vista/Componentes/header.php';
+include 'vista/componentes/header.php';
 ?>
 
 <!-- Index.php encargado de la vista del Inicio -->
@@ -20,7 +20,7 @@ include 'Vista/Componentes/header.php';
             <h3>Productos</h3>
             <p><?php echo $data['producto']['total']; ?></p>
         </div>
-        <div class="card" title="Categorias en sistema">
+        <div class="card" title="Categorías en sistema">
             <i class="fa-solid fa-list"></i>
             <h3>Categorias</h3>
             <p><?php echo $data['categoria']['total']; ?></p>
@@ -45,5 +45,5 @@ include 'Vista/Componentes/header.php';
 </section>
 
 <?php
-include 'Vista/Componentes/footer.php';
+include 'vista/componentes/footer.php';
 ?>

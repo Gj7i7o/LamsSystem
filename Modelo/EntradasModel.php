@@ -2,7 +2,7 @@
 
 /*Modelo de la Entrada*/
 
-class EntradasModel extends Query
+class entradasModel extends query
 {
     private $cantidad, $id, $lineas;
     public function __construct()

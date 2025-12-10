@@ -1,5 +1,5 @@
 <?php
-include "Vista/Componentes/header.php";
+include "vista/componentes/header.php";
 ?>
 
 <!-- Index.php encargado de la vista de los Usuarios -->
@@ -48,47 +48,59 @@ include "Vista/Componentes/header.php";
 <div id="modalUsuario" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
-
-        <h2 id="title">Registrar Usuario</h2>
-
+        <div class="modal-header">
+            <h2 id="title">Registrar Usuario</h2>
+        </div>
         <form id="formularioUsuario" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" placeholder="UserMax123" required>
-
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Pedro" required>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" placeholder="López" required>
-
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" placeholder="correoreal@gmail.com" required>
-
-            <label for="telef">Teléfono:</label>
-            <input type="text" id="telef" name="telef" placeholder="0414-1234567" required>
-
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" placeholder="UserMax123" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Pedro" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" placeholder="López" required>
+            </div>
+            <div class="form-group">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" placeholder="correoreal@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="telef">Teléfono:</label>
+                <input type="text" id="telef" name="telef" placeholder="0414-1234567" required>
+            </div>
             <div id="passwords">
                 <div>
-                    <div>
+                    <div class="form-group">
                         <label for="password">Contraseña:</label>
                         <input type="password" id="password" name="password" placeholder="Pedro*15">
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div class="form-group">
                         <label for="confirm">Confirmar Contraseña:</label>
                         <input type="password" id="confirm" name="confirm" placeholder="Pedro*15">
                     </div>
                 </div>
             </div>
-            <button type="submit" id="btnAccion">Registrar</button>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
+
+                <button type="submit" id="btnAccion" class="btn-submit">
+                    <i class="fas fa-save"></i> Registrar
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/script.js"></script>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Usuarios/modal_script.js"></script>
+<!-- Scripts de los javaScripts del modal y el módulo -->
+<script src="<?php echo APP_URL; ?>assets/js/modulos/usuarios/script.js"></script>
+<script src="<?php echo APP_URL; ?>assets/js/modulos/usuarios/modal_script.js"></script>
 <?php
-include "Vista/Componentes/footer.php";
+include "vista/componentes/footer.php";
 ?>

@@ -2,7 +2,7 @@
 
 /*Controlador del Producto*/
 
-class Productos extends Controlador
+class productos extends controlador
 {
 
     public function __construct()

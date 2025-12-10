@@ -2,7 +2,7 @@
 
 /*Controlador Home*/
 
-class Home extends Controlador
+class home extends controlador
 {
 
     public function __construct()

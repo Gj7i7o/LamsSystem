@@ -2,7 +2,7 @@
 
 /*Controlador del Usuario*/
 
-class Usuarios extends Controlador
+class usuarios extends controlador
 {
 
     public function __construct()

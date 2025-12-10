@@ -2,13 +2,13 @@
 
 /*Clase controlador se encarga de cargar el modelo y la vista que se usará*/
 
-class Controlador
+class controlador
 {
     protected $model, $vista;
     public function __construct()
     {
         // Declara la vista
-        $this->vista = new Vista();
+        $this->vista = new vista();
         // Declara el metodo cargarModel
         $this->cargarModel();
     }
@@ -18,7 +18,7 @@ class Controlador
         // Declarar el archivo modeloModel
         $model = get_class($this) . "Model";
         // Declarar la ruta de la carpeta Models
-        $ruta = "Modelo/" . $model . ".php";
+        $ruta = "modelo/" . $model . ".php";
         // Verificar si existe ese modelo
         if (file_exists($ruta)) {
             require_once $ruta;

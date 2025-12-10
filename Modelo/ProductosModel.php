@@ -2,7 +2,7 @@
 
 /*Modelo del Producto*/
 
-class ProductosModel extends Query
+class productosModel extends query
 {
     private $code, $name, $price, $idcat, $idmar, $id;
     public function __construct()

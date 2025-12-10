@@ -12,80 +12,82 @@
 
 body {
   background: #f0f0f0; 
-  /* background: rgb(29, 85, 148); */
 }
 
 .container {
   display: grid;
-  /* position: absolute; */
 }
 
 nav {
   position: fixed;
   display: block;
-  /* overflow-y: auto; */
   overflow-x: hidden;
-  height: 100vh;
-  /* background: linear-gradient(180deg, #00a8a8, #7ed957); */
-  /* background: #fff; */
-  /* background: rgb(173, 26, 26); */
-  /* background: rgb(51, 114, 186); */
+  height: calc(100vh - 80px);
   background: #314158;
   width: 220px;
-  pad: 0.4rem 0.5rem;
   transition: transform 0.3s ease;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-  /* border-right: 2px solid #000; */
-} 
+}
 
-/*Logo y nombre de la empresa*/
-.logo {
-  text-align: center;
+/* =========================================
+   Estilo para el Link Activo (Current Page)
+   ========================================= */
+nav ul li a.active {
+    background-color: #1D293D; /* Fondo oscuro (igual al hover) */
+    font-weight: bold;
+    color: #155DFC;            /* Texto azul brillante */
+    border-left: 5px solid #155DFC; /* Indicador visual a la izquierda */
+    
+    /* Ajustamos el padding izquierdo para compensar el borde 
+       y que el texto no se mueva bruscamente */
+    padding-left: 10px; 
+    transition: 0.3s;
+}
+
+/* Aseguramos que el icono mantenga su color o cambie si es necesario */
+nav ul li a.active i {
+    color: #155DFC;
+}
+
+footer {
   display: flex;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #fff;
-  padding: 10px;
-  font-size: 15px;
+  flex-direction: row;
+  position: fixed;
+  overflow-x: hidden;
+  height: 80px;
+  background: #314158;
+  width: 100%;
+  transition: transform 0.3s ease;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 /*Imagen del logo*/
 .logo img {
-  width: 80px;
-  /* height: 50px; */
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+  margin-left: 10px;
 }
 
-/* .logo span {
+.logo-text {
+  font-size: 20px;
+  color: #fff;
+  padding: 30px; 
   font-weight: bold;
-  padding-left: 15px;
-  font-size: 30px;
-  text-transform: uppercase;
-  font-size: 10px;
-} */
+}
 
 /*Links para las vistas*/
 a {
   position: relative;
-  /* color: #000; */
   color: #fff;
-  /* background: #f0f0f0; */
   font-size: 16px;
   display: table;
   width: 220px;
   padding: 15px;
   transition: 0.5s;
-}
- 
-/* .nav .fas {
-  position: relative;
-  width: 70px;
-  height: 40px;
-  top: 14px;
-  font-size: 20px;
-  text-align: center; 
-} */
+} 
 
 /*Palabras dentro de los Links*/
 .nav-item {
@@ -93,18 +95,12 @@ a {
   top: 2px;
   left: 10px;
   font-weight: bold;
-  /* margin-left: 10px; */
 }
 
 a:hover {
   transition: 0.5s;
-  /* background: #eee; */
-  /* background: rgb(29, 85, 148); */
-  /* background-color: rgba(0, 168, 168, 0.3); */
   background-color: #1D293D;
   font-weight: bold;
-  /* background: rgb(125, 21, 21); */
-  /* color: #fff; */
   color: #155DFC;
 }
 
@@ -112,7 +108,6 @@ a:hover {
 .logout {
   position: absolute;
   bottom: 0;
-  /* color: red; */
   font-weight: bold;
 }
 
@@ -130,12 +125,15 @@ a:hover {
   transition: margin-left 0.5s ease;
   width: calc(100% - 220px);
   padding: 20px;
+  /* Para el scroll */
+  /* padding-bottom: 120px; */
 }
 
+/* Título del  */
 .main-top {
   display: flex;
   color: #000;
-  padding: 10px;
+  padding: 0px;
   width: 100%;
 }
 
@@ -143,17 +141,10 @@ a:hover {
   font-size: 33px;
 }
 
-.main-top-text{
-  margin-top: 7px;
-  margin-left: 10px;
-}
-
 .main-top i {
   position: absolute;
   right: 0;
   width: calc(100% - 96%);
-  /* margin: 30px 30px 60px 0; */
-  /* color: rgb(11, 109, 109); */
   color: #000;
   cursor: pointer;
 }
@@ -168,9 +159,7 @@ a:hover {
 .main-skills .card {
   display: grid;
   width: auto;
-  /* margin: 10px; */
   background: #fff;
-  /* margin-bottom: 1rem; */
   text-align: center;
   border-radius: 15px;
   padding: 20px;
@@ -184,7 +173,6 @@ a:hover {
 
 .main-skills .card h3 {
   margin: 10px;
-  /* color: #00a8a8; */
   color: #000;
   text-transform: capitalize;
   font-size: 25px;
@@ -194,22 +182,6 @@ a:hover {
   font-size: 32px;
   font-weight: bold; 
 }
-
-/* .main-skills .card button {
-  background: rgb(103, 103, 255);
-  color: #fff;
-  padding: 7px 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: 0.5s;
-}
-
-.main-skills .card button:hover {
-  transition: 0.5s;
-  transform: scale(1.1);
-  background: rgba(103, 103, 255, 0.856);
-} */
 
 .main-skills .card i {
   font-size: 22px;
@@ -382,13 +354,6 @@ a:hover {
     margin-left: 0;
   }
 
-  /* .main-skills .card {
-    margin: 5px;
-    text-align: center;
-    padding: 8px;
-    width: auto;
-  } */
-
   .table {
     width: 800px;
   }
@@ -440,20 +405,48 @@ tr:nth-child(even) {
   width: 100%;
   height: 100%;
   overflow: auto; /* Permite desplazamiento si el contenido es grande */
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
-  padding-top: 10px; /* Espacio superior para centrar */
+  background-color: rgba(33, 43, 54, 0.6); /* Fondo semi-transparente */
+  backdrop-filter: blur(4px); /* Efecto borroso de fondo */
+  padding: 25px;  
+  transition: all 0.3s ease;
 }
 
 /* Contenido del modal */
 .modal-content {
   background-color: #fff;
   margin: 5% auto; /* 5% desde arriba y centrado horizontalmente */
-  padding: 20px;
+  padding: 0;
   border: 1px solid #888;
-  width: 60%; /* Ancho del contenido */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /*width: 60%;  Ancho del contenido */
+  width: 500px; /* Ancho base */
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Para que la cabecera respete el borde */
+  animation: slideIn 0.3s ease-out forwards;
+  border: none;
   position: relative; /* Necesario para posicionar el botón de cerrar */
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  padding: 20px 25px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #314158;
+  font-weight: 700;
 }
 
 /* Botón de cerrar (la X) */
@@ -476,42 +469,13 @@ tr:nth-child(even) {
 }
 
 /* Estilos del Formulario */
-.form label {
+/* .form label {
   display: block;
   margin-top: 10px;
   margin-bottom: 5px;
   font-weight: bold;
-}
+} */
 
-.form input[type="text"],
-.form input[type="email"],
-.form input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; /* Incluye padding y borde en el ancho total */
-}
-
-.form button[type="submit"] {
-  background: rgb(22, 126, 72);
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.5s;
-  font-weight: bold;
-}
-
-.form button[type="submit"]:hover {
-  font-weight: bold;
-  transition: 0.5s;
-  transform: scale(1.1);
-  background: rgba(22, 126, 72, 0.856);
-}
 
 .input_form {
   display: flex;
@@ -574,4 +538,109 @@ tr:nth-child(even) {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+}
+
+.pagination, button {
+  cursor: pointer;
+}
+
+.opciones {
+  display: grid;
+}
+
+.btn-registrar {
+  margin-top: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+  margin-left: 2px;
+}
+
+/* Estilo de los Inputs */
+.form-group input, 
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Bordes suaves */
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* Efecto al hacer clic en el input */
+.form-group input:focus, 
+.form-group select:focus {
+    border-color: #155DFC; /* Azul del sistema */
+    box-shadow: 0 0 0 4px rgba(21, 93, 252, 0.1); /* Resplandor suave */
+    outline: none;
+}
+
+/* --- 3. Pie del Modal (Botones) --- */
+.modal-footer {
+    padding: 20px 25px;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-end; /* Botones a la derecha */
+    gap: 10px;
+}
+
+.btn-cancel {
+    background: #f1f1f1;
+    color: #555;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+.btn-submit {
+    background: rgb(22, 126, 72);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(22, 126, 72, 0.2);
+}
+
+.btn-submit:hover {
+    background: rgb(18, 100, 58);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(22, 126, 72, 0.3);
+}
+
+/* Responsivo para móviles */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+    }
+    
+    .full-width {
+        grid-column: span 1;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
 }

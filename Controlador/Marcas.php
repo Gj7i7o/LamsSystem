@@ -2,7 +2,7 @@
 
 /*Controlador de la Marca*/
 
-class Marcas extends Controlador
+class marcas extends controlador
 {
 
     public function __construct()

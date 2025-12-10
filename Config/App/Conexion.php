@@ -2,7 +2,7 @@
 
 /*Conexión con la base de datos*/
 
-class Conexion
+class conexion
 {
     private $conect;
     public function __construct()

@@ -21,19 +21,20 @@ function frmInicio(e) {
     contrasena.focus();
   } else {
     //Enviando a Controllers/Users/valid
-    const url = APP_URL + "Usuarios/validar";
+    const url = APP_URL + "usuarios/validar";
     const frm = document.getElementById("frmInicio");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.send(new FormData(frm));
-    http.onreadystatechange = function () {
+    http.onreadystatechange = async function () {
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.responseText);
         if (res == "ok") {
-          window.location = APP_URL + "Dashboard/index";
+          window.location = APP_URL + "dashboard/index";
         } else {
-          document.getElementById("alerta").classList.remove("d-none");
-          document.getElementById("alerta").innerHTML = res;
+          // document.getElementById("alerta").classList.remove("d-none");
+          // document.getElementById("alerta").innerHTML = res;
+          alertas(res.msg, res.icono);
           usuario.value = "";
           contrasena.value = "";
         }

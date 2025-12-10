@@ -2,7 +2,7 @@
 
 /*Controlador de la Categoría*/
 
-class Categorias extends Controlador
+class categorias extends controlador
 {
 
     public function __construct()

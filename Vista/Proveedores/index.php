@@ -1,5 +1,5 @@
 <?php
-include "Vista/Componentes/header.php";
+include "vista/componentes/header.php";
 ?>
 
 <!-- Index.php encargado de la vista de Proveedores -->
@@ -45,30 +45,41 @@ include "Vista/Componentes/header.php";
 <div id="modalProveedor" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
-
-        <h2 id="title">Registrar Proveedor</h2>
-
+        <div class="modal-header">
+            <h2 id="title">Registrar Proveedor</h2>
+        </div>
         <form id="formularioProveedor" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <label for="rif">Rif/CI:</label>
-            <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
+            <div class="form-group">
+                <label for="rif">Rif/CI:</label>
+                <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
+            </div>
+            <div class="form-group">
+                <label for="dir">Dirección:</label>
+                <input type="text" id="dir" name="dir" placeholder="Calle Acosta casa Nº..." required>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
-
-            <label for="dir">Dirección:</label>
-            <input type="text" id="dir" name="dir" placeholder="Calle Acosta casa Nº..." required>
-
-            <button type="submit" id="btnAccion">Registrar</button>
+                <button type="submit" id="btnAccion" class="btn-submit">
+                    <i class="fas fa-save"></i> Registrar
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/script.js"></script>
-<script src="<?php echo APP_URL; ?>Assets/js/modulos/Proveedores/modal_script.js"></script>
+<!-- Scripts de los javaScripts del modal y el módulo -->
+<script src="<?php echo APP_URL; ?>assets/js/modulos/proveedores/script.js"></script>
+<script src="<?php echo APP_URL; ?>assets/js/modulos/proveedores/modal_script.js"></script>
 <?php
-include "Vista/Componentes/footer.php";
+include "vista/componentes/footer.php";
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-10-2025 a las 02:24:46
+-- Tiempo de generación: 10-12-2025 a las 03:07:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,8 +39,11 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`id`, `nombre`, `descrip`, `estado`) VALUES
-(2, 'Gomas', 'Desde decoraciones para el interior del auto', 'Inactivo'),
-(6, 'Limpieza', 'Productos de limpieza', 'Inactivo');
+(2, 'Gomas', 'Desde decoraciones para el interior del auto', 'activo'),
+(6, 'Limpieza', 'Productos de limpieza', 'activo'),
+(7, 'Camioneta', 'Repuestos para camionetas', 'activo'),
+(8, 'Gomas', 'Desde decoraciones para el interior del auto', 'activo'),
+(9, 'Motos', 'Motocicletas y similares', 'activo');
 
 -- --------------------------------------------------------
 
@@ -100,12 +103,14 @@ CREATE TABLE `marca` (
 --
 
 INSERT INTO `marca` (`id`, `nombre`, `estado`) VALUES
-(1, 'Sonax', 'Inactivo'),
+(1, 'Sonax', 'activo'),
 (2, 'ford', 'activo'),
-(3, 'Chevrolet ', 'Inactivo'),
-(4, 'Ferrari', 'Inactivo'),
+(3, 'Chevrolet ', 'activo'),
+(4, 'Ferrari', 'activo'),
 (5, 'Bugatti', 'activo'),
-(6, 'Nissan', 'activo');
+(6, 'Nissan', 'activo'),
+(7, 'Shelby', 'activo'),
+(8, 'BMW', 'activo');
 
 -- --------------------------------------------------------
 
@@ -129,7 +134,10 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id`, `codigo`, `nombre`, `precio`, `cantidad`, `idcategoria`, `idmarca`, `estado`) VALUES
-(1, '990-00-123', 'Pur', 29, 0, 2, 3, 'Inactivo');
+(1, '990-00-123', 'Pur', 29, 0, 2, 3, 'Inactivo'),
+(9, '111-11-222', 'Bujya', 17, 0, 7, 2, 'activo'),
+(10, '990-00-123	', 'Moto', 20, 0, 6, 6, 'activo'),
+(11, '111-11-223', 'Sierra', 12, 0, 6, 4, 'activo');
 
 -- --------------------------------------------------------
 
@@ -151,12 +159,13 @@ CREATE TABLE `proveedor` (
 --
 
 INSERT INTO `proveedor` (`id`, `nombre`, `apellido`, `rif`, `direccion`, `estado`) VALUES
-(1, 'Carlos', 'Sánchez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 2001', 'activo'),
+(1, 'Carlos', 'gomez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'inactivo'),
 (2, 'Miguel', 'Rojas', 'J-311592210', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
 (3, 'Juan', 'Farias', 'J-407540351', 'Calle Acosta Casa Nro 96 Sector Mercado', 'activo'),
-(4, 'Donald', 'Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', 'Inactivo'),
+(4, 'Donald', 'Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', 'activo'),
 (6, 'Miguel', 'Farias', 'V-123456789', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
-(8, 'Carlos', 'Sánchez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 2001', 'activo');
+(8, 'Antonio', 'Martinez', 'V-987654321', 'Calle principal sector el Muco', 'activo'),
+(9, 'angel', 'brazon', 'V-123456789', 'calle independencia numero 4', 'activo');
 
 -- --------------------------------------------------------
 
@@ -225,10 +234,11 @@ INSERT INTO `usuario` (`id`, `usuario`, `nombre`, `apellido`, `correo`, `telef`,
 (1, 'RuiChan', 'Luis', 'Sánchez', 'sanluiscar@gmail.com', '0412-0392977', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'administrador', 'activo'),
 (2, 'MayChan', 'Ana', 'Rodríguez', 'anitasalina@gmail.com', '0412-3322110', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
 (14, 'Necrozma', 'Sebastián', 'Russián', 'sebastian@gmail.com', '0412-1234567', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
-(15, 'Moisu', 'Moisés', 'Córdova', 'moisuc@gmail.com', '0416-1234578', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'Inactivo'),
+(15, 'Moisu', 'Moisés', 'Córdova', 'moisuc@gmail.com', '0416-1234578', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
 (17, 'Fat32', 'Angel', 'Brazón', 'angelbrazon@gmail.com', '0416-1234576', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
 (18, 'Admin', 'Luis', 'Sánchez', 'lsanchezbalan@gmail.com', '0416-1234578', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
-(19, 'Rexlord', 'Roy', 'Winchester', 'lsanchezbalan@gmail.com', '0416-1234523', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo');
+(19, 'Rexlord', 'Roy', 'Winchester', 'lsanchezbalan@gmail.com', '0416-1234523', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo'),
+(20, 'Prueba1', 'Jesús', 'Rodríguez', 'ruichan@gmail.com', '0412-3312412', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo');
 
 --
 -- Índices para tablas volcadas
@@ -304,7 +314,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `entrada`
@@ -322,19 +332,19 @@ ALTER TABLE `entradaproducto`
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `salida`
@@ -352,7 +362,7 @@ ALTER TABLE `salidaproducto`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas

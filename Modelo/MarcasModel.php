@@ -2,7 +2,7 @@
 
 /*Modelo de la Marca*/
 
-class MarcasModel extends Query
+class marcasModel extends query
 {
     private $name, $id;
     public function __construct()
