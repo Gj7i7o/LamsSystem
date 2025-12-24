@@ -1,10 +1,11 @@
 <?php
 
-/*Modelo del Usuario*/
+/*Modelo del Usuario: Aquí se encuentran las consultas SQL 
+que se preparan para ser enviadas al controlador*/
 
 class usuariosModel extends query
 {
-    private $user, $name, $ape, $email, $telef, $password, $id;
+    private $usuario, $nombre, $apellido, $correo, $telef, $contrasena, $id;
     public function __construct()
     {
         parent::__construct();
@@ -12,21 +13,21 @@ class usuariosModel extends query
 
     public function getCount()
     {
-        $sql = "SELECT * FROM usuario";
+        $sql = "SELECT * FROM usuario WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*getUser: En base a la contraseña y nombre de usuario ingresados, traerá un usuario que coincida con estos*/
-    public function getUser(string $user, string $password)
+    /*tomarUsuario: En base a la contraseña y nombre de usuario ingresados, traerá un usuario que coincida con estos*/
+    public function tomarUsuario(string $usuario, string $contrasena)
     {
-        $sql = "SELECT * FROM usuario WHERE usuario = '$user' AND clave = '$password'";
+        $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$contrasena'";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*getUsers: Toma todos los usuarios de la base de datos*/
-    public function getInaUsuarios(int $page = 0)
+    /*tomarUsuariosIn: Toma todos los usuarios de la base de datos que tengan el estado inactivo*/
+    public function tomarUsuariosIn(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'inactivo'" : "SELECT * FROM usuario WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
@@ -34,8 +35,8 @@ class usuariosModel extends query
         return $data;
     }
 
-    /*getUsers: Toma todos los usuarios de la base de datos*/
-    public function getActUsuarios(int $page = 0)
+    /*tomarUsuariosAc: Toma todos los usuarios de la base de datos que tengan el estado activo*/
+    public function tomarUsuariosAc(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'activo'" : "SELECT * FROM usuario WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
@@ -43,20 +44,21 @@ class usuariosModel extends query
         return $data;
     }
 
-    /*storeUser: Guarda el usuario, y además verifica si el usuario existe, en base al nombre de usuario ingresado*/
-    public function storeUser(string $user, string $name, string $ape, string $email, string $telef, string $password)
+    /*regisUsuario: Guarda el usuario, y además verifica si el usuario existe,
+    en base al usuario ingresado, comparando con la base de datos*/
+    public function regisUsuario(string $usuario, string $nombre, string $apellido, string $correo, string $telef, string $contrasena)
     {
-        $this->user = $user;
-        $this->name = $name;
-        $this->ape = $ape;
-        $this->email = $email;
+        $this->usuario = $usuario;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
+        $this->correo = $correo;
         $this->telef = $telef;
-        $this->password = $password;
-        $verificar = "SELECT * FROM usuario WHERE usuario = '$this->user'";
+        $this->contrasena = $contrasena;
+        $verificar = "SELECT * FROM usuario WHERE usuario = '$this->usuario'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO usuario (usuario, nombre, apellido, correo, telef, clave, rango, estado) VALUES (?,?,?,?,?,?,'empleado','activo')";
-            $datos = array($this->user, $this->name, $this->ape, $this->email, $this->telef, $this->password);
+            $datos = array($this->usuario, $this->nombre, $this->apellido, $this->correo, $this->telef, $this->contrasena);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -70,18 +72,17 @@ class usuariosModel extends query
         return $res;
     }
 
-    /*modifyUsers: Modifica el usuario*/
-    public function modifyUsers(string $user, string $name, string $ape, string $email, string $telef, int $id)
+    /*modifUsuario: Modifica el usuario seleccionado acorde al id*/
+    public function modifUsuario(string $usuario, string $nombre, string $apellido, string $correo, string $telef, int $id)
     {
-        $this->user = $user;
-        $this->name = $name;
-        $this->ape = $ape;
-        $this->email = $email;
+        $this->usuario = $usuario;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
+        $this->correo = $correo;
         $this->telef = $telef;
-        // $this->password = $hash;
         $this->id = $id;
         $sql = "UPDATE usuario SET usuario = ?, nombre = ?, apellido = ?, correo = ?, telef = ? WHERE id = ?";
-        $datos = array($this->user, $this->name, $this->ape, $this->email, $this->telef, $this->id);
+        $datos = array($this->usuario, $this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";
@@ -91,15 +92,15 @@ class usuariosModel extends query
         return $res;
     }
 
-    /*editUser: Hace la consulta SQL que traerá al usuario que posteriormente se modificará*/
-    public function editUser(int $id)
+    /*editarUsuario: Hace la consulta SQL que traerá al usuario que posteriormente se modificará*/
+    public function editarUsuario(int $id)
     {
         $sql = "SELECT * FROM usuario WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*deleteUser: Hace la consulta SQL que traerá al usuario que posteriormente se eliminará*/
+    /*desUsuario: Hace la consulta SQL que traerá al usuario que posteriormente se cambiará su estado a inactivo*/
     public function desUsuario(int $id)
     {
         $sql = "UPDATE usuario SET estado = 'inactivo' WHERE id = $id";
@@ -107,8 +108,8 @@ class usuariosModel extends query
         return $data;
     }
 
-    /*deleteUser: Hace la consulta SQL que traerá al usuario que posteriormente se eliminará*/
-    public function activarUsuario(int $id)
+    /*actUsuario: Hace la consulta SQL que traerá al usuario que posteriormente se cambiará su estado a activo*/
+    public function actUsuario(int $id)
     {
         $sql = "UPDATE usuario SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);

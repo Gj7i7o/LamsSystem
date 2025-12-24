@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function tablaMarcas() {
     try {
       const response = await fetch(
-        "http://localhost/LamsSystem/Marcas/listarActivas?page=" + paginaActual
+        "http://localhost/LamsSystem/marcas/listarActivas?page=" + paginaActual
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -130,7 +130,7 @@ function btnDesMarca(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Marcas/destroy/" + id;
+      const url = APP_URL + "marcas/desactivar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();
@@ -156,7 +156,7 @@ function btnActMarca(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Marcas/activar/" + id;
+      const url = APP_URL + "marcas/activar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

@@ -1,4 +1,4 @@
-/*Modal para registrar categoria*/
+/*Modal para registrar categoría*/
 // Obtener los elementos del DOM
 const modal = document.getElementById("modalCategoria");
 const btn = document.getElementById("registrarCategoria");
@@ -20,14 +20,14 @@ span.onclick = function () {
 function limpiarFormulario() {
   document.getElementById("id").value = "";
   document.getElementById("nombre").value = "";
-  document.getElementById("des").value = "";
+  document.getElementById("descripcion").value = "";
 }
 
 /*Botón de editar usuario*/
 function btnEditCategoria(id) {
   document.getElementById("title").innerHTML = "Actualizar Categoría";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Categorias/edit/" + id;
+  const url = APP_URL + "categorias/editar/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -36,7 +36,7 @@ function btnEditCategoria(id) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id").value = res.id;
       document.getElementById("nombre").value = res.nombre;
-      document.getElementById("des").value = res.descrip;
+      document.getElementById("descripcion").value = res.descrip;
       modal.style.display = "block";
     }
   };
@@ -46,15 +46,15 @@ function btnEditCategoria(id) {
 formularioCategoria.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
-  const name = document.getElementById("nombre");
-  const des = document.getElementById("des");
+  const nombre = document.getElementById("nombre");
+  const descripcion = document.getElementById("descripcion");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
-  if (name.value == "" || des.value == "") {
+  if (nombre.value == "" || descripcion.value == "") {
     alertas("Todos los campos SON obligatorios", "warning");
-  } else if (letras.test(name)) {
+  } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
   } else {
-    const url = APP_URL + "Categorias/store";
+    const url = APP_URL + "categorias/registrar";
     const frm = document.getElementById("formularioCategoria");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);

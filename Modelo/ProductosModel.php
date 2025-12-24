@@ -1,10 +1,11 @@
 <?php
 
-/*Modelo del Producto*/
+/*Modelo del Producto: Aquí se encuentran las consultas SQL 
+que se preparan para ser enviadas al controlador*/
 
 class productosModel extends query
 {
-    private $code, $name, $price, $idcat, $idmar, $id;
+    private $codigo, $nombre, $precio, $categoria, $marca, $id;
     public function __construct()
     {
         parent::__construct();
@@ -17,8 +18,8 @@ class productosModel extends query
         return count($data);
     }
 
-    /*getProduct: Toma todos los productos de la base de datos*/
-    public function getProduct(int $page = 0, $filters = [])
+    /*tomarProductos: Toma todos los productos de la base de datos y contiene la paginación*/
+    public function tomarProductos(int $page = 0, $filters = [])
     {
         $queryFilter = $this->getFilters($filters);
         $offset = ($page - 1) * 5;
@@ -42,19 +43,20 @@ class productosModel extends query
         return $filterConnect;
     }
 
-    /*storeProduct: Guarda el producto, y además verifica si el producto existe, en base al nombre, precio y stock ingresados*/
-    public function storeProduct(string $code, string $name, float $price, int $idcat, int $idmar)
+    /*regisProducto: Registra el producto, y además verifica si existe, en base al nombre y código ingresados, comparando
+    con la base de datos*/
+    public function regisProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca)
     {
-        $this->code = $code;
-        $this->name = $name;
-        $this->price = $price;
-        $this->idcat = $idcat;
-        $this->idmar = $idmar;
-        $verificar = "SELECT * FROM producto WHERE nombre = '$this->name' AND codigo = '$this->code'";
+        $this->codigo = $codigo;
+        $this->nombre = $nombre;
+        $this->precio = $precio;
+        $this->categoria = $categoria;
+        $this->marca = $marca;
+        $verificar = "SELECT * FROM producto WHERE nombre = '$this->nombre' AND codigo = '$this->codigo'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO producto (codigo, nombre, precio, idcategoria, idmarca, cantidad, estado) VALUES (?,?,?,?,?,0,'activo')";
-            $datos = array($this->code, $this->name, $this->price, $this->idcat, $this->idmar);
+            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -68,17 +70,17 @@ class productosModel extends query
         return $res;
     }
 
-    /*modifyProduct: Modifica el producto*/
-    public function modifyProduct(string $code, string $name, float $price, int $idcat, int $idmar, int $id)
+    /*modifProducto: Modifica el producto seleccionado acorde al id*/
+    public function modifProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $id)
     {
-        $this->code = $code;
-        $this->name = $name;
-        $this->price = $price;
-        $this->idcat = $idcat;
-        $this->idmar = $idmar;
+        $this->codigo = $codigo;
+        $this->nombre = $nombre;
+        $this->precio = $precio;
+        $this->categoria = $categoria;
+        $this->marca = $marca;
         $this->id = $id;
         $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ? WHERE id = ?";
-        $datos = array($this->code, $this->name, $this->price, $this->idcat, $this->idmar, $this->id);
+        $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";
@@ -88,18 +90,18 @@ class productosModel extends query
         return $res;
     }
 
-    /*editProduct: Hace la consulta SQL que traerá el producto que posteriormente se modificará*/
-    public function editProduct(int $id)
+    /*editarProducto: Hace la consulta SQL que traerá el producto que posteriormente se modificará*/
+    public function editarProducto(int $id)
     {
         $sql = "SELECT * FROM producto WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*deleteProduct: Hace la consulta SQL que traerá el producto que posteriormente se eliminará*/
-    public function deleteProduct(int $id)
+    /*desProducto: Hace la consulta SQL que traerá el producto acorde al id, y le cambia su estado a inactivo*/
+    public function desProducto(int $id)
     {
-        $sql = "UPDATE producto SET estado = 'Inactivo' WHERE id = $id";
+        $sql = "UPDATE producto SET estado = 'inactivo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

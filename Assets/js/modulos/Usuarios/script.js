@@ -19,9 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Función para obtener los datos del servidor
   async function tablaUsuarios() {
     try {
-      // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Usuarios/listarActivos?page=" +
+        "http://localhost/LamsSystem/usuarios/listarActivos?page=" +
           paginaActual
       );
 
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
       mostrarTabla();
     } catch (error) {
       console.error("No se pudo obtener la data:", error);
-      // Puedes mostrar un mensaje de error al usuario aquí
     }
   }
 
@@ -140,7 +138,7 @@ function btnDesUsuario(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Usuarios/desactivar/" + id;
+      const url = APP_URL + "usuarios/desactivar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();
@@ -166,7 +164,7 @@ function btnActUsuario(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Usuarios/activar/" + id;
+      const url = APP_URL + "usuarios/activar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

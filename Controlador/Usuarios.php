@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador del Usuario*/
+/*Controlador del Usuario: Aquí se llaman a los métodos del modelo y validan datos*/
 
 class usuarios extends controlador
 {
@@ -20,13 +20,13 @@ class usuarios extends controlador
         $this->vista->getView($this, "index");
     }
 
-    /*Listado: Se encarga de colocar los usuarios existentes en la base de datos 
-    y a su vez coloca en cada uno los botones de editar y eliminar*/
+    /*listarInactivos: Se encarga de colocar los usuarios existentes en la base de datos 
+    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listarInactivos()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getInaUsuarios($page);
+            $data = $this->model->tomarUsuariosIn($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -41,13 +41,13 @@ class usuarios extends controlador
         }
     }
 
-    /*Listado: Se encarga de colocar los usuarios existentes en la base de datos 
-    y a su vez coloca en cada uno los botones de editar y eliminar*/
+    /*listarActivos: Se encarga de colocar los usuarios existentes en la base de datos 
+    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listarActivos()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getActUsuarios($page);
+            $data = $this->model->tomarUsuariosAc($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -62,7 +62,7 @@ class usuarios extends controlador
         }
     }
 
-    /*Validación: Comprueba si el usuario y contraseña ingresados corresponde a algún usuario 
+    /*validar: Comprueba si el usuario y contraseña ingresados corresponden a algún usuario 
     existente en la base de datos, si no existe, no accede al sistema. Caso contrario accede*/
     public function validar()
     {
@@ -77,7 +77,7 @@ class usuarios extends controlador
             $usuario = $_POST['usuario'];
             $contrasena = $_POST['contrasena'];
             $hash = hash("SHA256", $contrasena);
-            $data = $this->model->getUser($usuario, $hash);
+            $data = $this->model->tomarUsuario($usuario, $hash);
             if ($data) {
                 $_SESSION['id_usuario'] = $data['id'];
                 $_SESSION['usuario'] = $data['usuario'];
@@ -94,46 +94,46 @@ class usuarios extends controlador
         die();
     }
 
-    /*Almacenaje: Se encarga de almacenar los datos de un nuevo usuario en la base de datos*/
-    public function store()
+    /*registrar: Se encarga de validar y registrar los datos de un nuevo usuario en la base de datos*/
+    public function registrar()
     {
-        $user = $_POST['usuario'];
-        $name = $_POST['nombre'];
-        $ape = $_POST['apellido'];
-        $email = $_POST['correo'];
+        $usuario = $_POST['usuario'];
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+        $correo = $_POST['correo'];
         $telef = $_POST['telef'];
-        $password = $_POST['password'];
+        $contrasena = $_POST['contrasena'];
         $id = $_POST['id'];
-        $hash = hash("SHA256", $password);
+        $hash = hash("SHA256", $contrasena);
         /*Patrones de validación*/
         $letras = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/";
         $pass = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/";
-        $correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+        $email = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
         $phone = "/^04(12|14|16|24|26)-\d{7}$/";
         if (
-            empty($user) ||
-            empty($name) ||
-            empty($ape) ||
-            empty($email) ||
+            empty($usuario) ||
+            empty($nombre) ||
+            empty($apellido) ||
+            empty($correo) ||
             empty($telef)
         ) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($letras, $name)) {
+                if (!preg_match($letras, $nombre)) {
                     $msg = array('msg' => 'No agregue caracteres indevidos en su nombre', 'icono' => 'warning');
-                } else if (!preg_match($letras, $ape)) {
+                } else if (!preg_match($letras, $apellido)) {
                     $msg = array('msg' => 'No agregue caracteres indevidos en su apellido', 'icono' => 'warning');
-                } else if (!preg_match($pass, $password)) {
+                } else if (!preg_match($pass, $contrasena)) {
                     $msg = array('msg' => 'La contraseña NO cumple con las especificaciones', 'icono' => 'warning');
-                } else if (!preg_match($correo, $email)) {
+                } else if (!preg_match($email, $correo)) {
                     $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
                 } else if (!preg_match($phone, $telef)) {
                     $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
-                    lleva los datos a la función storeUser en el Models/UsuariosModel.php*/
-                    $data = $this->model->storeUser($user, $name, $ape, $email, $telef, $hash);
+                    lleva los datos a la función regisUsuario en el modelo/usuariosModel.php*/
+                    $data = $this->model->regisUsuario($usuario, $nombre, $apellido, $correo, $telef, $hash);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Usuario Registrado', 'icono' => 'success');
                     } else if ($data == "existe") {
@@ -144,8 +144,8 @@ class usuarios extends controlador
                 }
             } else {
                 /*Caso contrario, si el usuario existe, se interpreta que se desea modificar ese usuario,
-                por ende lleva los datos a la función modifyUsers en el Models/UsuariosModel.php*/
-                $data = $this->model->modifyUsers($user, $name, $ape, $email, $telef, $id);
+                por ende lleva los datos a la función modifUsuario en el modelo/usuariosModel.php*/
+                $data = $this->model->modifUsuario($usuario, $nombre, $apellido, $correo, $telef, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
                 } else {
@@ -157,15 +157,16 @@ class usuarios extends controlador
         die();
     }
 
-    /*Editar: Envía a la función editUser del Models/UsuariosModel.php con el id correspondiente*/
-    public function edit(int $id)
+    /*editar: Envía a la función editarUsuario del modelo/usuariosModel.php con el id correspondiente*/
+    public function editar(int $id)
     {
-        $data = $this->model->editUser($id);
+        $data = $this->model->editarUsuario($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
-    /*Eliminar: Envía a la función deleteUser del Models/UsuariosModel.php con el id correspondiente*/
+    /*desactivar: Envía a la función desUsuario del modelo/usuariosModel.php con el id correspondiente
+    además compara si ese id es igual al id del usuario activo, para evitar borrar su propio usuario*/
     public function desactivar(int $id)
     {
         if ($_SESSION['id_usuario'] == $id) {
@@ -184,10 +185,10 @@ class usuarios extends controlador
         die();
     }
 
-    /*Eliminar: Envía a la función deleteUser del Models/UsuariosModel.php con el id correspondiente*/
+    /*activar: Envía a la función actUsuario del modelo/usuariosModel.php con el id correspondiente*/
     public function activar(int $id)
     {
-        $data = $this->model->activarUsuario($id);
+        $data = $this->model->actUsuario($id);
         if ($data == 1) {
             $msg = array('msg' => 'Error al activar el Usuario', 'icono' => 'error');
         } else {
@@ -198,7 +199,7 @@ class usuarios extends controlador
         die();
     }
 
-    /*Salida: Cierra la sesión si el usuario preciona el botón de salir en el Dashboard*/
+    /*logout: Cierra la sesión si el usuario preciona el botón de salir en el Dashboard*/
     public function logout()
     {
         session_destroy();

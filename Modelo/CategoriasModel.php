@@ -1,10 +1,11 @@
 <?php
 
-/*Modelo de la Categoría*/
+/*Modelo de la categoría: Aquí se encuentran las consultas SQL 
+que se preparan para ser enviadas al controlador*/
 
 class categoriasModel extends query
 {
-    private $name, $des, $id;
+    private $nombre, $descripcion, $id;
     public function __construct()
     {
         parent::__construct();
@@ -12,13 +13,22 @@ class categoriasModel extends query
 
     public function getCount()
     {
-        $sql = "SELECT * FROM categoria";
+        $sql = "SELECT * FROM categoria WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getActCategoria(int $page = 0)
+    /*tomarCategoriaIn: Toma todas las categorías de la base de datos que tengan el estado inactivo*/
+    public function tomarCategoriaIn(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'inactivo'" : "SELECT * FROM categoria WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*tomarCategoriaAc: Toma todas las categorías de la base de datos que tengan el estado activo*/
+    public function tomarCategoriaAc(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'activo'" : "SELECT * FROM categoria WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
@@ -26,25 +36,17 @@ class categoriasModel extends query
         return $data;
     }
 
-    /*getCategory: Toma todas las categorías de la base de datos*/
-    public function getInaCategoria(int $page = 0)
+    /*regisProveedor: Guarda la categoría, y además verifica si la categoría existe,
+    en base al nombre ingresado, comparando con la base de datos*/
+    public function regisCategoria(string $nombre, string $descripcion)
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'Inactivo'" : "SELECT * FROM categoria WHERE estado = 'Inactivo' LIMIT 5 OFFSET $offset";
-        $data = $this->selectAll($sql);
-        return $data;
-    }
-
-    /*storeCategory: Guarda la categoría, y además verifica si la categoría existe, en base al nombre ingresado*/
-    public function storeCategory(string $name, string $des)
-    {
-        $this->name = $name;
-        $this->des = $des;
-        $verificar = "SELECT * FROM categoria WHERE nombre = '$this->name'";
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
+        $verificar = "SELECT * FROM categoria WHERE nombre = '$this->nombre'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO categoria (nombre, descrip, estado) VALUES (?,?,'activo')";
-            $datos = array($this->name, $this->des);
+            $datos = array($this->nombre, $this->descripcion);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -58,14 +60,14 @@ class categoriasModel extends query
         return $res;
     }
 
-    /*modifyCategory: Modifica la categoría*/
-    public function modifyCategory(string $name, string $des, int $id)
+    /*modifCategoria: Modifica la categoría seleccionada acorde al id*/
+    public function modifCategoria(string $nombre, string $descripcion, int $id)
     {
-        $this->name = $name;
-        $this->des = $des;
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
         $this->id = $id;
         $sql = "UPDATE categoria SET nombre = ?, descrip = ? WHERE id = ?";
-        $datos = array($this->name, $this->des, $this->id);
+        $datos = array($this->nombre, $this->descripcion, $this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";
@@ -75,24 +77,24 @@ class categoriasModel extends query
         return $res;
     }
 
-    /*editCategory: Hace la consulta SQL que traerá la categoría que posteriormente se modificará*/
-    public function editCategory(int $id)
+    /*editarCategoria: Hace la consulta SQL que traerá la categoría que posteriormente se modificará*/
+    public function editarCategoria(int $id)
     {
         $sql = "SELECT * FROM categoria WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*deleteCategory: Hace la consulta SQL que traerá la categoría que posteriormente se eliminará*/
-    public function deleteCategory(int $id)
+    /*desCategoria: Hace la consulta SQL que traerá la categoría que posteriormente se cambiará su estado a inactivo*/
+    public function desCategoria(int $id)
     {
         $sql = "UPDATE categoria SET estado = 'inactivo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*deleteCategory: Hace la consulta SQL que traerá la categoría que posteriormente se eliminará*/
-    public function activarCategoria(int $id)
+    /*actCategoria: Hace la consulta SQL que traerá la categoría que posteriormente se cambiará su estado a activo*/
+    public function actCategoria(int $id)
     {
         $sql = "UPDATE categoria SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);

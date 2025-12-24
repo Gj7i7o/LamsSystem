@@ -1,6 +1,6 @@
 async function getListadoCategoria() {
   const response = await fetch(
-    "http://localhost/LamsSystem/Categorias/getSelect"
+    "http://localhost/LamsSystem/categorias/getSelect"
   );
   const { data: opciones } = await response.json();
   const select = document.getElementById("categoria");
@@ -14,7 +14,7 @@ async function getListadoCategoria() {
 }
 
 async function getListadoMarca() {
-  const response = await fetch("http://localhost/LamsSystem/Marcas/getSelect");
+  const response = await fetch("http://localhost/LamsSystem/marcas/getSelect");
   const { data: opciones } = await response.json();
   const select = document.getElementById("marca");
   let opcionesHtml = `<option value="">Selecciones...</option>`;
@@ -54,11 +54,11 @@ function limpiarFormulario() {
   document.getElementById("precio").value = "";
 }
 
-/*Botón de editar categoria*/
+/*Botón de modificar producto*/
 function btnEditProducto(id) {
   document.getElementById("title").innerHTML = "Actualizar Producto";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Productos/edit/" + id;
+  const url = APP_URL + "productos/editar/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -96,7 +96,7 @@ formularioProducto.addEventListener("submit", function (event) {
   ) {
     alertas("Todos los campos son obligatorios", "warning");
   } else {
-    const url = APP_URL + "Productos/store";
+    const url = APP_URL + "productos/registrar";
     const frm = document.getElementById("formularioProducto");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);

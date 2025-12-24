@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Proveedores/listarActivos?page=" +
+        "http://localhost/LamsSystem/proveedores/listarActivos?page=" +
           currentPage
       );
 
@@ -138,7 +138,7 @@ function btnDesProveedor(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Proveedores/destroy/" + id;
+      const url = APP_URL + "proveedores/desactivar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();
@@ -164,7 +164,7 @@ function btnActProveedor(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Proveedores/activar/" + id;
+      const url = APP_URL + "proveedores/activar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

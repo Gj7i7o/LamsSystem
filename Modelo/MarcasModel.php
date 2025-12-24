@@ -1,10 +1,11 @@
 <?php
 
-/*Modelo de la Marca*/
+/*Modelo de la marca: Aquí se encuentran las consultas SQL 
+que se preparan para ser enviadas al controlador*/
 
 class marcasModel extends query
 {
-    private $name, $id;
+    private $nombre, $id;
     public function __construct()
     {
         parent::__construct();
@@ -12,13 +13,13 @@ class marcasModel extends query
 
     public function getCount()
     {
-        $sql = "SELECT * FROM marca";
+        $sql = "SELECT * FROM marca WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*getMarca: Toma todas las marcas de la base de datos*/
-    public function getInMarca(int $page = 0)
+    /*tomarMarcaIn: Toma todas las marcas de la base de datos que tengan el estado inactivo*/
+    public function tomarMarcaIn(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'inactivo'" : "SELECT * FROM marca WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
@@ -26,8 +27,8 @@ class marcasModel extends query
         return $data;
     }
 
-    /*getMarca: Toma todas las marcas de la base de datos*/
-    public function getAcMarca(int $page = 0)
+    /*tomarMarcaAc: Toma todas las marcas de la base de datos que tengan el estado activo*/
+    public function tomarMarcaAc(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'activo'" : "SELECT * FROM marca WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
@@ -35,15 +36,16 @@ class marcasModel extends query
         return $data;
     }
 
-    /*storeMarca: Guarda la marca, y además verifica si la marca existe, en base al nombre ingresado*/
-    public function storeMarca(string $name)
+    /*regisProveedor: Guarda la marca, y además verifica si la marca existe,
+    en base al nombre ingresado, comparando con la base de datos*/
+    public function regisMarca(string $nombre)
     {
-        $this->name = $name;
-        $verificar = "SELECT * FROM marca WHERE nombre = '$this->name'";
+        $this->nombre = $nombre;
+        $verificar = "SELECT * FROM marca WHERE nombre = '$this->nombre'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO marca (nombre, estado) VALUES (?,'activo')";
-            $datos = array($this->name);
+            $datos = array($this->nombre);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -57,13 +59,13 @@ class marcasModel extends query
         return $res;
     }
 
-    /*modifyMarca: Modifica la marca*/
-    public function modifyMarca(string $name, int $id)
+    /*modifMarca: Modifica la marca seleccionada acorde al id*/
+    public function modifMarca(string $nombre, int $id)
     {
-        $this->name = $name;
+        $this->nombre = $nombre;
         $this->id = $id;
         $sql = "UPDATE marca SET nombre = ? WHERE id = ?";
-        $datos = array($this->name, $this->id);
+        $datos = array($this->nombre, $this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";
@@ -73,16 +75,16 @@ class marcasModel extends query
         return $res;
     }
 
-    /*editMarca: Hace la consulta SQL que traerá la marca que posteriormente se modificará*/
-    public function editMarca(int $id)
+    /*editarMarca: Hace la consulta SQL que traerá la marca que posteriormente se modificará*/
+    public function editarMarca(int $id)
     {
         $sql = "SELECT * FROM marca WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    /*deleteMarca: Hace la consulta SQL que traerá la marca que posteriormente se eliminará*/
-    public function deleteMarca(int $id)
+    /*desMarca: Hace la consulta SQL que traerá la marca que posteriormente se cambiará su estado a inactivo*/
+    public function desMarca(int $id)
     {
         $sql = "UPDATE marca SET estado = 'inactivo' WHERE id = $id";
         $data = $this->select($sql);
@@ -90,8 +92,8 @@ class marcasModel extends query
     }
 
 
-    /*activarMarca: Hace la consulta SQL que traerá la marca que posteriormente se eliminará*/
-    public function activarMarca(int $id)
+    /*actMarca: Hace la consulta SQL que traerá la marca que posteriormente se cambiará su estado a activo*/
+    public function actMarca(int $id)
     {
         $sql = "UPDATE marca SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);

@@ -1,9 +1,9 @@
 /*
-Script de Categorias: Sección de JavaScript propio para las funciones del módulo
-de categorias. 
+Script de Categorías: Sección de JavaScript propio para las funciones del módulo
+de categorías. 
 */
 
-//Tabla Categorias
+//Tabla Categorías
 document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.querySelector("#TablaCategorias tbody");
   const headers = document.querySelectorAll("#TablaCategorias th");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Categorias/listarActivas?page=" +
+        "http://localhost/LamsSystem/categorias/listarActivas?page=" +
           currentPage
       );
 
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchDataAndRenderTable();
 });
 
-/*Botón para desactivar categorias*/
+/*Botón para desactivar categorías*/
 function btnDesCategoria(id) {
   Swal.fire({
     title: "Está seguro de desactivar la categoría?",
@@ -137,7 +137,7 @@ function btnDesCategoria(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Categorias/destroy/" + id;
+      const url = APP_URL + "categorias/desactivar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();
@@ -151,7 +151,7 @@ function btnDesCategoria(id) {
   });
 }
 
-/*Botón para desactivar categorias*/
+/*Botón para activar categorías*/
 function btnActCategoria(id) {
   Swal.fire({
     title: "Activar categoría?",
@@ -163,7 +163,7 @@ function btnActCategoria(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Categorias/activar/" + id;
+      const url = APP_URL + "categorias/activar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

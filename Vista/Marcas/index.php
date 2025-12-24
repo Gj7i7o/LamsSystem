@@ -14,7 +14,7 @@ include "vista/componentes/header.php";
     <section class="main-course">
         <div class="course-box">
             <!-- Botón de registrar -->
-            <button class="button" type="button" id="registrarMarca" title="Crear categoria"><i class="fas fa-plus"></i></button>
+            <button class="button" type="button" id="registrarMarca" title="Registrar"><i class="fas fa-plus"></i></button>
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass">
                 </i><input type="text" name="" id="">

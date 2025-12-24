@@ -12,7 +12,7 @@ include "vista/componentes/header.php";
     <!-- Tabla de Proveedores -->
     <section class="main-course">
         <div class="course-box">
-            <button class="button" type="button" id="registrarProveedor" title="Crear Producto"><i class="fas fa-plus"></i></button>
+            <button class="button" type="button" id="registrarProveedor" title="Registrar"><i class="fas fa-plus"></i></button>
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass">
                 </i><input type="text" name="" id="">
@@ -63,8 +63,8 @@ include "vista/componentes/header.php";
                 <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
             </div>
             <div class="form-group">
-                <label for="dir">Dirección:</label>
-                <input type="text" id="dir" name="dir" placeholder="Calle Acosta casa Nº..." required>
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Calle Acosta casa Nº..." required>
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->

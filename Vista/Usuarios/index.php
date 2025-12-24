@@ -13,7 +13,7 @@ include "vista/componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
-            <button class="button" type="button" id="registrarUsuario" title="Crear Usuario"><i class="fas fa-plus"></i></button>
+            <button class="button" type="button" id="registrarUsuario" title="Registrar"><i class="fas fa-plus"></i></button>
             <div class="buscador">
                 <i class="fa-solid fa-magnifying-glass">
                 </i><input type="text" name="" id="">
@@ -45,6 +45,7 @@ include "vista/componentes/header.php";
     </section>
 </section>
 
+<!-- Modal -->
 <div id="modalUsuario" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
@@ -76,8 +77,8 @@ include "vista/componentes/header.php";
             <div id="passwords">
                 <div>
                     <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" id="password" name="password" placeholder="Pedro*15">
+                        <label for="contrasena">Contraseña:</label>
+                        <input type="password" id="contrasena" name="contrasena" placeholder="Pedro*15">
                     </div>
                 </div>
                 <div>

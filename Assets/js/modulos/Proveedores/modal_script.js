@@ -22,14 +22,14 @@ function limpiarFormulario() {
   document.getElementById("rif").value = "";
   document.getElementById("nombre").value = "";
   document.getElementById("apellido").value = "";
-  document.getElementById("dir").value = "";
+  document.getElementById("direccion").value = "";
 }
 
-/*Botón de editar usuario*/
+/*Botón de modificar proveedor*/
 function btnEditProveedor(id) {
   document.getElementById("title").innerHTML = "Actualizar Proveedor";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Proveedores/edit/" + id;
+  const url = APP_URL + "proveedores/editar/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -40,7 +40,7 @@ function btnEditProveedor(id) {
       document.getElementById("rif").value = res.rif;
       document.getElementById("nombre").value = res.nombre;
       document.getElementById("apellido").value = res.apellido;
-      document.getElementById("dir").value = res.direccion;
+      document.getElementById("direccion").value = res.direccion;
       modal.style.display = "block";
     }
   };
@@ -53,16 +53,16 @@ formularioProveedor.addEventListener("submit", function (event) {
   const rif = document.getElementById("rif");
   const nombre = document.getElementById("nombre");
   const apellido = document.getElementById("apellido");
-  const dir = document.getElementById("dir");
+  const direccion = document.getElementById("direccion");
   if (
     rif.value == "" ||
     nombre.value == "" ||
     apellido.value == "" ||
-    dir.value == ""
+    direccion.value == ""
   ) {
     alertas("Todos los campos son obligatorios", "warning");
   } else {
-    const url = APP_URL + "Proveedores/store";
+    const url = APP_URL + "proveedores/registrar";
     const frm = document.getElementById("formularioProveedor");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);

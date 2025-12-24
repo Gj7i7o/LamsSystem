@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador Dashboard*/
+/*Controlador Dashboard: Aquí se llaman a los métodos del modelo*/
 
 class dashboard extends controlador
 {

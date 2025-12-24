@@ -24,7 +24,7 @@ function limpiarFormulario() {
   document.getElementById("apellido").value = "";
   document.getElementById("correo").value = "";
   document.getElementById("telef").value = "";
-  document.getElementById("password").value = "";
+  document.getElementById("contrasena").value = "";
   document.getElementById("confirm").value = "";
 }
 
@@ -32,7 +32,7 @@ function limpiarFormulario() {
 function btnEditUsuario(id) {
   document.getElementById("title").innerHTML = "Actualizar Usuario";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Usuarios/edit/" + id;
+  const url = APP_URL + "usuarios/editar/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -45,7 +45,6 @@ function btnEditUsuario(id) {
       document.getElementById("apellido").value = res.apellido;
       document.getElementById("correo").value = res.correo;
       document.getElementById("telef").value = res.telef;
-      //   document.getElementById("password").classList.add("d-none");
       modal.style.display = "block";
     }
   };
@@ -55,37 +54,37 @@ function btnEditUsuario(id) {
 formularioUsuario.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
-  const user = document.getElementById("usuario");
-  const name = document.getElementById("nombre");
-  const ape = document.getElementById("apellido");
-  const email = document.getElementById("correo");
+  const usuario = document.getElementById("usuario");
+  const nombre = document.getElementById("nombre");
+  const apellido = document.getElementById("apellido");
+  const correo = document.getElementById("correo");
   const telef = document.getElementById("telef");
-  const password = document.getElementById("password");
+  const contrasena = document.getElementById("contrasena");
   const confirm = document.getElementById("confirm");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
   let pass =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/;
-  let correo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (
-    user.value == "" ||
-    name.value == "" ||
-    ape.value == "" ||
-    email.value == "" ||
+    usuario.value == "" ||
+    nombre.value == "" ||
+    apellido.value == "" ||
+    correo.value == "" ||
     telef.value == ""
   ) {
     alertas("Todos los campos SON obligatorios", "warning");
-  } else if (password.value != confirm.value) {
+  } else if (contrasena.value != confirm.value) {
     alertas("Las contraseñas no coinciden", "warning");
-  } else if (letras.test(name)) {
+  } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en su nombre", "warning");
-  } else if (letras.test(ape)) {
+  } else if (letras.test(apellido)) {
     alertas("No agregue caracteres indevidos en su apellido", "warning");
-  } else if (pass.test(password)) {
+  } else if (pass.test(contrasena)) {
     alertas("La contraseña NO cumple con las especificaciones", "warning");
-  } else if (correo.test(email)) {
+  } else if (email.test(correo)) {
     alertas("Escriba correctamente el correo", "warning");
   } else {
-    const url = APP_URL + "Usuarios/store";
+    const url = APP_URL + "usuarios/registrar";
     const frm = document.getElementById("formularioUsuario");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);

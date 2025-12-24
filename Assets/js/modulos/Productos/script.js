@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/Productos/list?page=" + currentPage
+        "http://localhost/LamsSystem/productos/listar?page=" + currentPage
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchDataAndRenderTable();
 });
 
-/*Botón para desactivar proveedores*/
+/*Botón para desactivar productos*/
 function btnDesProducto(id) {
   Swal.fire({
     title: "Está seguro de desactivar el producto?",
@@ -139,7 +139,7 @@ function btnDesProducto(id) {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
-      const url = APP_URL + "Productos/destroy/" + id;
+      const url = APP_URL + "productos/desactivar/" + id;
       const http = new XMLHttpRequest();
       http.open("GET", url, true);
       http.send();

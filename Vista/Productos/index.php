@@ -16,7 +16,7 @@ include "vista/componentes/header.php";
             <div class="opciones">
                 <div class="filtros">
                     <!-- Botón de registrar -->
-                    <button class="button" type="button" id="registrarProducto" title="Crear Producto"><i class="fas fa-plus"></i></button>
+                    <button class="button" type="button" id="registrarProducto" title="Registrar"><i class="fas fa-plus"></i></button>
                     <!-- <button type="button" class="button"><i class="fa-solid fa-magnifying-glass"></i></button> -->
                     <select id="estado" name="estado">
                         <option value="activo">Activos</option>

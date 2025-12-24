@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador del Producto*/
+/*Controlador del Producto: Aquí se llaman a los métodos del modelo y validan datos*/
 
 class productos extends controlador
 {
@@ -23,7 +23,7 @@ class productos extends controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getProduct();
+        $data = $this->model->tomarProductos();
         foreach ($data as $producto) {
             $result[] = ['id' => $producto['id'], 'etiqueta' => $producto['nombre']];
         }
@@ -31,15 +31,15 @@ class productos extends controlador
         die();
     }
 
-    /*Listado: Se encarga de colocar los productos existentes en la base de datos 
-    y a su vez coloca en cada uno los botones de editar y eliminar*/
-    public function list()
+    /*Listar: Se encarga de colocar los productos existentes en la base de datos 
+    y a su vez coloca en cada uno los botones de modificar y cambiar estado, además de la paginación de la tabla*/
+    public function listar()
     {
         try {
             $estado = $_GET["estado"] ?? "";
             $filters = ["estado" => $estado];
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getProduct($page, $filters);
+            $data = $this->model->tomarProductos($page, $filters);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -54,32 +54,32 @@ class productos extends controlador
         }
     }
 
-    /*Almacenaje: Se encarga de almacenar los datos de un nuevo producto en la base de datos*/
-    public function store()
+    /*registrar: Se encarga de validar y registrar los datos de un nuevo producto en la base de datos*/
+    public function registrar()
     {
-        $code = $_POST['codigo'];
-        $name = $_POST['nombre'];
-        $price = $_POST['precio'];
-        $idcat = $_POST['categoria'];
-        $idmar = $_POST['marca'];
+        $codigo = $_POST['codigo'];
+        $nombre = $_POST['nombre'];
+        $precio = $_POST['precio'];
+        $categoria = $_POST['categoria'];
+        $marca = $_POST['marca'];
         $id = $_POST['id'];
         $numeros = "/^\d+(\.\d{1,2})?$/";
         if (
-            empty($code) ||
-            empty($name) ||
-            empty($price) ||
-            empty($idcat) ||
-            empty($idmar)
+            empty($codigo) ||
+            empty($nombre) ||
+            empty($precio) ||
+            empty($categoria) ||
+            empty($marca)
         ) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($numeros, $price)) {
+                if (!preg_match($numeros, $precio)) {
                     $msg = array('msg' => 'Solo números en el precio', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el producto no existe, se interpreta como uno nuevo, por ende
-                    lleva los datos a la función storeProduct en el Models/ProductosModel.php*/
-                    $data = $this->model->storeProduct($code, $name, $price, $idcat, $idmar);
+                    lleva los datos a la función regisProducto en el modelo/productosModel.php*/
+                    $data = $this->model->regisProducto($codigo, $nombre, $precio, $categoria, $marca);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Producto Registrado', 'icono' => 'success');
                     } else if ($data == "existe") {
@@ -90,8 +90,8 @@ class productos extends controlador
                 }
             } else {
                 /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
-                por ende lleva los datos a la función modifyProduct en el Models/ProductosModel.php*/
-                $data = $this->model->modifyProduct($code, $name, $price, $idcat, $idmar, $id);
+                por ende lleva los datos a la función modifProducto en el modelo/productosModel.php*/
+                $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
                 } else {
@@ -103,18 +103,18 @@ class productos extends controlador
         die();
     }
 
-    /*Editar: Envía a la función editProduct del Models/ProductosModel.php con el id correspondiente*/
-    public function edit(int $id)
+    /*editar: Envía a la función editarProducto del modelo/productosModel.php con el id correspondiente*/
+    public function editar(int $id)
     {
-        $data = $this->model->editProduct($id);
+        $data = $this->model->editarProducto($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
-    /*Eliminar: Envía a la función deleteProduct del Models/ProductosModel.php con el id correspondiente*/
-    public function destroy(int $id)
+    /*desactivar: Envía a la función desProducto del modelo/productosModel.php con el id correspondiente*/
+    public function desactivar(int $id)
     {
-        $data = $this->model->deleteProduct($id);
+        $data = $this->model->desProducto($id);
         if ($data == 1) {
             $msg = array('msg' => 'Error al desactivar el producto', 'icono' => 'error');
         } else {

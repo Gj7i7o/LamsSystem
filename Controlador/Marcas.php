@@ -1,6 +1,6 @@
 <?php
 
-/*Controlador de la Marca*/
+/*Controlador de la Marca: Aquí se llaman a los métodos del modelo y validan datos*/
 
 class marcas extends controlador
 {
@@ -23,7 +23,7 @@ class marcas extends controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->getAcMarca();
+        $data = $this->model->tomarMarcaAc();
         foreach ($data as $marca) {
             $result[] = ['id' => $marca['id'], 'etiqueta' => $marca['nombre']];
         }
@@ -31,13 +31,13 @@ class marcas extends controlador
         die();
     }
 
-    /*Listado: Se encarga de colocar las marcas existentes en la base de datos 
-    y a su vez coloca en cada una los botones de editar y eliminar*/
+    /*listarInactivas: Se encarga de colocar las marcas existentes en la base de datos 
+    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listarInactivas()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getInMarca($page);
+            $data = $this->model->tomarMarcaIn($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -52,13 +52,13 @@ class marcas extends controlador
         }
     }
 
-    /*Listado: Se encarga de colocar las marcas existentes en la base de datos 
-    y a su vez coloca en cada una los botones de editar y eliminar*/
+    /*listarActivas: Se encarga de colocar las marcas existentes en la base de datos 
+    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listarActivas()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getAcMarca($page);
+            $data = $this->model->tomarMarcaAc($page);
             $total = $this->model->getCount();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
@@ -73,23 +73,23 @@ class marcas extends controlador
         }
     }
 
-    /*Almacenaje: Se encarga de almacenar los datos de una nueva marca en la base de datos*/
-    public function store()
+    /*registrar: Se encarga de validar y registrar los datos de una nueva marca en la base de datos*/
+    public function registrar()
     {
-        $name = $_POST['nombre'];
+        $nombre = $_POST['nombre'];
         $id = $_POST['id'];
         /*Patrones de validación*/
         $letrasNumeros = "/^[a-zA-Z0-9\s'-]+$/";
-        if (empty($name)) {
+        if (empty($nombre)) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($letrasNumeros, $name)) {
+                if (!preg_match($letrasNumeros, $nombre)) {
                     $msg = array('msg' => 'No agrege caracteres indevidos en el nombre', 'icono' => 'warning');
                 } else {
-                    /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
-                    lleva los datos a la función storeUser en el Models/UsuariosModel.php*/
-                    $data = $this->model->storeMarca($name);
+                    /*Tras las validaciones, si la marca no existe, se interpreta como una nueva, por ende
+                    lleva los datos a la función regisMarca en el modelo/marcasModel.php*/
+                    $data = $this->model->regisMarca($nombre);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Marca Registrada', 'icono' => 'success');
                     } else if ($data == "existe") {
@@ -100,8 +100,8 @@ class marcas extends controlador
                 }
             } else {
                 /*Caso contrario, si la marca existe, se interpreta que se desea modificar esa marca,
-                por ende lleva los datos a la función modifyMarca en el Models/MarcasModel.php*/
-                $data = $this->model->modifyMarca($name, $id);
+                por ende lleva los datos a la función modifMarca en el modelo/marcasModel.php*/
+                $data = $this->model->modifMarca($nombre, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Marca modificada', 'icono' => 'success');
                 } else {
@@ -113,18 +113,18 @@ class marcas extends controlador
         die();
     }
 
-    /*Editar: Envía a la función editMarca del Models/MarcasModel.php con el id correspondiente*/
-    public function edit(int $id)
+    /*editar: Envía a la función editarMarca del modelo/marcasModel.php con el id correspondiente*/
+    public function editar(int $id)
     {
-        $data = $this->model->editMarca($id);
+        $data = $this->model->editarMarca($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
-    /*Eliminar: Envía a la función deleteMarca del Models/MarcasModel.php con el id correspondiente*/
-    public function destroy(int $id)
+    /*desactivar: Envía a la función desMarca del modelo/marcasModel.php con el id correspondiente*/
+    public function desactivar(int $id)
     {
-        $data = $this->model->deleteMarca($id);
+        $data = $this->model->desMarca($id);
         if ($data == 1) {
             $msg = array('msg' => 'Error al desactivar la marca', 'icono' => 'error');
         } else {
@@ -134,10 +134,10 @@ class marcas extends controlador
         die();
     }
 
-    /*activar: Envía a la función deleteMarca del Models/MarcasModel.php con el id correspondiente*/
+    /*activar: Envía a la función actMarca del modelo/marcasModel.php con el id correspondiente*/
     public function activar(int $id)
     {
-        $data = $this->model->activarMarca($id);
+        $data = $this->model->actMarca($id);
         if ($data == 1) {
             $msg = array('msg' => 'Error al activar la marca', 'icono' => 'error');
         } else {

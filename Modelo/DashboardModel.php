@@ -1,6 +1,7 @@
 <?php
 
-/*Modelo del Dashboard*/
+/*Modelo del Dashboard: Aquí se encuentran las consultas SQL 
+que se preparan para ser enviadas al controlador*/
 
 class dashboardModel extends query
 {
@@ -9,7 +10,8 @@ class dashboardModel extends query
         parent::__construct();
     }
 
-    /*getDate: Selecciona una tabla y obtiene el total de objetos/items que poseé*/
+    /*getDate: Selecciona una tabla y obtiene el total de objetos/items que poseé
+    cuyo estado sea activo*/
     public function getDate(string $table)
     {
         $sql = "SELECT COUNT(*) AS total FROM $table WHERE estado = 'activo'";

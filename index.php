@@ -11,7 +11,14 @@ if (!empty($array[1])) {
         $metodo = $array[1];
     }
 }
-
+if (!empty($array[2])) {
+    if (!empty($array[2] != "")) {
+        for ($i = 2; $i < count($array); $i++) {
+            $parametro .= $array[$i] . ",";
+        }
+        $parametro = trim($parametro, ",");
+    }
+}
 /* Enrutamiento si el controlador existe */
 require_once "config/app/autoload.php";
 $dirControllers = "controlador/" . $controller . ".php";

@@ -10,7 +10,7 @@ let opcionesProducto = "";
 let idx = 0;
 const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     <div>
-                      <input type="number" name="lines[${idx}][id]" id="id" hidden="true">
+                      <input type="number" name="lines[${idx}][id]" hidden="true">
                       <label for="producto">Producto</label>
                       <select name="lines[${idx}][producto]" id="producto" class="input_form_select">
                         ${opcionesProducto}
@@ -34,7 +34,7 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     </div>`;
 
 const newFormLine = (index) => `<div>
-                      <input type="number" name="lines[${index}][id]" id="id" hidden="true">
+                      <input type="number" name="lines[${index}][id]" hidden="true">
                       <label for="producto">Producto</label>
                       <select name="lines[${index}][producto]" id="producto" class="input_form_select">
                         ${opcionesProducto}

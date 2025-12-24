@@ -26,7 +26,7 @@ function limpiarFormulario() {
 function btnEditMarca(id) {
   document.getElementById("title").innerHTML = "Actualizar Marca";
   document.getElementById("btnAccion").innerHTML = "Modificar";
-  const url = APP_URL + "Marcas/edit/" + id;
+  const url = APP_URL + "marcas/editar/" + id;
   const http = new XMLHttpRequest();
   http.open("GET", url, true);
   http.send();
@@ -44,14 +44,14 @@ function btnEditMarca(id) {
 formularioMarca.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
-  const name = document.getElementById("nombre");
+  const nombre = document.getElementById("nombre");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
   if (name.value == "") {
     alertas("Todos los campos SON obligatorios", "warning");
-  } else if (letras.test(name)) {
+  } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
   } else {
-    const url = APP_URL + "Marcas/store";
+    const url = APP_URL + "marcas/registrar";
     const frm = document.getElementById("formularioMarca");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
