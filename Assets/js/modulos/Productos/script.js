@@ -1,9 +1,9 @@
 /*
-Script de productos: Sección de JavaScript propio para las funciones del módulo
-de productos. 
+Script de Producto: Sección de JavaScript propio para las funciones del módulo
+de producto. 
 */
 
-//Tabla Productos
+//Tabla Producto
 document.addEventListener("DOMContentLoaded", () => {
   const tableBody = document.querySelector("#TablaProductos tbody");
   const headers = document.querySelectorAll("#TablaProductos th");
@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
-        "http://localhost/LamsSystem/productos/listar?page=" + currentPage
+        "http://localhost/LamsSystem/productos/listarActivos?page=" +
+          currentPage,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="8">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -147,6 +148,34 @@ function btnDesProducto(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
+        }
+      };
+    }
+  });
+}
+
+/*Botón para activar productos*/
+function btnActProducto(id) {
+  Swal.fire({
+    title: "Activar producto?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "productos/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }

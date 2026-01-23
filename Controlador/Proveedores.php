@@ -38,7 +38,7 @@ class proveedores extends controlador
         try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->tomarProveedoresIn($page);
-            $total = $this->model->getCount();
+            $total = $this->model->getCountIn();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -59,7 +59,7 @@ class proveedores extends controlador
         try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->tomarProveedoresAc($page);
-            $total = $this->model->getCount();
+            $total = $this->model->getCountAc();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>

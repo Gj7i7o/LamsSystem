@@ -10,21 +10,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const pageInfo = document.getElementById("pageInfo");
+  // const estado = document.getElementById("estado");
 
   let currentPage = 1;
   const rowsPerPage = 5;
   let currentData = [];
   let currentTotal = 0;
 
-  // 2. Función para obtener los datos del servidor
   async function fetchDataAndRenderTable() {
     try {
-      // Reemplaza '/api/productos' con la URL real de tu backend
-      const response = await fetch(
-        "http://localhost/LamsSystem/categorias/listarActivas?page=" +
-          currentPage
-      );
+      // Supongamos que 'estadoSeleccionado' es el valor de tu <select> ("activo" o "inactivo")
+      // let endpoint =
+      //   estado.value === "activo" ? "listarActivas" : "listarInactivas";
 
+      // // Construimos la URL dinámicamente
+      // const url =
+      //   `http://localhost/LamsSystem/categorias/${endpoint}?page=` +
+      //   currentPage;
+
+      // const response = await fetch(url);
+
+      let estado = document.getElementById("estado");
+      let query = document.getElementById("query");
+      // Construir la URL con query parameters
+      const params = new URLSearchParams({
+        page: currentPage,
+        query: query?.value,
+        estado: estado?.value,
+      });
+
+      const url = `http://localhost/LamsSystem/categorias/listarActivas?${params}`;
+
+      // Realizar la petición GET
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // const response = await fetch(
+      //   "http://localhost/LamsSystem/categorias/listarActivas?page=" +
+      //     currentPage
+      // );
       // Si la respuesta no es exitosa, lanza un error
       if (response.error) {
         throw new Error(`Error en la solicitud: ${response.error}`);
@@ -145,6 +173,7 @@ function btnDesCategoria(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }
@@ -171,6 +200,7 @@ function btnActCategoria(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }

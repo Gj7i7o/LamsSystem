@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function tablaMarcas() {
     try {
       const response = await fetch(
-        "http://localhost/LamsSystem/marcas/listarActivas?page=" + paginaActual
+        "http://localhost/LamsSystem/marcas/listarActivas?page=" + paginaActual,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -138,6 +138,7 @@ function btnDesMarca(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }
@@ -164,6 +165,7 @@ function btnActMarca(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }

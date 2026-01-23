@@ -56,9 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-                <td>${item.producto}</td>
-                <td>${item.usuario}</td>
-                <td>${item.cantidad}</td>
+                <td>${item.cod_docum}</td>                
+                <td>${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
             `;

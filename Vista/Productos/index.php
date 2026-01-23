@@ -5,7 +5,7 @@ include "vista/componentes/header.php";
 <!-- Index.php encargado de la vista de los Productos -->
 
 <section class="main">
-    <div class="main-top">
+    <div class="main-title">
         <h1>Productos</h1>
     </div>
 
@@ -13,15 +13,10 @@ include "vista/componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
-            <div class="opciones">
-                <div class="filtros">
+            <div class="form-file">
+                <div>
                     <!-- Botón de registrar -->
                     <button class="button" type="button" id="registrarProducto" title="Registrar"><i class="fas fa-plus"></i></button>
-                    <!-- <button type="button" class="button"><i class="fa-solid fa-magnifying-glass"></i></button> -->
-                    <select id="estado" name="estado">
-                        <option value="activo">Activos</option>
-                        <option value="inactivo">Inactivos</option>
-                    </select>
                 </div>
                 <div class="buscador">
                     <i class="fa-solid fa-magnifying-glass">
@@ -34,7 +29,7 @@ include "vista/componentes/header.php";
                         <tr>
                             <th data-column="codigo" data-order="desc">Código</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
-                            <th data-column="precio" data-order="desc">Precio $</th>
+                            <th data-column="precio" data-order="desc">Precio</th>
                             <th data-column="cantidad" data-order="desc">Cantidad</th>
                             <th data-column="categoria" data-order="desc">Categoría</th>
                             <th data-column="marca" data-order="desc">Marca</th>
@@ -55,6 +50,7 @@ include "vista/componentes/header.php";
     </section>
 </section>
 
+<!-- Modal -->
 <div id="modalProducto" class="modal">
     <div class="modal-content">
         <span class="close" title="Cerrar">&times;</span>
@@ -63,31 +59,38 @@ include "vista/componentes/header.php";
         </div>
         <form id="formularioProducto" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <div class="form-group">
-                <label for="codigo">Código:</label>
-                <input type="text" id="codigo" name="codigo" placeholder="001-22-777" required>
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" placeholder="001-22-777" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Bujía" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Bujía" required>
-            </div>
-            <div class="form-group">
-                <label for="precio">Precio $:</label>
-                <input type="text" id="precio" name="precio" placeholder="15" required>
-            </div>
-            <div class="form-group">
-                <label for="categoria">Categoría:</label>
-                <select name="categoria" id="categoria">
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="marca">Marca:</label>
-                <select name="marca" id="marca">
-                </select>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="precio">Precio $:</label>
+                    <input type="text" id="precio" name="precio" placeholder="15" required>
+                </div>
+            </div>
+
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="categoria">Categoría:</label>
+                    <select name="categoria" id="categoria">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca:</label>
+                    <select name="marca" id="marca">
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar
                 </button>

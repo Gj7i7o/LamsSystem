@@ -5,17 +5,21 @@ include "vista/componentes/header.php";
 <!-- Index.php encargado de la vista de Proveedores -->
 
 <section class="main">
-    <div class="main-top">
+    <div class="main-title">
         <h1>Proveedores</h1>
     </div>
 
     <!-- Tabla de Proveedores -->
     <section class="main-course">
         <div class="course-box">
-            <button class="button" type="button" id="registrarProveedor" title="Registrar"><i class="fas fa-plus"></i></button>
-            <div class="buscador">
-                <i class="fa-solid fa-magnifying-glass">
-                </i><input type="text" name="" id="">
+            <div class="form-file">
+                <div>
+                    <button class="button" type="button" id="registrarProveedor" title="Registrar"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="buscador">
+                    <i class="fa-solid fa-magnifying-glass">
+                    </i><input type="text" name="" id="">
+                </div>
             </div>
             <div>
                 <table id="TablaProveedores">
@@ -50,25 +54,30 @@ include "vista/componentes/header.php";
         </div>
         <form id="formularioProveedor" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <div class="form-group">
-                <label for="rif">Rif/CI:</label>
-                <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="rif">Rif/CI:</label>
+                    <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
+
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="apellido">Apellido:</label>
-                <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
-            </div>
+
             <div class="form-group">
                 <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" placeholder="Calle Acosta casa Nº..." required>
+                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Calle Acosta casa Nº..." required>
             </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
+            <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar
                 </button>

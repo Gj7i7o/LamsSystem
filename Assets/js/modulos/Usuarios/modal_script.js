@@ -19,6 +19,7 @@ span.onclick = function () {
 
 function limpiarFormulario() {
   document.getElementById("id").value = "";
+  document.getElementById("ci").value = "";
   document.getElementById("usuario").value = "";
   document.getElementById("nombre").value = "";
   document.getElementById("apellido").value = "";
@@ -40,7 +41,8 @@ function btnEditUsuario(id) {
     if (this.readyState == 4 && this.status == 200) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id").value = res.id;
-      document.getElementById("usuario").value = res.usuario;
+      document.getElementById("ci").value = res.ci;
+      document.getElementById("usuario").value = res.idusuario;
       document.getElementById("nombre").value = res.nombre;
       document.getElementById("apellido").value = res.apellido;
       document.getElementById("correo").value = res.correo;
@@ -53,7 +55,7 @@ function btnEditUsuario(id) {
 // Manejar el envío del formulario (opcional)
 formularioUsuario.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
-
+  const ci = document.getElementById("ci");
   const usuario = document.getElementById("usuario");
   const nombre = document.getElementById("nombre");
   const apellido = document.getElementById("apellido");
@@ -65,7 +67,9 @@ formularioUsuario.addEventListener("submit", function (event) {
   let pass =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/;
   let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  let phone = /^(0412|0416|0414|0424|0426)[0-9]{7}$/;
   if (
+    ci.value == "" ||
     usuario.value == "" ||
     nombre.value == "" ||
     apellido.value == "" ||
@@ -83,6 +87,8 @@ formularioUsuario.addEventListener("submit", function (event) {
     alertas("La contraseña NO cumple con las especificaciones", "warning");
   } else if (email.test(correo)) {
     alertas("Escriba correctamente el correo", "warning");
+  } else if (phone.test(telef)) {
+    alertas("Escriba correctamente su número", "warning");
   } else {
     const url = APP_URL + "usuarios/registrar";
     const frm = document.getElementById("formularioUsuario");
@@ -92,9 +98,14 @@ formularioUsuario.addEventListener("submit", function (event) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.responseText);
-        alertas(res.msg, res.icono);
-        modal.style.display = "none";
-        limpiarFormulario();
+        if (res.icono != "success") {
+          alertas(res.msg, res.icono);
+        } else {
+          alertas(res.msg, res.icono);
+          modal.style.display = "none";
+          limpiarFormulario();
+          recargarVista();
+        }
       }
     };
   }

@@ -54,6 +54,8 @@ formularioProveedor.addEventListener("submit", function (event) {
   const nombre = document.getElementById("nombre");
   const apellido = document.getElementById("apellido");
   const direccion = document.getElementById("direccion");
+  let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
+  let regexrif = /^([JGVPEjgvpe])([0-9]{8,9})$/;
   if (
     rif.value == "" ||
     nombre.value == "" ||
@@ -61,6 +63,12 @@ formularioProveedor.addEventListener("submit", function (event) {
     direccion.value == ""
   ) {
     alertas("Todos los campos son obligatorios", "warning");
+  } else if (letras.test(nombre)) {
+    alertas("No agregue caracteres indevidos en su nombre", "warning");
+  } else if (letras.test(apellido)) {
+    alertas("No agregue caracteres indevidos en su apellido", "warning");
+  } else if (regexrif.test(rif)) {
+    alertas("Escriba correctamente el rif", "warning");
   } else {
     const url = APP_URL + "proveedores/registrar";
     const frm = document.getElementById("formularioProveedor");
@@ -70,9 +78,14 @@ formularioProveedor.addEventListener("submit", function (event) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.responseText);
-        alertas(res.msg, res.icono);
-        modal.style.display = "none";
-        limpiarFormulario();
+        if (res.icono != "success") {
+          alertas(res.msg, res.icono);
+        } else {
+          alertas(res.msg, res.icono);
+          modal.style.display = "none";
+          limpiarFormulario();
+          recargarVista();
+        }
       }
     };
   }

@@ -19,6 +19,9 @@
 <body>
     <div class="container">
         <nav>
+            <div href="#" class="logo">
+                <img src="<?php echo APP_URL; ?>assets/img/logo.png" alt="" title="Logo de la empresa">
+            </div>
             <ul>
                 <li>
                     <!-- Botón del inicio (Panel de control) -->
@@ -32,20 +35,6 @@
                     <a href="<?php echo APP_URL; ?>productos" title="Inventario"
                         class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'productos') !== false) ? 'active' : ''; ?>">
                         <span class="nav-item"><i class="fas fa-boxes-stacked icon"></i> Productos</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- Botón del módulo de entradas -->
-                    <a href="<?php echo APP_URL; ?>entradas" title="Entradas del sistema"
-                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'entradas') !== false) ? 'active' : ''; ?>">
-                        <span class="nav-item"><i class="fa-solid fa-door-closed"></i> Entradas</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- Botón del módulo de salidas -->
-                    <a href="<?php echo APP_URL; ?>salidas" title="Salidas del sistema"
-                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'salidas') !== false) ? 'active' : ''; ?>">
-                        <span class="nav-item"><i class="fa-solid fa-door-open"></i> Salidas</span>
                     </a>
                 </li>
                 <li>
@@ -67,6 +56,20 @@
                     <a href="<?php echo APP_URL; ?>proveedores" title="Proveedores del sistema"
                         class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'proveedores') !== false) ? 'active' : ''; ?>">
                         <span class="nav-item"><i class="fa-solid fa-truck-field"></i> Proveedores</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Botón del módulo de entradas -->
+                    <a href="<?php echo APP_URL; ?>entradas" title="Entradas del sistema"
+                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'entradas') !== false) ? 'active' : ''; ?>">
+                        <span class="nav-item"><i class="fa-solid fa-door-closed"></i> Entradas</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Botón del módulo de salidas -->
+                    <a href="<?php echo APP_URL; ?>salidas" title="Salidas del sistema"
+                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'salidas') !== false) ? 'active' : ''; ?>">
+                        <span class="nav-item"><i class="fa-solid fa-door-open"></i> Salidas</span>
                     </a>
                 </li>
                 <!-- Condición que oculta o muestra la sección Usuarios si el Usuario que entra poseé el rango empleado -->
@@ -99,10 +102,7 @@
         </nav>
         <!-- Footer con el nombre y logo de la empresa -->
         <footer>
-            <div href="#" class="logo">
-                <img src="<?php echo APP_URL; ?>assets/img/logo.png" alt="" title="Logo de la empresa">
-            </div>
-            <div class="logo-text">
+            <div class="footer-text">
                 <p>Multirepuestos y Accesorios, Carúpano. C.A (MULTIRECA)</p>
             </div>
         </footer>

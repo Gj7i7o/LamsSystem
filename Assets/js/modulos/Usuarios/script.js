@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(
         "http://localhost/LamsSystem/usuarios/listarActivos?page=" +
-          paginaActual
+          paginaActual,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -56,10 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       row.innerHTML = `
                 <td>${item.usuario}</td>
-                <td>${item.nombre}</td>
-                <td>${item.apellido}</td>
-                <td>${item.correo}</td>
-                <td>${item.telef}</td>
                 <td>${item.rango}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>

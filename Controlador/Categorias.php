@@ -23,7 +23,7 @@ class categorias extends controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->tomarCategoriaAc();
+        $data = $this->model->tomarCategoriasAc();
         foreach ($data as $categoria) {
             $result[] = ['id' => $categoria['id'], 'etiqueta' => $categoria['nombre']];
         }
@@ -37,8 +37,8 @@ class categorias extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarCategoriaIn($page);
-            $total = $this->model->getCount();
+            $data = $this->model->tomarCategoriasIn($page);
+            $total = $this->model->getCountIn();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -58,8 +58,11 @@ class categorias extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarCategoriaAc($page);
-            $total = $this->model->getCount();
+            $estado = $_GET["estado"] ?? "activo";
+            $query = $_GET["query"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
+            $data = $this->model->tomarCategorias($params);
+            $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -99,6 +102,8 @@ class categorias extends controlador
                 $data = $this->model->modifCategoria($nombre, $descripcion, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Categoría modificada', 'icono' => 'success');
+                } else if ($data == "existe") {
+                    $msg = array('msg' => 'La categoría ya existe', 'icono' => 'warning');
                 } else {
                     $msg = array('msg' => 'Error al modificar la categoría', 'icono' => 'error');
                 }

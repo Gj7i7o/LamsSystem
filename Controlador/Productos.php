@@ -23,12 +23,54 @@ class productos extends controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->tomarProductos();
+        $data = $this->model->tomarProductosAc();
         foreach ($data as $producto) {
             $result[] = ['id' => $producto['id'], 'etiqueta' => $producto['nombre']];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+    /*listarInactivos: Se encarga de colocar los productos existentes en la base de datos 
+    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
+    public function listarInactivos()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->tomarProductosIn($page);
+            $total = $this->model->getCountIn();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="secure" type="button" onclick="btnActProducto(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    /*listarActivos: Se encarga de colocar los productos existentes en la base de datos 
+    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
+    public function listarActivos()
+    {
+        try {
+            $page = $_GET["page"] ?? 0;
+            $data = $this->model->tomarProductosAc($page);
+            $total = $this->model->getCountAc();
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
+            </div>';
+            }
+            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
+            die();
+        } catch (\Exception $e) {
+            return json_encode(["error" => $e->getMessage()]);
+        }
     }
 
     /*Listar: Se encarga de colocar los productos existentes en la base de datos 
@@ -119,6 +161,19 @@ class productos extends controlador
             $msg = array('msg' => 'Error al desactivar el producto', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Producto desactivado', 'icono' => 'success');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*activar: Envía a la función actProducto del modelo/productosModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->actProducto($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar el producto', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Producto activado', 'icono' => 'success');
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

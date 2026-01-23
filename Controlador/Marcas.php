@@ -23,7 +23,7 @@ class marcas extends controlador
     public function getSelect()
     {
         $result = [];
-        $data = $this->model->tomarMarcaAc();
+        $data = $this->model->tomarMarcasAc();
         foreach ($data as $marca) {
             $result[] = ['id' => $marca['id'], 'etiqueta' => $marca['nombre']];
         }
@@ -37,8 +37,8 @@ class marcas extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarMarcaIn($page);
-            $total = $this->model->getCount();
+            $data = $this->model->tomarMarcasIn($page);
+            $total = $this->model->getCountIn();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -58,8 +58,8 @@ class marcas extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarMarcaAc($page);
-            $total = $this->model->getCount();
+            $data = $this->model->tomarMarcasAc($page);
+            $total = $this->model->getCountAc();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -104,6 +104,8 @@ class marcas extends controlador
                 $data = $this->model->modifMarca($nombre, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Marca modificada', 'icono' => 'success');
+                } else if ($data == "existe") {
+                    $msg = array('msg' => 'La marca ya existe', 'icono' => 'warning');
                 } else {
                     $msg = array('msg' => 'Error al modificar la marca', 'icono' => 'error');
                 }

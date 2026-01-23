@@ -5,7 +5,7 @@ include "vista/componentes/header.php";
 <!-- Index.php encargado de la vista de las Categorías -->
 
 <section class="main">
-    <div class="main-top">
+    <div class="main-title">
         <h1>Categorías</h1>
     </div>
 
@@ -13,10 +13,20 @@ include "vista/componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
-            <button class="button" type="button" id="registrarCategoria" title="Registrar"><i class="fas fa-plus"></i></button>
-            <div class="buscador">
-                <i class="fa-solid fa-magnifying-glass">
-                </i><input type="text" name="" id="">
+            <div class="form-file">
+                <div>
+                    <!-- Botón de registrar -->
+                    <button class="button" type="button" id="registrarCategoria" title="Registrar"><i class="fas fa-plus"></i></button>
+                    <label for="estado">Estado: </label>
+                    <select name="estado" id="estado" onchange="setfilter()">
+                        <option value="activo">Activas</option>
+                        <option value="inactivo">Inactivas</option>
+                    </select>
+                </div>
+                <div class="buscador">
+                    <i class="fa-solid fa-magnifying-glass">
+                    </i><input type="text" name="query" id="query">
+                </div>
             </div>
             <div>
                 <table id="TablaCategorias">
@@ -50,17 +60,18 @@ include "vista/componentes/header.php";
         </div>
         <form id="formularioCategoria" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Accesorios decorativos para vehículos" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <input type="text" id="descripcion" name="descripcion" placeholder="Accesorios decorativos para vehículos" required>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
+            <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar
                 </button>

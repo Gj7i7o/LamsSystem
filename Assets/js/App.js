@@ -11,3 +11,9 @@ function alertas(mensaje, icono) {
     timer: 3000,
   });
 }
+
+function recargarVista(tiempo = 1000) {
+  setTimeout(() => {
+    location.reload();
+  }, tiempo);
+}

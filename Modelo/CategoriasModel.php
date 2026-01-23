@@ -11,27 +11,42 @@ class categoriasModel extends query
         parent::__construct();
     }
 
-    public function getCount()
+    // public function getCountIn()
+    // {
+    //     $sql = "SELECT * FROM categoria WHERE estado = 'inactivo'";
+    //     $data = $this->selectAll($sql);
+    //     return count($data);
+    // }
+
+    public function getCount(array $params)
     {
-        $sql = "SELECT * FROM categoria WHERE estado = 'activo'";
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM categoria $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarCategoriaIn: Toma todas las categorías de la base de datos que tengan el estado inactivo*/
-    public function tomarCategoriaIn(int $page = 0)
+    public function filtersSQL(string $value, string $estado): string
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'inactivo'" : "SELECT * FROM categoria WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
-        $data = $this->selectAll($sql);
-        return $data;
+        $filter = "WHERE estado = '$estado' AND (nombre LIKE '$value%' OR descrip LIKE '$value%')";
+        return $filter;
     }
 
+    /*tomarCategoriaIn: Toma todas las categorías de la base de datos que tengan el estado inactivo*/
+    // public function tomarCategoriasIn(int $page = 0)
+    // {
+    //     $offset = ($page - 1) * 5;
+    //     $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'inactivo'" : "SELECT * FROM categoria WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+    //     $data = $this->selectAll($sql);
+    //     return $data;
+    // }
+
     /*tomarCategoriaAc: Toma todas las categorías de la base de datos que tengan el estado activo*/
-    public function tomarCategoriaAc(int $page = 0)
+    public function tomarCategorias($params)
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'activo'" : "SELECT * FROM categoria WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
+        $offset = ($params["page"] - 1) * 5;
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters" : "SELECT * FROM categoria $filters LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -66,14 +81,21 @@ class categoriasModel extends query
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->id = $id;
-        $sql = "UPDATE categoria SET nombre = ?, descrip = ? WHERE id = ?";
-        $datos = array($this->nombre, $this->descripcion, $this->id);
-        $data = $this->save($sql, $datos);
-        if ($data == 1) {
-            $res = "modificado";
+        $verificar = "SELECT * FROM categoria WHERE nombre = '$this->nombre'";
+        $existe = $this->select($verificar);
+        if (empty($existe)) {
+            $sql = "UPDATE categoria SET nombre = ?, descrip = ? WHERE id = ?";
+            $datos = array($this->nombre, $this->descripcion, $this->id);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                $res = "modificado";
+            } else {
+                $res = "error";
+            }
         } else {
-            $res = "error";
+            $res = "existe";
         }
+
         return $res;
     }
 

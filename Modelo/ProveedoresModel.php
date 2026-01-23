@@ -11,14 +11,21 @@ class proveedoresModel extends query
         parent::__construct();
     }
 
-    public function getCount()
+    public function getCountIn()
+    {
+        $sql = "SELECT * FROM proveedor WHERE estado = 'inactivo'";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    public function getCountAc()
     {
         $sql = "SELECT * FROM proveedor WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarProveedoresIn: Toma todos los proveedores de la base de datos que tengan el estado inactivo*/
+    /*tomarProveedoresIn: Toma todos los proveedores de la base de datos que tengan el estado inactivo y contiene la paginación*/
     public function tomarProveedoresIn(int $page = 0)
     {
         $offset = ($page - 1) * 5;
@@ -44,7 +51,7 @@ class proveedoresModel extends query
         $this->apellido = $apellido;
         $this->rif = $rif;
         $this->direccion = $direccion;
-        $verificar = "SELECT * FROM proveedor WHERE nombre = '$this->nombre' AND apellido = '$this->apellido' AND rif = '$this->rif'";
+        $verificar = "SELECT * FROM proveedor WHERE rif = '$this->rif'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "INSERT INTO proveedor (nombre, apellido, rif, direccion, estado) VALUES (?,?,?,?,'activo')";

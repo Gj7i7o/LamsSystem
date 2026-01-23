@@ -1,0 +1,167 @@
+
+.box {
+  width: 33%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background: rgb(235, 233, 233);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+}
+
+.box p {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.box button {
+  background: #000;
+  color: #fff;
+  padding: 7px 10px;
+  border-radius: 10px;
+  margin-top: 3rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.box button:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.842);
+}
+
+.box i {
+  font-size: 7rem;
+  float: right;
+  margin: -20px 20px 20px 0;
+}
+
+.html {
+  color: rgb(25, 94, 54);
+}
+
+
+.info {
+  background: rgb(68, 67, 83);
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.info:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgb(101, 98, 133);
+}
+
+
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .table {
+    width: 800px;
+  }
+
+  .main-course.table {
+    display: grid;
+    width: auto;
+    margin: 15px;
+    padding: 15px;
+  }
+}
+
+.filtros {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.opciones {
+  display: grid;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+    }
+    
+    .full-width {
+        grid-column: span 1;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+/* Contenedor principal del formulario */
+
+
+/* Grupos de entrada */
+.datos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Estilo de las etiquetas (Labels) */
+.datos label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  margin-left: 2px;
+}
+
+/* Estilo de Inputs y Selects */
+.datos input, 
+.datos select {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+  color: #333;
+}
+
+/* Efecto al hacer clic o focus */
+.datos input:focus, 
+.datos select:focus {
+  border-color: #4a90e2;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+}
+
+/* Estilo específico para Selects (flecha personalizada) */
+.datos select {
+  cursor: pointer;
+  appearance: none;
+  background-position: calc(100% - 15px) center;
+  padding-right: 40px;
+}
+
+/* Placeholder discreto */
+::placeholder {
+  color: #bbb;
+  font-size: 0.9rem;
+}
+
+Data de mi pc:
+
+RAM instalada: 4gb RAM.
+Procesador: Intel(R) Pentium(R) GPU G620 @ 2.60GHz.
+Tipo de sistema: 64 bits, procesador basado en x64.
+Especificaciones de Windows: 
+Edición: Windows 10 Pro.
+Versión: 22H2.

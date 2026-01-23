@@ -1,4 +1,7 @@
-/*Estilos para el sistema*/
+/*=========================================
+  ESTILOS DEL SISTEMA, ORDENADOS POR SECCIONES
+  PARA MAYOR ENTENDIMIENTO
+  =========================================*/
 
 * {
   margin: 0;
@@ -10,9 +13,14 @@
   font-family: "Arial";
 }
 
+/* Color de fondo del sistema, específicamente de la sección MAIN */
 body {
   background: #f0f0f0; 
 }
+
+/*=========================================
+                DASHBOARD/NAV
+  =========================================*/
 
 .container {
   display: grid;
@@ -22,60 +30,40 @@ nav {
   position: fixed;
   display: block;
   overflow-x: hidden;
-  height: calc(100vh - 80px);
+  /* height: calc(100vh - 80px); */
+  height: 100vh;
   background: #314158;
   width: 220px;
   transition: transform 0.3s ease;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
-/* =========================================
-   Estilo para el Link Activo (Current Page)
-   ========================================= */
+/* Estilo para el link activo (Current page) */
 nav ul li a.active {
-    background-color: #1D293D; /* Fondo oscuro (igual al hover) */
-    font-weight: bold;
-    color: #155DFC;            /* Texto azul brillante */
-    border-left: 5px solid #155DFC; /* Indicador visual a la izquierda */
-    
-    /* Ajustamos el padding izquierdo para compensar el borde 
-       y que el texto no se mueva bruscamente */
-    padding-left: 10px; 
-    transition: 0.3s;
+  background-color: #1D293D; /* Fondo oscuro (igual al hover) */
+  font-weight: bold;
+  color: #155DFC; /* Texto azul brillante */
+  border-left: 5px solid #155DFC; /* Indicador visual a la izquierda */
+  /* Ajustamos el padding izquierdo para compensar el borde y que el texto no se mueva bruscamente */
+  padding-left: 10px; 
+  transition: 0.3s;
 }
 
 /* Aseguramos que el icono mantenga su color o cambie si es necesario */
 nav ul li a.active i {
-    color: #155DFC;
+  color: #155DFC;
 }
 
-footer {
-  display: flex;
-  flex-direction: row;
-  position: fixed;
-  overflow-x: hidden;
-  height: 80px;
-  background: #314158;
-  width: 100%;
-  transition: transform 0.3s ease;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.logo {
+  text-align: center;
+  display: block;
 }
 
 /*Imagen del logo*/
 .logo img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin-left: 10px;
-}
-
-.logo-text {
-  font-size: 20px;
-  color: #fff;
-  padding: 30px; 
-  font-weight: bold;
+  width: 90px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 
 /*Links para las vistas*/
@@ -85,7 +73,7 @@ a {
   font-size: 16px;
   display: table;
   width: 220px;
-  padding: 15px;
+  padding: 12px;
   transition: 0.5s;
 } 
 
@@ -115,39 +103,61 @@ a:hover {
   color: red;
 }
 
-/* Main Section */
+/*=========================================
+              FOOTER DEL NAV
+  =========================================*/
+
+footer {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  overflow-x: hidden;
+  height: 80px;
+  background: #314158;
+  width: calc(100% - 220px);
+  transition: transform 0.3s ease;
+  bottom: 0;
+  right: 0;
+}
+
+.footer-text {
+  font-size: 20px;
+  color: #fff;
+  padding: 30px; 
+  font-weight: bold;
+}
+
+/*=========================================
+              SECCIÓN DEL MAIN
+  =========================================*/
+
 .main {
   position: absolute;
   min-height: 100vh;
   margin-left: 220px;
   top: 0;
-  flex: 1;
   transition: margin-left 0.5s ease;
   width: calc(100% - 220px);
   padding: 20px;
-  /* Para el scroll */
-  /* padding-bottom: 120px; */
 }
 
-/* Título del  */
-.main-top {
+/* Título del Módulo */
+.main-title {
   display: flex;
   color: #000;
   padding: 0px;
   width: 100%;
+  font-size: 20px;
 }
 
-.main-top h1{
-  font-size: 33px;
+.main-text{
+  font-size: 17px;
+  padding-top: 10px;
 }
 
-.main-top i {
-  position: absolute;
-  right: 0;
-  width: calc(100% - 96%);
-  color: #000;
-  cursor: pointer;
-}
+/*=========================================
+              MÓDULO DE INICIO
+  =========================================*/
 
 .main-skills {
   display: grid;
@@ -188,12 +198,16 @@ a:hover {
   padding: 10px;
 }
 
-/* Courses */
+/*=========================================
+  TABLAS DENTRO DEL MAIN PARA LOS MÓDULOS
+  =========================================*/
+
 .main-course {
   margin-top: 20px;
   text-transform: capitalize;
 }
 
+/* Fondo de la tabla */
 .course-box {
   width: 100%;
   padding: 10px;
@@ -223,47 +237,63 @@ a:hover {
   display: flex;
 }
 
-.box {
-  width: 33%;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  background: rgb(235, 233, 233);
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 9px;
 }
 
-.box p {
-  font-size: 12px;
-  margin-top: 5px;
+th, td {
+  border: 1px solid #ddd;
+  padding: 4px;
+  /* text-align: left; */
+  text-align: center;
 }
 
-.box button {
-  background: #000;
-  color: #fff;
-  padding: 7px 10px;
-  border-radius: 10px;
-  margin-top: 3rem;
+th {
+  background-color: #f2f2f2;
   cursor: pointer;
-  transition: 0.5s;
 }
 
-.box button:hover {
-  transition: 0.5s;
-  transform: scale(1.1);
-  background: rgba(0, 0, 0, 0.842);
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-.box i {
-  font-size: 7rem;
-  float: right;
-  margin: -20px 20px 20px 0;
+#pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
-.html {
-  color: rgb(25, 94, 54);
+.pagination, button {
+  cursor: pointer;
 }
 
-/* Buttons */
+.buscador {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.buscador > input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buscador i {
+  font-size: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+
+/*=========================================
+  BOTONES EN GENERAL, PARA LAS ACCIONES DE 
+  LAS TABLAS Y MODALES
+  =========================================*/
+
 .button {
   background: rgb(22, 126, 72);
   color: #fff;
@@ -328,128 +358,7 @@ a:hover {
   background: rgb(55, 183, 81);
 }
 
-.info {
-  background: rgb(68, 67, 83);
-  color: #fff;
-  padding: 7px 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: 0.5s;
-}
-
-.info:hover {
-  transition: 0.5s;
-  transform: scale(1.1);
-  background: rgb(101, 98, 133);
-}
-
-
-@media (max-width: 768px) {
-  nav {
-    display: none;
-  }
-
-  .main {
-    margin-left: 0;
-  }
-
-  .table {
-    width: 800px;
-  }
-
-  .main-course.table {
-    display: grid;
-    width: auto;
-    margin: 15px;
-    padding: 15px;
-  }
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-    cursor: pointer;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#pagination {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Estilo del contenedor del modal (por defecto oculto) */
-.modal {
-  display: none; /* Oculto por defecto */
-  position: fixed; /* Permanece fijo en la ventana */
-  z-index: 1000; /* Asegura que esté encima de otros elementos */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* Permite desplazamiento si el contenido es grande */
-  background-color: rgba(33, 43, 54, 0.6); /* Fondo semi-transparente */
-  backdrop-filter: blur(4px); /* Efecto borroso de fondo */
-  padding: 25px;  
-  transition: all 0.3s ease;
-}
-
-/* Contenido del modal */
-.modal-content {
-  background-color: #fff;
-  margin: 5% auto; /* 5% desde arriba y centrado horizontalmente */
-  padding: 0;
-  border: 1px solid #888;
-  /*width: 60%;  Ancho del contenido */
-  width: 500px; /* Ancho base */
-  max-width: 90%;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  overflow: hidden; /* Para que la cabecera respete el borde */
-  animation: slideIn 0.3s ease-out forwards;
-  border: none;
-  position: relative; /* Necesario para posicionar el botón de cerrar */
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-header {
-  background-color: #f8f9fa;
-  padding: 20px 25px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 20px;
-  color: #314158;
-  font-weight: 700;
-}
-
-/* Botón de cerrar (la X) */
+/* Botón de cerrar (la X en los modales) */
 .close {
   color: #aaa;
   float: right;
@@ -468,88 +377,91 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
-/* Estilos del Formulario */
-/* .form label {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-weight: bold;
-} */
-
-
-.input_form {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
+/* El botón de registrar en los modales */
+.btn-submit {
+  background: rgb(22, 126, 72);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(22, 126, 72, 0.2);
 }
 
-.input_form > div {
-  padding-inline: 10px;
-  width: 30%;
+.btn-submit:hover {
+  background: rgb(18, 100, 58);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(22, 126, 72, 0.3);
 }
 
-.buttonToLine {
+/*=========================================
+            ESTILOS DE LOS MODALES
+  =========================================*/
+
+.modal-header {
+  background-color: #f8f9fa;
+  padding: 20px 25px;
+  border-bottom: 1px solid #eee;
   display: flex;
-  padding-top: 13px;
+  justify-content: space-between;
   align-items: center;
 }
 
-.buttonToLine > button {
-  background: rgb(238, 98, 98);
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #314158;
+  font-weight: 700;
 }
 
-.buttonToLine > button:hover {
-  transition: 0.5s;
-  transform: scale(1.1);
-  background: rgb(253, 17, 17);
-}
-
-.input_form_input {
+/* Estilo del contenedor del modal (por defecto oculto) */
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Permanece fijo en la ventana */
+  z-index: 1000; /* Asegura que esté encima de otros elementos */
+  left: 0;
+  top: 0;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} 
+  height: 100%;
+  overflow: auto; /* Permite desplazamiento si el contenido es grande */
+  background-color: rgba(33, 43, 54, 0.6); /* Fondo semi-transparente */
+  backdrop-filter: blur(4px); /* Efecto borroso de fondo */
+  padding: 5px;  
+  transition: all 0.3s ease;
+}
 
-.input_form_select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} 
+/* Contenido del modal */
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto; /* 5% desde arriba y centrado horizontalmente */
+  padding: 0;
+  border: 1px solid #888;
+  /*width: 60%;  Ancho del contenido */
+  width: 600px; /* Ancho base */
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Para que la cabecera respete el borde */
+  animation: slideIn 0.3s ease-out forwards;
+  border: none;
+  position: relative; /* Necesario para posicionar el botón de cerrar */
+}
 
-.buscador {
+/* Estilo del formulario */
+.form {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
 }
 
-.buscador > input {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-left: 5px;
-}
-
-.filtros {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.pagination, button {
-  cursor: pointer;
-}
-
-.opciones {
+/* Filas del formulario */
+.form-file {
   display: grid;
-}
-
-.btn-registrar {
-  margin-top: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
 }
 
 .form-group {
@@ -582,65 +494,121 @@ tr:nth-child(even) {
 /* Efecto al hacer clic en el input */
 .form-group input:focus, 
 .form-group select:focus {
-    border-color: #155DFC; /* Azul del sistema */
-    box-shadow: 0 0 0 4px rgba(21, 93, 252, 0.1); /* Resplandor suave */
-    outline: none;
+  border-color: #155DFC; /* Azul del sistema */
+  box-shadow: 0 0 0 4px rgba(21, 93, 252, 0.1); /* Resplandor suave */
+  outline: none;
 }
 
-/* --- 3. Pie del Modal (Botones) --- */
+/* Contenedor para alinear los datos inferiores */
+.modal-footer-info {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 1px solid #eee;
+  margin-top: 3px;
+  padding-top: 2px;
+}
+
 .modal-footer {
-    padding: 20px 25px;
-    background-color: #fff;
-    border-top: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: flex-end; /* Botones a la derecha */
-    gap: 10px;
+  padding: 20px 25px;
+  background-color: #fff;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end; /* Botones a la derecha */
+  gap: 10px;
 }
 
-.btn-cancel {
-    background: #f1f1f1;
-    color: #555;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.btn-cancel:hover {
-    background: #e0e0e0;
+/*=========================================
+        ESTILOS DEL MÓDULO DE ENTRADA
+  =========================================*/
+
+/* Contenedor para alinear los datos superiores */
+.modal-header-info {
+  display: flex;
+  justify-content: space-between; /* Empuja uno a la izquierda y otro a la derecha */
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
 }
 
-.btn-submit {
-    background: rgb(22, 126, 72);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    border: none;
-    transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(22, 126, 72, 0.2);
+/* Estilo específico para los textos */
+.datos-proveedor h3, .fecha h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+  font-weight: 600;
 }
 
-.btn-submit:hover {
-    background: rgb(18, 100, 58);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(22, 126, 72, 0.3);
+.datos-proveedor input, .fecha input {
+  width: 80%;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box; /* Evita que el padding ensanche el input */
+  padding: 6px;
 }
 
-/* Responsivo para móviles */
-@media (max-width: 600px) {
-    .form-grid {
-        grid-template-columns: 1fr; /* Una sola columna en móvil */
-    }
-    
-    .full-width {
-        grid-column: span 1;
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: 10% auto;
-    }
+.datos-proveedor {
+  text-align: left;
+  margin: 10px;
+}
+
+.input_form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.input_form > div {
+  padding-inline: 10px;
+  width: 30%;
+}
+
+.input_form_input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} 
+
+.input_form_select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.add-line {
+  padding: 40px;
+}
+
+.buttonToLine {
+  display: flex;
+  padding-top: 13px;
+  align-items: center;
+}
+
+.buttonToLine > button {
+  background: rgb(238, 98, 98);
+}
+
+.buttonToLine > button:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgb(253, 17, 17);
+}
+
+.total input {
+  width: 60%;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box; /* Evita que el padding ensanche el input */
+  padding: 6px;
 }

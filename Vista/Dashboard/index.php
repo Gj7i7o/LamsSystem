@@ -5,10 +5,10 @@ include 'vista/componentes/header.php';
 <!-- Index.php encargado de la vista del Inicio -->
 
 <section class="main">
-    <div class="main-top">
+    <div class="main-title">
         <h1>Panel de Control</h1>
     </div>
-    <div class="main-top-text">
+    <div class="main-text">
         <p>Bienvenido, este es el resumen general de tu inventario:</p>
     </div>
 

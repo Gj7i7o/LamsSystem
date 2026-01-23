@@ -5,25 +5,24 @@ que se preparan para ser enviadas al controlador*/
 
 class usuariosModel extends query
 {
-    private $usuario, $nombre, $apellido, $correo, $telef, $contrasena, $id;
+    private $usuario, $ci, $nombre, $apellido, $correo, $telef, $contrasena, $id_usuario, $id;
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function getCount()
+    public function getCountIn()
     {
-        $sql = "SELECT * FROM usuario WHERE estado = 'activo'";
+        $sql = "SELECT * FROM usuario WHERE estado = 'inactivo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarUsuario: En base a la contraseña y nombre de usuario ingresados, traerá un usuario que coincida con estos*/
-    public function tomarUsuario(string $usuario, string $contrasena)
+    public function getCountAc()
     {
-        $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$contrasena'";
-        $data = $this->select($sql);
-        return $data;
+        $sql = "SELECT * FROM usuario WHERE estado = 'activo'";
+        $data = $this->selectAll($sql);
+        return count($data);
     }
 
     /*tomarUsuariosIn: Toma todos los usuarios de la base de datos que tengan el estado inactivo*/
@@ -46,27 +45,49 @@ class usuariosModel extends query
 
     /*regisUsuario: Guarda el usuario, y además verifica si el usuario existe,
     en base al usuario ingresado, comparando con la base de datos*/
-    public function regisUsuario(string $usuario, string $nombre, string $apellido, string $correo, string $telef, string $contrasena)
+    public function regisUsuario(string $usuario, string $contrasena)
     {
         $this->usuario = $usuario;
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->correo = $correo;
-        $this->telef = $telef;
         $this->contrasena = $contrasena;
         $verificar = "SELECT * FROM usuario WHERE usuario = '$this->usuario'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO usuario (usuario, nombre, apellido, correo, telef, clave, rango, estado) VALUES (?,?,?,?,?,?,'empleado','activo')";
-            $datos = array($this->usuario, $this->nombre, $this->apellido, $this->correo, $this->telef, $this->contrasena);
-            $data = $this->save($sql, $datos);
-            if ($data == 1) {
-                $res = "ok";
+            $sql = "INSERT INTO usuario (usuario, clave, rango, estado) VALUES (?,?,'empleado','activo')";
+            $datos = array($this->usuario, $this->contrasena);
+            $data = $this->insertar($sql, $datos);
+            if ($data > 0) {
+                return $data; // Retorna el ID de la entrada para usarlo en los detalles
             } else {
-                $res = "error";
+                return 0;
             }
         } else {
-            $res = "existe";
+            return "existe";
+        }
+
+        return $res;
+    }
+
+    public function regisPersona(string $ci, string $nombre, string $apellido, string $telef, string $correo, int $id_usuario)
+    {
+        $this->ci = $ci;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
+        $this->telef = $telef;
+        $this->correo = $correo;
+        $this->id_usuario = $id_usuario;
+        $verificar = "SELECT * FROM persona WHERE ci = '$this->ci'";
+        $existe = $this->select($verificar);
+        if (empty($existe)) {
+            $sql = "INSERT INTO persona (ci, nombre, apellido, telef, correo, idusuario) VALUES (?,?,?,?,?,?)";
+            $datos = array($this->ci, $this->nombre, $this->apellido, $this->telef, $this->correo, $this->id_usuario);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                return "ok";
+            } else {
+                return "error";
+            }
+        } else {
+            return "existe";
         }
 
         return $res;

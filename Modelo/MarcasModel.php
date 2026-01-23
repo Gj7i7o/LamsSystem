@@ -11,7 +11,14 @@ class marcasModel extends query
         parent::__construct();
     }
 
-    public function getCount()
+    public function getCountIn()
+    {
+        $sql = "SELECT * FROM marca WHERE estado = 'inactivo'";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    public function getCountAc()
     {
         $sql = "SELECT * FROM marca WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
@@ -19,7 +26,7 @@ class marcasModel extends query
     }
 
     /*tomarMarcaIn: Toma todas las marcas de la base de datos que tengan el estado inactivo*/
-    public function tomarMarcaIn(int $page = 0)
+    public function tomarMarcasIn(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'inactivo'" : "SELECT * FROM marca WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
@@ -28,7 +35,7 @@ class marcasModel extends query
     }
 
     /*tomarMarcaAc: Toma todas las marcas de la base de datos que tengan el estado activo*/
-    public function tomarMarcaAc(int $page = 0)
+    public function tomarMarcasAc(int $page = 0)
     {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'activo'" : "SELECT * FROM marca WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
@@ -64,14 +71,21 @@ class marcasModel extends query
     {
         $this->nombre = $nombre;
         $this->id = $id;
-        $sql = "UPDATE marca SET nombre = ? WHERE id = ?";
-        $datos = array($this->nombre, $this->id);
-        $data = $this->save($sql, $datos);
-        if ($data == 1) {
-            $res = "modificado";
+        $verificar = "SELECT * FROM marca WHERE nombre = '$this->nombre'";
+        $existe = $this->select($verificar);
+        if (empty($existe)) {
+            $sql = "UPDATE marca SET nombre = ? WHERE id = ?";
+            $datos = array($this->nombre, $this->id);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                $res = "modificado";
+            } else {
+                $res = "error";
+            }
         } else {
-            $res = "error";
+            $res = "existe";
         }
+
         return $res;
     }
 

@@ -19,7 +19,6 @@ section {
 
 .contenedor {
   width: 40%;
-  /* background: #314158; */
   background: transparent;
   border: 2px solid rgba(255, 255, 255, .2);
   border-radius: 15px;
@@ -38,7 +37,7 @@ section {
 }
 
 .input-container input {
-  width: 90%;
+  width: 88%;
   padding: 12px;
   margin-bottom: 20px;
   border: 2px solid rgba(255, 255, 255, .2);

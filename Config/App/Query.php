@@ -45,4 +45,20 @@ class query extends conexion
         }
         return $res;
     }
+
+    /*insertar: Guarda y devuelve el ID generado*/
+    public function insertar(string $sql, array $datos)
+    {
+        $this->sql = $sql;
+        $this->datos = $datos;
+        $insert = $this->con->prepare($this->sql);
+        $data = $insert->execute($this->datos);
+        if ($data) {
+            // Devolvemos el último ID insertado en la conexión
+            $res = $this->con->lastInsertId();
+        } else {
+            $res = 0;
+        }
+        return $res;
+    }
 }

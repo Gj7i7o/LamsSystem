@@ -4,7 +4,6 @@
 
 class entradasModel extends query
 {
-    private $cantidad, $id, $lineas;
     public function __construct()
     {
         parent::__construct();
@@ -12,40 +11,63 @@ class entradasModel extends query
 
     public function getCount()
     {
-        $sql = "SELECT * FROM entradaproducto";
+        $sql = "SELECT * FROM entrada";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*getEntrada: Toma todas las entradas de la base de datos*/
-    public function getEntrada(int $page = 0)
+    /*tomarEntrada: Toma todas las entradas de la base de datos*/
+    public function tomarEntrada(int $page = 0)
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT ep.id, p.nombre AS producto, pr.nombre AS proveedor, ep.cantidad, e.fecha, e.hora FROM entradaproducto ep LEFT JOIN producto p ON ep.idproducto = p.id LEFT JOIN entrada e ON ep.identrada = e.id LEFT JOIN proveedor pr ON e.idproveedor = pr.id" :
-            "SELECT ep.id, p.nombre AS producto, pr.nombre AS proveedor, ep.cantidad, e.fecha, e.hora FROM entradaproducto ep LEFT JOIN producto p ON ep.idproducto = p.id LEFT JOIN entrada e ON ep.identrada = e.id LEFT JOIN proveedor pr ON e.idproveedor = pr.id LIMIT 5 OFFSET $offset";
+        $sql = $page <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada" :
+            "SELECT id, cod_docum, total, fecha, hora FROM entrada LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
 
-    /*storeEntrada: Guarda la marca, y además verifica si la marca existe, en base al nombre ingresado*/
-    public function storeEntrada(string $lineas)
+    /*regisEntrada: Obtiene los datos para validarlos y realizar las opciones de entrada*/
+    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo)
     {
-        // $this->name = $name;
-        $verificar = "SELECT * FROM entrada WHERE nombre = ''";
+        // 1. Verificar si el código de factura/entrada ya existe
+        $verificar = "SELECT * FROM entrada WHERE cod_docum = '$codigo'";
         $existe = $this->select($verificar);
+
         if (empty($existe)) {
-            $sql = "INSERT INTO entradaProducto (cantidad, precio, idproducto, identrada) VALUES (?,'activo')";
-            $datos = array();
-            $data = $this->save($sql, $datos);
-            if ($data == 1) {
-                $res = "ok";
+            // 2. Insertar cabecera
+            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum) VALUES (?,?,?,?,?)";
+            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo);
+            $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
+
+            if ($data > 0) {
+                return $data; // Retorna el ID de la entrada para usarlo en los detalles
             } else {
-                $res = "error";
+                return 0;
             }
         } else {
-            $res = "existe";
+            return "existe";
         }
+    }
 
-        return $res;
+    public function detalleEntrada(int $id_entrada, int $id_producto, int $cantidad, float $precio, float $subTotal)
+    {
+        // Insertar cada fila del detalle
+        $sql = "INSERT INTO entradaProducto (cantidad, precio, idproducto, identrada, iva, sub_total) VALUES (?,?,?,?,30,?)";
+        $datos = array($cantidad, $precio, $id_producto, $id_entrada, $subTotal);
+        $data = $this->save($sql, $datos);
+
+        if ($data == 1) {
+            return "ok";
+        } else {
+            return "error";
+        }
+    }
+
+    public function actualizarStock(int $id_producto, int $cantidad)
+    {
+        // Sumar la cantidad recibida al stock actual
+        $sql = "UPDATE producto SET cantidad = cantidad + ? WHERE id = ?";
+        $datos = array($cantidad, $id_producto);
+        return $this->save($sql, $datos);
     }
 }

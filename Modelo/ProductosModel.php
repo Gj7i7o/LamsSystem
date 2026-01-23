@@ -11,22 +11,28 @@ class productosModel extends query
         parent::__construct();
     }
 
-    public function getCount()
+    public function getCountIn()
     {
-        $sql = "SELECT * FROM producto";
+        $sql = "SELECT * FROM producto WHERE estado = 'inactivo'";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarProductos: Toma todos los productos de la base de datos y contiene la paginación*/
-    public function tomarProductos(int $page = 0, $filters = [])
+    public function getCountAc()
     {
-        $queryFilter = $this->getFilters($filters);
+        $sql = "SELECT * FROM producto WHERE estado = 'activo'";
+        $data = $this->selectAll($sql);
+        return count($data);
+    }
+
+    /*tomarProductosAc: Toma todos los productos de la base de datos y contiene la paginación*/
+    public function tomarProductos(int $page = 0)
+    {
         $offset = ($page - 1) * 5;
         $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE 1 = 1 $queryFilter" :
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id" :
             "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE 1 = 1 $queryFilter LIMIT 5 OFFSET $offset";
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -41,6 +47,30 @@ class productosModel extends query
             $filterConnect += " AND p.estado = $filters ";
         }
         return $filterConnect;
+    }
+
+    /*tomarProductosIn: Toma todos los productos de la base de datos que tengan el estado inactivo y contiene la paginación*/
+    public function tomarProductosIn(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'inactivo' " :
+            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*tomarProductosAc: Toma todos los productos de la base de datos que tengan el estado activo y contiene la paginación*/
+    public function tomarProductosAc(int $page = 0)
+    {
+        $offset = ($page - 1) * 5;
+        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo' " :
+            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo' LIMIT 5 OFFSET $offset";
+        $data = $this->selectAll($sql);
+        return $data;
     }
 
     /*regisProducto: Registra el producto, y además verifica si existe, en base al nombre y código ingresados, comparando
@@ -102,6 +132,14 @@ class productosModel extends query
     public function desProducto(int $id)
     {
         $sql = "UPDATE producto SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*actProducto: Hace la consulta SQL que traerá al producto que posteriormente se cambiará su estado a activo*/
+    public function actProducto(int $id)
+    {
+        $sql = "UPDATE producto SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }

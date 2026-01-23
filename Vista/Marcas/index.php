@@ -5,7 +5,7 @@ include "vista/componentes/header.php";
 <!-- Index.php encargado de la vista de las Marcas -->
 
 <section class="main">
-    <div class="main-top">
+    <div class="main-title">
         <h1>Marcas</h1>
     </div>
 
@@ -13,11 +13,15 @@ include "vista/componentes/header.php";
 
     <section class="main-course">
         <div class="course-box">
-            <!-- Botón de registrar -->
-            <button class="button" type="button" id="registrarMarca" title="Registrar"><i class="fas fa-plus"></i></button>
-            <div class="buscador">
-                <i class="fa-solid fa-magnifying-glass">
-                </i><input type="text" name="" id="">
+            <div class="form-file">
+                <div>
+                    <!-- Botón de registrar -->
+                    <button class="button" type="button" id="registrarMarca" title="Registrar"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="buscador">
+                    <i class="fa-solid fa-magnifying-glass">
+                    </i><input type="text" name="" id="">
+                </div>
             </div>
             <div>
                 <table id="TablaMarcas">
@@ -48,15 +52,15 @@ include "vista/componentes/header.php";
         <div class="modal-header">
             <h2 id="title">Registrar Marca</h2>
         </div>
+
         <form id="formularioMarca" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ford" title="Nombre de la marca" required>
             </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn-cancel" onclick="document.getElementById('modalMarca').style.display='none'">Cancelar</button> -->
 
+            <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar
                 </button>

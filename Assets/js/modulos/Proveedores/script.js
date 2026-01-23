@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Reemplaza '/api/productos' con la URL real de tu backend
       const response = await fetch(
         "http://localhost/LamsSystem/proveedores/listarActivos?page=" +
-          currentPage
+          currentPage,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -146,6 +146,7 @@ function btnDesProveedor(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }
@@ -172,6 +173,7 @@ function btnActProveedor(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }

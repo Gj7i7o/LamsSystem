@@ -26,7 +26,7 @@ class salidas extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->getSalida($page);
+            $data = $this->model->tomarSalida($page);
             $total = $this->model->getCount();
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();
@@ -35,33 +35,68 @@ class salidas extends controlador
         }
     }
 
-    /*Almacenaje: Se encarga de almacenar los datos de un nuevo producto en la base de datos*/
-    public function store()
+
+    /*registrar: Se encarga de validar y registrar los datos de la salida en la base de datos*/
+    public function registrar()
     {
-        $cantidad = $_POST['cantidad'];
-        $id = $_POST['id'];
-        $numeros = "/^\d+(\.\d{1,2})?$/";
-        if (
-            empty($cantidad)
-        ) {
-            $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
-        } else {
-            if ($id == "") {
-                if (!preg_match($numeros, $cantidad)) {
-                    $msg = array('msg' => 'Solo números en la cantidad', 'icono' => 'warning');
-                } else {
-                    /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
-                por ende lleva los datos a la función modifyProduct en el Models/ProductosModel.php*/
-                    $data = $this->model->modifySalida($cantidad, $id);
-                    if ($data == "modificado") {
-                        $msg = array('msg' => 'Salida modificada', 'icono' => 'success');
-                    } else {
-                        $msg = array('msg' => 'Error al modificar la salida', 'icono' => 'error');
+        // 1. Recibimos el JSON del cuerpo de la petición
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        if ($data) {
+            $fecha = $data['fecha'];
+            $hora = $data['hora'];
+            $codigo = $data['codigo'];
+            $id_usuario = $data['usuario'];
+            $total = $data['total'];
+            $lineas = $data['lineas']; // Array de productos
+
+            // Validaciones básicas de cabecera
+            if (empty($codigo) || empty($lineas)) {
+                $msg = array('msg' => 'Todos los campos y al menos un producto son obligatorios', 'icono' => 'warning');
+            } else {
+                // 2. Registrar la Cabecera de la Entrada
+                // Debes crear esta función en tu modelo para insertar y retornar el ID insertado
+                $id_salida = $this->model->regisSalida($fecha, $hora, $id_usuario, $total, $codigo);
+
+                if ($id_salida > 0) {
+                    $error_detalle = false;
+
+                    // 3. Registrar el Detalle (Recorrer las líneas)
+                    foreach ($lineas as $linea) {
+                        $id_producto = $linea['producto'];
+                        $cantidad = $linea['cantidad'];
+                        $precio = $linea['precio'];
+                        $subTotal = $linea['subTotal'];
+
+                        // Insertar cada producto vinculado al ID de la entrada
+                        $detalle = $this->model->detalleSalida($id_salida, $id_producto, $cantidad, $precio, $subTotal);
+
+                        if ($detalle != "ok") {
+                            $error_detalle = true;
+                            break;
+                        }
+
+                        // 4. OPCIONAL: Actualizar stock en la tabla productos
+                        $this->model->actualizarStock($id_producto, $cantidad);
                     }
+
+                    if (!$error_detalle) {
+                        $msg = array('msg' => 'Salida registrada y stock actualizado', 'icono' => 'success');
+                    } else {
+                        $msg = array('msg' => 'Error al registrar el detalle de la salida', 'icono' => 'error');
+                    }
+                } else if ($id_salida == "existe") {
+                    $msg = array('msg' => 'El código de salida ya existe', 'icono' => 'warning');
+                } else {
+                    $msg = array('msg' => 'Error al registrar la cabecera', 'icono' => 'error');
                 }
             }
-            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
-            die();
+        } else {
+            $msg = array('msg' => 'Error en el formato de datos', 'icono' => 'error');
         }
+
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }

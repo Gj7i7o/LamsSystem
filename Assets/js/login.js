@@ -8,20 +8,17 @@ function frmInicio(e) {
   let contrasena = document.getElementById("contrasena");
 
   //Patrón de validación de usuario
-  const usuarioValido = /^[A-Za-z0-9-_]{3,16}$/;
-  if (usuario.value == "" || !usuarioValido.test(usuario.value)) {
-    //Evaluando Usuario
-    contrasena.classList.remove("is-invalid");
-    usuario.classList.add("is-invalid");
-    usuario.focus();
-  } else if (contrasena.value == "") {
-    //Evaluando contraseña
-    usuario.classList.remove("is-invalid");
-    contrasena.classList.add("is-invalid");
-    contrasena.focus();
+  const password = /^[A-Za-z0-9-_]{3,16}$/;
+  if (contrasena.value == "" || usuario.value == "") {
+    alertas("Todos los campos SON obligatorios", "warning");
+    // } else if (!password.test(contrasena)) {
+    //   alertas(
+    //     "El formato de la contraseña no es válida (*_-, mínimo 3 máximo 16 de largo), una mayúscula y una minúscula",
+    //     "warning",
+    //   );
   } else {
     //Enviando a Controllers/Users/valid
-    const url = APP_URL + "usuarios/validar";
+    const url = APP_URL + "login/validar";
     const frm = document.getElementById("frmInicio");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -32,11 +29,9 @@ function frmInicio(e) {
         if (res == "ok") {
           window.location = APP_URL + "dashboard/index";
         } else {
-          // document.getElementById("alerta").classList.remove("d-none");
-          // document.getElementById("alerta").innerHTML = res;
           alertas(res.msg, res.icono);
-          usuario.value = "";
-          contrasena.value = "";
+          // usuario.value = "";
+          // contrasena.value = "";
         }
       }
     };

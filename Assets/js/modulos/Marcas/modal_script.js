@@ -46,7 +46,7 @@ formularioMarca.addEventListener("submit", function (event) {
 
   const nombre = document.getElementById("nombre");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
-  if (name.value == "") {
+  if (nombre.value == "") {
     alertas("Todos los campos SON obligatorios", "warning");
   } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
@@ -59,9 +59,14 @@ formularioMarca.addEventListener("submit", function (event) {
     http.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.responseText);
-        alertas(res.msg, res.icono);
-        modal.style.display = "none";
-        limpiarFormulario();
+        if (res.icono != "success") {
+          alertas(res.msg, res.icono);
+        } else {
+          alertas(res.msg, res.icono);
+          modal.style.display = "none";
+          limpiarFormulario();
+          recargarVista();
+        }
       }
     };
   }

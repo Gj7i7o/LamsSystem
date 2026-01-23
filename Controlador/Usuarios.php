@@ -27,7 +27,7 @@ class usuarios extends controlador
         try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->tomarUsuariosIn($page);
-            $total = $this->model->getCount();
+            $total = $this->model->getCountIn();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -48,7 +48,7 @@ class usuarios extends controlador
         try {
             $page = $_GET["page"] ?? 0;
             $data = $this->model->tomarUsuariosAc($page);
-            $total = $this->model->getCount();
+            $total = $this->model->getCountAc();
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
             <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -62,41 +62,10 @@ class usuarios extends controlador
         }
     }
 
-    /*validar: Comprueba si el usuario y contraseña ingresados corresponden a algún usuario 
-    existente en la base de datos, si no existe, no accede al sistema. Caso contrario accede*/
-    public function validar()
-    {
-        if (
-            empty($_POST['usuario']) ||
-            empty($_POST['contrasena']) ||
-            !isset($_POST['usuario']) ||
-            !isset($_POST['contrasena'])
-        ) {
-            $msg = "Los campos están vacios";
-        } else {
-            $usuario = $_POST['usuario'];
-            $contrasena = $_POST['contrasena'];
-            $hash = hash("SHA256", $contrasena);
-            $data = $this->model->tomarUsuario($usuario, $hash);
-            if ($data) {
-                $_SESSION['id_usuario'] = $data['id'];
-                $_SESSION['usuario'] = $data['usuario'];
-                $_SESSION['nombre'] = $data['nombre'];
-                $_SESSION['rango'] = $data['rango'];
-                $_SESSION['activo'] = true;
-                $msg = "ok";
-            } else {
-                // $msg = array('msg' => 'Usuario o Contraseña incorrecta', 'icono' => 'warning');
-                $msg = "Usuario o Contraseña incorrecta";
-            }
-        }
-        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
-        die();
-    }
-
     /*registrar: Se encarga de validar y registrar los datos de un nuevo usuario en la base de datos*/
     public function registrar()
     {
+        $ci = $_POST['ci'];
         $usuario = $_POST['usuario'];
         $nombre = $_POST['nombre'];
         $apellido = $_POST['apellido'];
@@ -111,6 +80,7 @@ class usuarios extends controlador
         $email = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
         $phone = "/^04(12|14|16|24|26)-\d{7}$/";
         if (
+            empty($ci) ||
             empty($usuario) ||
             empty($nombre) ||
             empty($apellido) ||
@@ -131,15 +101,25 @@ class usuarios extends controlador
                 } else if (!preg_match($phone, $telef)) {
                     $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
+                    $error = false;
                     /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisUsuario en el modelo/usuariosModel.php*/
-                    $data = $this->model->regisUsuario($usuario, $nombre, $apellido, $correo, $telef, $hash);
-                    if ($data == "ok") {
-                        $msg = array('msg' => 'Usuario Registrado', 'icono' => 'success');
-                    } else if ($data == "existe") {
-                        $msg = array('msg' => 'El Usuario ya está registrado', 'icono' => 'warning');
+                    $id_usuario = $this->model->regisUsuario($usuario, $hash);
+                    if ($id_usuario > 0) {
+                        //     $msg = array('msg' => 'Usuario Registrado', 'icono' => 'success');
+                        // } else if ($data == "existe") {
+                        //     $msg = array('msg' => 'El Usuario ya está registrado', 'icono' => 'warning');
+                        // } else {
+                        //     $msg = array('msg' => 'Error al registrar el Usuario', 'icono' => 'error');
+                        $persona = $this->model->regisPersona($ci, $nombre, $apellido, $correo, $telef, $id_usuario);
+                        if ($persona != "ok") {
+                            $error = true;
+                        }
+                    }
+                    if (!$error) {
+                        $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
                     } else {
-                        $msg = array('msg' => 'Error al registrar el Usuario', 'icono' => 'error');
+                        $msg = array('msg' => 'Error al registrar el usuario', 'icono' => 'error');
                     }
                 }
             } else {
