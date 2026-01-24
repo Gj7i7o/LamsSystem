@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // const estado = document.getElementById("estado");
 
   let currentPage = 1;
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   let currentData = [];
   let currentTotal = 0;
 

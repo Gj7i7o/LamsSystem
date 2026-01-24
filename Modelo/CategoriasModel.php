@@ -59,9 +59,9 @@ class categoriasModel extends query
     /*tomarCategorias: Toma todas las categorías de la base de datos filtrando por estado*/
     public function tomarCategorias($params)
     {
-        $offset = ($params["page"] - 1) * 5;
+        $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters" : "SELECT * FROM categoria $filters LIMIT 5 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters" : "SELECT * FROM categoria $filters LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

@@ -39,11 +39,11 @@ class productosModel extends query
     /*tomarProductos: Toma todos los productos de la base de datos filtrando por estado y búsqueda*/
     public function tomarProductos(array $params)
     {
-        $offset = ($params["page"] - 1) * 5;
+        $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
         $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
-            LEFT JOIN marca m ON p.idmarca = m.id $filters LIMIT 5 OFFSET $offset";
+            LEFT JOIN marca m ON p.idmarca = m.id $filters LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

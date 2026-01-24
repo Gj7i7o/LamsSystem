@@ -37,9 +37,9 @@ class proveedoresModel extends query
     /*tomarProveedores: Toma todos los proveedores de la base de datos filtrando por estado y búsqueda*/
     public function tomarProveedores(array $params)
     {
-        $offset = ($params["page"] - 1) * 5;
+        $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = "SELECT * FROM proveedor $filters LIMIT 5 OFFSET $offset";
+        $sql = "SELECT * FROM proveedor $filters LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

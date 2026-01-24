@@ -31,10 +31,10 @@ class salidasModel extends query
     /*tomarSalida: Toma todas las salidas de la base de datos*/
     public function tomarSalida(array $params)
     {
-        $offset = ($params["page"] - 1) * 5;
+        $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"]);
         $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM salida $filters" :
-            "SELECT id, cod_docum, total, fecha, hora FROM salida $filters LIMIT 5 OFFSET $offset";
+            "SELECT id, cod_docum, total, fecha, hora FROM salida $filters LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

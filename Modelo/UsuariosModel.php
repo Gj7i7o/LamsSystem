@@ -37,9 +37,9 @@ class usuariosModel extends query
     /*tomarUsuarios: Toma todos los usuarios de la base de datos filtrando por estado y búsqueda*/
     public function tomarUsuarios(array $params)
     {
-        $offset = ($params["page"] - 1) * 5;
+        $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = "SELECT * FROM usuario $filters LIMIT 5 OFFSET $offset";
+        $sql = "SELECT * FROM usuario $filters LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
