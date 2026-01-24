@@ -33,6 +33,7 @@ include "vista/componentes/header.php";
                 <table id="TablaCategorias">
                     <thead>
                         <tr>
+                            <th data-column="id" data-order="desc">ID</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
                             <th data-column="descrip" data-order="desc">Descripción</th>
                             <th data-column="estado" data-order="desc">Estado</th>
