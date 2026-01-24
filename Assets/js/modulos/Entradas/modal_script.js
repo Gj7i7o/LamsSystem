@@ -97,13 +97,14 @@ async function getListadoProveedor() {
 
 btnAddLine.onclick = function () {
   idx++;
-  form.innerHTML +=
+  const newLineHtml =
     `<div class="input_form" id="line_idx_${idx}">` +
     newFormLine(idx) +
     ` <div class="buttonToLine">
         <button class="button" type="button" onclick="deleteLine(${idx});"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
+  form.insertAdjacentHTML('beforeend', newLineHtml);
 };
 
 function deleteLine(idx) {
