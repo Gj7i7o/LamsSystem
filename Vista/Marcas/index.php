@@ -17,6 +17,12 @@ include "vista/componentes/header.php";
                 <div>
                     <!-- Botón de registrar -->
                     <button class="button" type="button" id="registrarMarca" title="Registrar"><i class="fas fa-plus"></i></button>
+                    <label for="estado">Estado: </label>
+                    <select name="estado" id="estado" onchange="setfilter()">
+                        <option value="activo">Activas</option>
+                        <option value="inactivo">Inactivas</option>
+                        <option value="todo">Todas</option>
+                    </select>
                 </div>
                 <div class="buscador">
                     <i class="fa-solid fa-magnifying-glass">

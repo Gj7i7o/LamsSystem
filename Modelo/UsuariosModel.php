@@ -11,34 +11,27 @@ class usuariosModel extends query
         parent::__construct();
     }
 
-    public function getCountIn()
+    /*getCount: Cuenta los usuarios según el estado*/
+    public function getCount(string $estado = "activo")
     {
-        $sql = "SELECT * FROM usuario WHERE estado = 'inactivo'";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM usuario";
+        } else {
+            $sql = "SELECT * FROM usuario WHERE estado = '$estado'";
+        }
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    public function getCountAc()
-    {
-        $sql = "SELECT * FROM usuario WHERE estado = 'activo'";
-        $data = $this->selectAll($sql);
-        return count($data);
-    }
-
-    /*tomarUsuariosIn: Toma todos los usuarios de la base de datos que tengan el estado inactivo*/
-    public function tomarUsuariosIn(int $page = 0)
+    /*tomarUsuarios: Toma todos los usuarios de la base de datos filtrando por estado y contiene la paginación*/
+    public function tomarUsuarios(int $page = 1, string $estado = "activo")
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'inactivo'" : "SELECT * FROM usuario WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
-        $data = $this->selectAll($sql);
-        return $data;
-    }
-
-    /*tomarUsuariosAc: Toma todos los usuarios de la base de datos que tengan el estado activo*/
-    public function tomarUsuariosAc(int $page = 0)
-    {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM usuario WHERE estado = 'activo'" : "SELECT * FROM usuario WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM usuario LIMIT 5 OFFSET $offset";
+        } else {
+            $sql = "SELECT * FROM usuario WHERE estado = '$estado' LIMIT 5 OFFSET $offset";
+        }
         $data = $this->selectAll($sql);
         return $data;
     }

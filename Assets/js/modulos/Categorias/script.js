@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         estado: estado?.value,
       });
 
-      const url = `http://localhost/LamsSystem/categorias/listarActivas?${params}`;
+      const url = `http://localhost/LamsSystem/categorias/listar?${params}`;
 
       // Realizar la petición GET
       const response = await fetch(url, {
@@ -149,9 +149,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Exponer la función para poder llamarla desde setfilter
+  window.fetchCategorias = fetchDataAndRenderTable;
+
   // 3. Llama a la función para iniciar el proceso
   fetchDataAndRenderTable();
 });
+
+/*Función para filtrar por estado*/
+function setfilter() {
+  if (window.fetchCategorias) {
+    window.fetchCategorias();
+  }
+}
 
 /*Botón para desactivar categorías*/
 function btnDesCategoria(id) {

@@ -31,63 +31,27 @@ class productos extends controlador
         die();
     }
 
-    /*listarInactivos: Se encarga de colocar los productos existentes en la base de datos 
-    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarInactivos()
-    {
-        try {
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarProductosIn($page);
-            $total = $this->model->getCountIn();
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="secure" type="button" onclick="btnActProducto(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
-            </div>';
-            }
-            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
-            die();
-        } catch (\Exception $e) {
-            return json_encode(["error" => $e->getMessage()]);
-        }
-    }
-
-    /*listarActivos: Se encarga de colocar los productos existentes en la base de datos 
-    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarActivos()
-    {
-        try {
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarProductosAc($page);
-            $total = $this->model->getCountAc();
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
-            </div>';
-            }
-            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
-            die();
-        } catch (\Exception $e) {
-            return json_encode(["error" => $e->getMessage()]);
-        }
-    }
-
-    /*Listar: Se encarga de colocar los productos existentes en la base de datos 
-    y a su vez coloca en cada uno los botones de modificar y cambiar estado, además de la paginación de la tabla*/
+    /*listar: Se encarga de colocar los productos existentes en la base de datos
+    filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listar()
     {
         try {
-            $estado = $_GET["estado"] ?? "";
-            $filters = ["estado" => $estado];
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarProductos($page, $filters);
-            $total = $this->model->getCount();
+            $page = $_GET["page"] ?? 1;
+            $estado = $_GET["estado"] ?? "activo";
+            $data = $this->model->tomarProductos($page, $estado);
+            $total = $this->model->getCount($estado);
             for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
-            </div>';
+                if ($data[$i]['estado'] == 'activo') {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="warning" type="button" onclick="btnDesProducto(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
+                </div>';
+                } else {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditProducto(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="secure" type="button" onclick="btnActProducto(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+                </div>';
+                }
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();

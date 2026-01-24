@@ -41,7 +41,15 @@ class categoriasModel extends query
     //     return $data;
     // }
 
-    /*tomarCategoriaAc: Toma todas las categorías de la base de datos que tengan el estado activo*/
+    /*tomarCategoriasAc: Toma todas las categorías activas (para selects)*/
+    public function tomarCategoriasAc()
+    {
+        $sql = "SELECT * FROM categoria WHERE estado = 'activo'";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
+    /*tomarCategorias: Toma todas las categorías de la base de datos filtrando por estado*/
     public function tomarCategorias($params)
     {
         $offset = ($params["page"] - 1) * 5;

@@ -19,9 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Función para obtener los datos del servidor
   async function tablaUsuarios() {
     try {
+      let estado = document.getElementById("estado");
+      const params = new URLSearchParams({
+        page: paginaActual,
+        estado: estado?.value || "activo",
+      });
+
       const response = await fetch(
-        "http://localhost/LamsSystem/usuarios/listarActivos?page=" +
-          paginaActual,
+        "http://localhost/LamsSystem/usuarios/listar?" + params,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -40,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("No se pudo obtener la data:", error);
     }
   }
+
+  // Exponer la función para poder llamarla desde setfilter
+  window.fetchUsuarios = tablaUsuarios;
 
   function mostrarTabla() {
     tableBody.innerHTML = "";
@@ -121,6 +129,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. Llama a la función para iniciar el proceso
   tablaUsuarios();
 });
+
+/*Función para filtrar por estado*/
+function setfilter() {
+  if (window.fetchUsuarios) {
+    window.fetchUsuarios();
+  }
+}
 
 /*Botón para desactivar usuarios*/
 function btnDesUsuario(id) {

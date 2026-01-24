@@ -21,6 +21,7 @@ include "vista/componentes/header.php";
                     <select name="estado" id="estado" onchange="setfilter()">
                         <option value="activo">Activas</option>
                         <option value="inactivo">Inactivas</option>
+                        <option value="todo">Todas</option>
                     </select>
                 </div>
                 <div class="buscador">

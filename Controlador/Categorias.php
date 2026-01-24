@@ -31,43 +31,29 @@ class categorias extends controlador
         die();
     }
 
-    /*listarInactivas: Se encarga de colocar las categorías existentes en la base de datos 
-    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarInactivas()
+    /*listar: Se encarga de colocar las categorías existentes en la base de datos
+    filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
+    public function listar()
     {
         try {
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarCategoriasIn($page);
-            $total = $this->model->getCountIn();
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="secure" type="button" onclick="btnActCategoria(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
-            </div>';
-            }
-            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
-            die();
-        } catch (\Exception $e) {
-            return json_encode(["error" => $e->getMessage()]);
-        }
-    }
-
-    /*listarActivas: Se encarga de colocar las categorías existentes en la base de datos 
-    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarActivas()
-    {
-        try {
-            $page = $_GET["page"] ?? 0;
+            $page = $_GET["page"] ?? 1;
             $estado = $_GET["estado"] ?? "activo";
             $query = $_GET["query"] ?? "";
             $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
             $data = $this->model->tomarCategorias($params);
             $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesCategoria(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
-            </div>';
+                if ($data[$i]['estado'] == 'activo') {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="warning" type="button" onclick="btnDesCategoria(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
+                </div>';
+                } else {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="secure" type="button" onclick="btnActCategoria(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+                </div>';
+                }
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();

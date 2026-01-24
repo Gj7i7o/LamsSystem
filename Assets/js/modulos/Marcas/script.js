@@ -18,8 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function tablaMarcas() {
     try {
+      let estado = document.getElementById("estado");
+      const params = new URLSearchParams({
+        page: paginaActual,
+        estado: estado?.value || "activo",
+      });
+
       const response = await fetch(
-        "http://localhost/LamsSystem/marcas/listarActivas?page=" + paginaActual,
+        "http://localhost/LamsSystem/marcas/listar?" + params,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -38,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("No se pudo obtener la data:", error);
     }
   }
+
+  // Exponer la función para poder llamarla desde setfilter
+  window.fetchMarcas = tablaMarcas;
 
   function mostrarTabla() {
     tableBody.innerHTML = "";
@@ -117,6 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tablaMarcas();
 });
+
+/*Función para filtrar por estado*/
+function setfilter() {
+  if (window.fetchMarcas) {
+    window.fetchMarcas();
+  }
+}
 
 /*Botón para desactivar marcas*/
 function btnDesMarca(id) {

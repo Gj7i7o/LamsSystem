@@ -31,40 +31,27 @@ class proveedores extends controlador
         die();
     }
 
-    /*listarInactivos: Se encarga de colocar los proveedores existentes en la base de datos 
-    en base a su estado inactivo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarInactivos()
+    /*listar: Se encarga de colocar los proveedores existentes en la base de datos
+    filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
+    public function listar()
     {
         try {
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarProveedoresIn($page);
-            $total = $this->model->getCountIn();
+            $page = $_GET["page"] ?? 1;
+            $estado = $_GET["estado"] ?? "activo";
+            $data = $this->model->tomarProveedores($page, $estado);
+            $total = $this->model->getCount($estado);
             for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="secure" type="button" onclick="btnActProveedor(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
-            </div>';
-            }
-            echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
-            die();
-        } catch (\Exception $e) {
-            return json_encode(["error" => $e->getMessage()]);
-        }
-    }
-
-    /*listarActivos: Se encarga de colocar los proveedores existentes en la base de datos 
-    en base a su estado activo. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
-    public function listarActivos()
-    {
-        try {
-            $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarProveedoresAc($page);
-            $total = $this->model->getCountAc();
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-            <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button class="warning" type="button" onclick="btnDesProveedor(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
-            </div>';
+                if ($data[$i]['estado'] == 'activo') {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="warning" type="button" onclick="btnDesProveedor(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
+                </div>';
+                } else {
+                    $data[$i]['acciones'] = '<div>
+                <button class="primary" type="button" onclick="btnEditProveedor(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="secure" type="button" onclick="btnActProveedor(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+                </div>';
+                }
             }
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();

@@ -11,34 +11,35 @@ class proveedoresModel extends query
         parent::__construct();
     }
 
-    public function getCountIn()
+    /*getCount: Cuenta los proveedores según el estado*/
+    public function getCount(string $estado = "activo")
     {
-        $sql = "SELECT * FROM proveedor WHERE estado = 'inactivo'";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM proveedor";
+        } else {
+            $sql = "SELECT * FROM proveedor WHERE estado = '$estado'";
+        }
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    public function getCountAc()
-    {
-        $sql = "SELECT * FROM proveedor WHERE estado = 'activo'";
-        $data = $this->selectAll($sql);
-        return count($data);
-    }
-
-    /*tomarProveedoresIn: Toma todos los proveedores de la base de datos que tengan el estado inactivo y contiene la paginación*/
-    public function tomarProveedoresIn(int $page = 0)
+    /*tomarProveedores: Toma todos los proveedores de la base de datos filtrando por estado y contiene la paginación*/
+    public function tomarProveedores(int $page = 1, string $estado = "activo")
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM proveedor WHERE estado = 'inactivo'" : "SELECT * FROM proveedor WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM proveedor LIMIT 5 OFFSET $offset";
+        } else {
+            $sql = "SELECT * FROM proveedor WHERE estado = '$estado' LIMIT 5 OFFSET $offset";
+        }
         $data = $this->selectAll($sql);
         return $data;
     }
 
-    /*tomarProveedoresAc: Toma todos los proveedores de la base de datos que tengan el estado activo y contiene la paginación*/
-    public function tomarProveedoresAc(int $page = 0)
+    /*tomarProveedoresAc: Toma todos los proveedores activos (para selects)*/
+    public function tomarProveedoresAc()
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM proveedor WHERE estado = 'activo'" : "SELECT * FROM proveedor WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
+        $sql = "SELECT * FROM proveedor WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return $data;
     }

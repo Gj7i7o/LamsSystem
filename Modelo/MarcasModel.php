@@ -11,34 +11,35 @@ class marcasModel extends query
         parent::__construct();
     }
 
-    public function getCountIn()
+    /*getCount: Cuenta las marcas según el estado*/
+    public function getCount(string $estado = "activo")
     {
-        $sql = "SELECT * FROM marca WHERE estado = 'inactivo'";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM marca";
+        } else {
+            $sql = "SELECT * FROM marca WHERE estado = '$estado'";
+        }
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    public function getCountAc()
-    {
-        $sql = "SELECT * FROM marca WHERE estado = 'activo'";
-        $data = $this->selectAll($sql);
-        return count($data);
-    }
-
-    /*tomarMarcaIn: Toma todas las marcas de la base de datos que tengan el estado inactivo*/
-    public function tomarMarcasIn(int $page = 0)
+    /*tomarMarcas: Toma todas las marcas de la base de datos filtrando por estado y contiene la paginación*/
+    public function tomarMarcas(int $page = 1, string $estado = "activo")
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'inactivo'" : "SELECT * FROM marca WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM marca LIMIT 5 OFFSET $offset";
+        } else {
+            $sql = "SELECT * FROM marca WHERE estado = '$estado' LIMIT 5 OFFSET $offset";
+        }
         $data = $this->selectAll($sql);
         return $data;
     }
 
-    /*tomarMarcaAc: Toma todas las marcas de la base de datos que tengan el estado activo*/
-    public function tomarMarcasAc(int $page = 0)
+    /*tomarMarcasAc: Toma todas las marcas activas (para selects)*/
+    public function tomarMarcasAc()
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT * FROM marca WHERE estado = 'activo'" : "SELECT * FROM marca WHERE estado = 'activo' LIMIT 5 OFFSET $offset";
+        $sql = "SELECT * FROM marca WHERE estado = 'activo'";
         $data = $this->selectAll($sql);
         return $data;
     }

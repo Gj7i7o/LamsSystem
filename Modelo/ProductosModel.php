@@ -11,64 +11,38 @@ class productosModel extends query
         parent::__construct();
     }
 
-    public function getCountIn()
+    /*getCount: Cuenta los productos según el estado*/
+    public function getCount(string $estado = "activo")
     {
-        $sql = "SELECT * FROM producto WHERE estado = 'inactivo'";
+        if ($estado == "todo") {
+            $sql = "SELECT * FROM producto";
+        } else {
+            $sql = "SELECT * FROM producto WHERE estado = '$estado'";
+        }
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    public function getCountAc()
-    {
-        $sql = "SELECT * FROM producto WHERE estado = 'activo'";
-        $data = $this->selectAll($sql);
-        return count($data);
-    }
-
-    /*tomarProductosAc: Toma todos los productos de la base de datos y contiene la paginación*/
-    public function tomarProductos(int $page = 0)
+    /*tomarProductos: Toma todos los productos de la base de datos filtrando por estado y contiene la paginación*/
+    public function tomarProductos(int $page = 1, string $estado = "activo")
     {
         $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id" :
-            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
+        if ($estado == "todo") {
+            $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+            LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
+        } else {
+            $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+            LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = '$estado' LIMIT 5 OFFSET $offset";
+        }
         $data = $this->selectAll($sql);
         return $data;
     }
 
-    public function getFilters($filters)
+    /*tomarProductosAc: Toma todos los productos activos (para selects)*/
+    public function tomarProductosAc()
     {
-        $filterConnect = "";
-        if (empty($filters)) {
-            return "";
-        }
-        if (isset($filters["estado"]) && $filters["estado"] != "") {
-            $filterConnect += " AND p.estado = $filters ";
-        }
-        return $filterConnect;
-    }
-
-    /*tomarProductosIn: Toma todos los productos de la base de datos que tengan el estado inactivo y contiene la paginación*/
-    public function tomarProductosIn(int $page = 0)
-    {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'inactivo' " :
-            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'inactivo' LIMIT 5 OFFSET $offset";
-        $data = $this->selectAll($sql);
-        return $data;
-    }
-
-    /*tomarProductosAc: Toma todos los productos de la base de datos que tengan el estado activo y contiene la paginación*/
-    public function tomarProductosAc(int $page = 0)
-    {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo' " :
-            "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo' LIMIT 5 OFFSET $offset";
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo'";
         $data = $this->selectAll($sql);
         return $data;
     }

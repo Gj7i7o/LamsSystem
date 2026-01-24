@@ -19,10 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Función para obtener los datos del servidor
   async function fetchDataAndRenderTable() {
     try {
-      // Reemplaza '/api/productos' con la URL real de tu backend
+      let estado = document.getElementById("estado");
+      const params = new URLSearchParams({
+        page: currentPage,
+        estado: estado?.value || "activo",
+      });
+
       const response = await fetch(
-        "http://localhost/LamsSystem/proveedores/listarActivos?page=" +
-          currentPage,
+        "http://localhost/LamsSystem/proveedores/listar?" + params,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -42,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Puedes mostrar un mensaje de error al usuario aquí
     }
   }
+
+  // Exponer la función para poder llamarla desde setfilter
+  window.fetchProveedores = fetchDataAndRenderTable;
 
   function renderTable() {
     tableBody.innerHTML = "";
@@ -125,6 +132,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. Llama a la función para iniciar el proceso
   fetchDataAndRenderTable();
 });
+
+/*Función para filtrar por estado*/
+function setfilter() {
+  if (window.fetchProveedores) {
+    window.fetchProveedores();
+  }
+}
 
 /*Botón para desactivar proveedores*/
 function btnDesProveedor(id) {
