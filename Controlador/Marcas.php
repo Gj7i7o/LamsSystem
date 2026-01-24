@@ -38,8 +38,10 @@ class marcas extends controlador
         try {
             $page = $_GET["page"] ?? 1;
             $estado = $_GET["estado"] ?? "activo";
-            $data = $this->model->tomarMarcas($page, $estado);
-            $total = $this->model->getCount($estado);
+            $query = $_GET["query"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
+            $data = $this->model->tomarMarcas($params);
+            $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
                 if ($data[$i]['estado'] == 'activo') {
                     $data[$i]['acciones'] = '<div>

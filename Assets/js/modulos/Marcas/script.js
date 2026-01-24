@@ -19,9 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   async function tablaMarcas() {
     try {
       let estado = document.getElementById("estado");
+      let query = document.getElementById("query");
       const params = new URLSearchParams({
         page: paginaActual,
         estado: estado?.value || "activo",
+        query: query?.value || "",
       });
 
       const response = await fetch(

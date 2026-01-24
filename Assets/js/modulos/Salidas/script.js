@@ -19,9 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Función para obtener los datos del servidor
   async function fetchDataAndRenderTable() {
     try {
-      // Reemplaza '/api/productos' con la URL real de tu backend
+      let query = document.getElementById("query");
+      const params = new URLSearchParams({
+        page: currentPage,
+        query: query?.value || "",
+      });
+
       const response = await fetch(
-        "http://localhost/LamsSystem/Salidas/list?page=" + currentPage
+        "http://localhost/LamsSystem/Salidas/list?" + params
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -119,6 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Exponer la función para poder llamarla desde setfilter
+  window.fetchSalidas = fetchDataAndRenderTable;
+
   // 3. Llama a la función para iniciar el proceso
   fetchDataAndRenderTable();
 });
+
+/*Función para filtrar por búsqueda*/
+function setfilter() {
+  if (window.fetchSalidas) {
+    window.fetchSalidas();
+  }
+}

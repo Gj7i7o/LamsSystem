@@ -11,27 +11,35 @@ class proveedoresModel extends query
         parent::__construct();
     }
 
-    /*getCount: Cuenta los proveedores según el estado*/
-    public function getCount(string $estado = "activo")
+    /*getCount: Cuenta los proveedores según el estado y búsqueda*/
+    public function getCount(array $params)
     {
-        if ($estado == "todo") {
-            $sql = "SELECT * FROM proveedor";
-        } else {
-            $sql = "SELECT * FROM proveedor WHERE estado = '$estado'";
-        }
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM proveedor $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarProveedores: Toma todos los proveedores de la base de datos filtrando por estado y contiene la paginación*/
-    public function tomarProveedores(int $page = 1, string $estado = "activo")
+    /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
+    public function filtersSQL(string $value, string $estado): string
     {
-        $offset = ($page - 1) * 5;
-        if ($estado == "todo") {
-            $sql = "SELECT * FROM proveedor LIMIT 5 OFFSET $offset";
-        } else {
-            $sql = "SELECT * FROM proveedor WHERE estado = '$estado' LIMIT 5 OFFSET $offset";
+        $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "estado = '$estado'";
         }
+        if (!empty($value)) {
+            $conditions[] = "(rif LIKE '%$value%' OR nombre LIKE '%$value%' OR apellido LIKE '%$value%' OR direccion LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+        return $filter;
+    }
+
+    /*tomarProveedores: Toma todos los proveedores de la base de datos filtrando por estado y búsqueda*/
+    public function tomarProveedores(array $params)
+    {
+        $offset = ($params["page"] - 1) * 5;
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM proveedor $filters LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

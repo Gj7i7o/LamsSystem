@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Construir la URL con query parameters
       const params = new URLSearchParams({
         page: currentPage,
-        query: query?.value,
-        estado: estado?.value,
+        query: query?.value || "",
+        estado: estado?.value || "activo",
       });
 
       const url = `http://localhost/LamsSystem/categorias/listar?${params}`;

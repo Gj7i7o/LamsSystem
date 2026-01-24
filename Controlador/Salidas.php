@@ -20,14 +20,16 @@ class salidas extends controlador
         $this->vista->getView($this, "index");
     }
 
-    /*Listado: Se encarga de obtener el listado de las salidas realizadas 
+    /*Listado: Se encarga de obtener el listado de las salidas realizadas
     y almacenadas en la base de datos*/
     public function list()
     {
         try {
             $page = $_GET["page"] ?? 0;
-            $data = $this->model->tomarSalida($page);
-            $total = $this->model->getCount();
+            $query = $_GET["query"] ?? "";
+            $params = ['page' => $page, 'query' => $query];
+            $data = $this->model->tomarSalida($params);
+            $total = $this->model->getCount($params);
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();
         } catch (\Exception $e) {

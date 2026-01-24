@@ -24,7 +24,7 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="buscador">
                     <i class="fa-solid fa-magnifying-glass">
-                    </i><input type="text" name="" id="">
+                    </i><input type="text" name="query" id="query" placeholder="Buscar..." oninput="setfilter()">
                 </div>
             </div>
             <div>

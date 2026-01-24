@@ -9,19 +9,32 @@ class salidasModel extends query
         parent::__construct();
     }
 
-    public function getCount()
+    /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
+    public function filtersSQL(string $value): string
     {
-        $sql = "SELECT * FROM salida";
+        $conditions = [];
+        if (!empty($value)) {
+            $conditions[] = "(cod_docum LIKE '%$value%' OR total LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+        return $filter;
+    }
+
+    public function getCount(array $params)
+    {
+        $filters = $this->filtersSQL($params["query"]);
+        $sql = "SELECT * FROM salida $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
     /*tomarSalida: Toma todas las salidas de la base de datos*/
-    public function tomarSalida(int $page = 0)
+    public function tomarSalida(array $params)
     {
-        $offset = ($page - 1) * 5;
-        $sql = $page <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM salida" :
-            "SELECT id, cod_docum, total, fecha, hora FROM salida LIMIT 5 OFFSET $offset";
+        $offset = ($params["page"] - 1) * 5;
+        $filters = $this->filtersSQL($params["query"]);
+        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM salida $filters" :
+            "SELECT id, cod_docum, total, fecha, hora FROM salida $filters LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

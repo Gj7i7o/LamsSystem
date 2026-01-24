@@ -11,27 +11,35 @@ class usuariosModel extends query
         parent::__construct();
     }
 
-    /*getCount: Cuenta los usuarios según el estado*/
-    public function getCount(string $estado = "activo")
+    /*getCount: Cuenta los usuarios según el estado y búsqueda*/
+    public function getCount(array $params)
     {
-        if ($estado == "todo") {
-            $sql = "SELECT * FROM usuario";
-        } else {
-            $sql = "SELECT * FROM usuario WHERE estado = '$estado'";
-        }
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM usuario $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarUsuarios: Toma todos los usuarios de la base de datos filtrando por estado y contiene la paginación*/
-    public function tomarUsuarios(int $page = 1, string $estado = "activo")
+    /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
+    public function filtersSQL(string $value, string $estado): string
     {
-        $offset = ($page - 1) * 5;
-        if ($estado == "todo") {
-            $sql = "SELECT * FROM usuario LIMIT 5 OFFSET $offset";
-        } else {
-            $sql = "SELECT * FROM usuario WHERE estado = '$estado' LIMIT 5 OFFSET $offset";
+        $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "estado = '$estado'";
         }
+        if (!empty($value)) {
+            $conditions[] = "(usuario LIKE '%$value%' OR rango LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+        return $filter;
+    }
+
+    /*tomarUsuarios: Toma todos los usuarios de la base de datos filtrando por estado y búsqueda*/
+    public function tomarUsuarios(array $params)
+    {
+        $offset = ($params["page"] - 1) * 5;
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM usuario $filters LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

@@ -28,7 +28,14 @@ class categoriasModel extends query
 
     public function filtersSQL(string $value, string $estado): string
     {
-        $filter = "WHERE estado = '$estado' AND (nombre LIKE '$value%' OR descrip LIKE '$value%')";
+        $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "estado = '$estado'";
+        }
+        if (!empty($value)) {
+            $conditions[] = "(nombre LIKE '%$value%' OR descrip LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
     }
 

@@ -20,9 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchDataAndRenderTable() {
     try {
       let estado = document.getElementById("estado");
+      let query = document.getElementById("query");
       const params = new URLSearchParams({
         page: currentPage,
         estado: estado?.value || "activo",
+        query: query?.value || "",
       });
 
       const response = await fetch(

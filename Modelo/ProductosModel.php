@@ -11,29 +11,39 @@ class productosModel extends query
         parent::__construct();
     }
 
-    /*getCount: Cuenta los productos según el estado*/
-    public function getCount(string $estado = "activo")
+    /*getCount: Cuenta los productos según el estado y búsqueda*/
+    public function getCount(array $params)
     {
-        if ($estado == "todo") {
-            $sql = "SELECT * FROM producto";
-        } else {
-            $sql = "SELECT * FROM producto WHERE estado = '$estado'";
-        }
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT p.id FROM producto p
+            LEFT JOIN categoria c ON p.idcategoria = c.id
+            LEFT JOIN marca m ON p.idmarca = m.id $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    /*tomarProductos: Toma todos los productos de la base de datos filtrando por estado y contiene la paginación*/
-    public function tomarProductos(int $page = 1, string $estado = "activo")
+    /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
+    public function filtersSQL(string $value, string $estado): string
     {
-        $offset = ($page - 1) * 5;
-        if ($estado == "todo") {
-            $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-            LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id LIMIT 5 OFFSET $offset";
-        } else {
-            $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
-            LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = '$estado' LIMIT 5 OFFSET $offset";
+        $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "p.estado = '$estado'";
         }
+        if (!empty($value)) {
+            $conditions[] = "(p.codigo LIKE '%$value%' OR p.nombre LIKE '%$value%' OR c.nombre LIKE '%$value%' OR m.nombre LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+        return $filter;
+    }
+
+    /*tomarProductos: Toma todos los productos de la base de datos filtrando por estado y búsqueda*/
+    public function tomarProductos(array $params)
+    {
+        $offset = ($params["page"] - 1) * 5;
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+            LEFT JOIN categoria c ON p.idcategoria = c.id
+            LEFT JOIN marca m ON p.idmarca = m.id $filters LIMIT 5 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
