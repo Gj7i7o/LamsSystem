@@ -115,11 +115,15 @@ class marcas extends controlador
     /*desactivar: Envía a la función desMarca del modelo/marcasModel.php con el id correspondiente*/
     public function desactivar(int $id)
     {
-        $data = $this->model->desMarca($id);
-        if ($data == 1) {
-            $msg = array('msg' => 'Error al desactivar la marca', 'icono' => 'error');
+        if ($this->model->tieneProductos($id)) {
+            $msg = array('msg' => 'No se puede desactivar la marca porque tiene productos activos asociados', 'icono' => 'warning');
         } else {
-            $msg = array('msg' => 'Marca desactivada', 'icono' => 'success');
+            $data = $this->model->desMarca($id);
+            if ($data == 1) {
+                $msg = array('msg' => 'Error al desactivar la marca', 'icono' => 'error');
+            } else {
+                $msg = array('msg' => 'Marca desactivada', 'icono' => 'success');
+            }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

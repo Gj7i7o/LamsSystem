@@ -122,6 +122,14 @@ class categoriasModel extends query
         return $data;
     }
 
+    /*tieneProductos: Verifica si la categoría tiene productos activos relacionados*/
+    public function tieneProductos(int $id)
+    {
+        $sql = "SELECT COUNT(*) as total FROM producto WHERE idcategoria = $id AND estado = 'activo'";
+        $data = $this->select($sql);
+        return $data['total'] > 0;
+    }
+
     /*desCategoria: Hace la consulta SQL que traerá la categoría que posteriormente se cambiará su estado a inactivo*/
     public function desCategoria(int $id)
     {

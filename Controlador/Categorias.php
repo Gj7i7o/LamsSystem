@@ -110,11 +110,15 @@ class categorias extends controlador
     /*desactivar: Envía a la función desCategoria del modelo/categoriasModel.php con el id correspondiente*/
     public function desactivar(int $id)
     {
-        $data = $this->model->desCategoria($id);
-        if ($data == 1) {
-            $msg = array('msg' => 'Error al desactivar la categoría', 'icono' => 'error');
+        if ($this->model->tieneProductos($id)) {
+            $msg = array('msg' => 'No se puede desactivar la categoría porque tiene productos activos asociados', 'icono' => 'warning');
         } else {
-            $msg = array('msg' => 'Categoría desactivada', 'icono' => 'success');
+            $data = $this->model->desCategoria($id);
+            if ($data == 1) {
+                $msg = array('msg' => 'Error al desactivar la categoría', 'icono' => 'error');
+            } else {
+                $msg = array('msg' => 'Categoría desactivada', 'icono' => 'success');
+            }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

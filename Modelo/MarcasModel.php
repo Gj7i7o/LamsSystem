@@ -106,6 +106,14 @@ class marcasModel extends query
         return $data;
     }
 
+    /*tieneProductos: Verifica si la marca tiene productos activos relacionados*/
+    public function tieneProductos(int $id)
+    {
+        $sql = "SELECT COUNT(*) as total FROM producto WHERE idmarca = $id AND estado = 'activo'";
+        $data = $this->select($sql);
+        return $data['total'] > 0;
+    }
+
     /*desMarca: Hace la consulta SQL que traerá la marca que posteriormente se cambiará su estado a inactivo*/
     public function desMarca(int $id)
     {
