@@ -66,10 +66,11 @@ async function getListadoProducto() {
   );
   const { data: opciones } = await response.json();
   const selects = document.querySelectorAll("select.producto");
-  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
   await opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>
     `;
   });
   selects.forEach((select) => {
@@ -84,10 +85,11 @@ async function getListadoProveedor() {
   );
   const { data: opciones } = await response.json();
   const select = document.getElementById("proveedor");
-  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
   await opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>
     `;
   });
   select.innerHTML = opcionesHtml;

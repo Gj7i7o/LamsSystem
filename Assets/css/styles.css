@@ -612,3 +612,44 @@ tr:nth-child(even) {
   box-sizing: border-box; /* Evita que el padding ensanche el input */
   padding: 6px;
 }
+
+/*=========================================
+        ESTILOS PARA SELECTS CON TEXTO TRUNCADO
+  =========================================*/
+
+/* Estilo general para todos los selects */
+select {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Selects en formularios de entradas/salidas */
+.input_form_select {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Selects en el header de modales (proveedor) */
+.datos-proveedor select {
+  width: 100%;
+  max-width: 250px;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Selects en formularios generales */
+.form-group select {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

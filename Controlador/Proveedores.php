@@ -24,8 +24,17 @@ class proveedores extends controlador
     {
         $result = [];
         $data = $this->model->tomarProveedoresAc();
+        $maxLength = 25;
         foreach ($data as $proveedor) {
-            $result[] = ['id' => $proveedor['id'], 'etiqueta' => $proveedor['nombre']];
+            $etiquetaCompleta = $proveedor['nombre'];
+            $etiquetaTruncada = mb_strlen($etiquetaCompleta) > $maxLength
+                ? mb_substr($etiquetaCompleta, 0, $maxLength) . '...'
+                : $etiquetaCompleta;
+            $result[] = [
+                'id' => $proveedor['id'],
+                'etiqueta' => $etiquetaTruncada,
+                'etiquetaCompleta' => $etiquetaCompleta
+            ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
         die();

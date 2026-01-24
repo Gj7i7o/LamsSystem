@@ -4,10 +4,11 @@ async function getListadoCategoria() {
   );
   const { data: opciones } = await response.json();
   const select = document.getElementById("categoria");
-  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
   await opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>
     `;
   });
   select.innerHTML = opcionesHtml;
@@ -17,10 +18,11 @@ async function getListadoMarca() {
   const response = await fetch("http://localhost/LamsSystem/marcas/getSelect");
   const { data: opciones } = await response.json();
   const select = document.getElementById("marca");
-  let opcionesHtml = `<option value="">Selecciones...</option>`;
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
   await opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>
     `;
   });
   select.innerHTML = opcionesHtml;

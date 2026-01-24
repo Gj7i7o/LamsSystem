@@ -24,8 +24,17 @@ class productos extends controlador
     {
         $result = [];
         $data = $this->model->tomarProductosAc();
+        $maxLength = 25; // Longitud máxima para mostrar en el select
         foreach ($data as $producto) {
-            $result[] = ['id' => $producto['id'], 'etiqueta' => $producto['nombre']];
+            $etiquetaCompleta = $producto['codigo'] . ' - ' . $producto['nombre'];
+            $etiquetaTruncada = mb_strlen($etiquetaCompleta) > $maxLength
+                ? mb_substr($etiquetaCompleta, 0, $maxLength) . '...'
+                : $etiquetaCompleta;
+            $result[] = [
+                'id' => $producto['id'],
+                'etiqueta' => $etiquetaTruncada,
+                'etiquetaCompleta' => $etiquetaCompleta
+            ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
         die();

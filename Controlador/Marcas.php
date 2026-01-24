@@ -24,8 +24,17 @@ class marcas extends controlador
     {
         $result = [];
         $data = $this->model->tomarMarcasAc();
+        $maxLength = 25;
         foreach ($data as $marca) {
-            $result[] = ['id' => $marca['id'], 'etiqueta' => $marca['nombre']];
+            $etiquetaCompleta = $marca['nombre'];
+            $etiquetaTruncada = mb_strlen($etiquetaCompleta) > $maxLength
+                ? mb_substr($etiquetaCompleta, 0, $maxLength) . '...'
+                : $etiquetaCompleta;
+            $result[] = [
+                'id' => $marca['id'],
+                'etiqueta' => $etiquetaTruncada,
+                'etiquetaCompleta' => $etiquetaCompleta
+            ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
         die();
