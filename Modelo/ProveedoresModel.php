@@ -39,7 +39,7 @@ class proveedoresModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = "SELECT * FROM proveedor $filters LIMIT 10 OFFSET $offset";
+        $sql = "SELECT * FROM proveedor $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

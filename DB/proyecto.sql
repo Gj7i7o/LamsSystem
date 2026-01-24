@@ -60,24 +60,25 @@ CREATE TABLE `entrada` (
   `hora` varchar(20) NOT NULL,
   `idproveedor` int(11) NOT NULL,
   `total` float NOT NULL,
-  `cod_docum` varchar(20) NOT NULL
+  `cod_docum` varchar(20) NOT NULL,
+  `tipo_pago` varchar(15) NOT NULL DEFAULT 'contado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `entrada`
 --
 
-INSERT INTO `entrada` (`id`, `fecha`, `hora`, `idproveedor`, `total`, `cod_docum`) VALUES
-(5, '13/1/2026', '5:43:20 p. m.', 2, 36, 'Za-3333'),
-(7, '13/1/2026', '6:00:41 p. m.', 2, 60, 'Za-1234'),
-(8, '13/1/2026', '6:03:22 p. m.', 2, 0.03, 'Za-1232'),
-(9, '17/1/2026', '10:50:46 a. m.', 4, 86, 'Za-1233'),
-(10, '17/1/2026', '10:53:45 a. m.', 2, 160, 'Za-1235'),
-(11, '18/1/2026', '10:05:30 p. m.', 2, 160, '990-00-123'),
-(12, '18/1/2026', '10:18:02 p. m.', 2, 160, 'Za-2222'),
-(13, '21/1/2026', '9:41:13 a. m.', 2, 140, '3456'),
-(14, '21/1/2026', '9:49:39 a. m.', 2, 619, '00001'),
-(15, '21/1/2026', '9:52:48 a. m.', 2, 30, '0002');
+INSERT INTO `entrada` (`id`, `fecha`, `hora`, `idproveedor`, `total`, `cod_docum`, `tipo_pago`) VALUES
+(5, '13/1/2026', '5:43:20 p. m.', 2, 36, 'Za-3333', 'contado'),
+(7, '13/1/2026', '6:00:41 p. m.', 2, 60, 'Za-1234', 'contado'),
+(8, '13/1/2026', '6:03:22 p. m.', 2, 0.03, 'Za-1232', 'contado'),
+(9, '17/1/2026', '10:50:46 a. m.', 4, 86, 'Za-1233', 'contado'),
+(10, '17/1/2026', '10:53:45 a. m.', 2, 160, 'Za-1235', 'contado'),
+(11, '18/1/2026', '10:05:30 p. m.', 2, 160, '990-00-123', 'contado'),
+(12, '18/1/2026', '10:18:02 p. m.', 2, 160, 'Za-2222', 'contado'),
+(13, '21/1/2026', '9:41:13 a. m.', 2, 140, '3456', 'contado'),
+(14, '21/1/2026', '9:49:39 a. m.', 2, 619, '00001', 'contado'),
+(15, '21/1/2026', '9:52:48 a. m.', 2, 30, '0002', 'contado');
 
 -- --------------------------------------------------------
 

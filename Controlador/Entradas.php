@@ -51,6 +51,7 @@ class entradas extends controlador
             $id_proveedor = $data['proveedor'];
             $total = $data['total'];
             $lineas = $data['lineas']; // Array de productos
+            $tipo_pago = !empty($data['tipo_pago']) ? $data['tipo_pago'] : 'contado';
 
             // Validaciones básicas de cabecera
             if (empty($codigo) || empty($id_proveedor) || empty($lineas)) {
@@ -58,7 +59,7 @@ class entradas extends controlador
             } else {
                 // 2. Registrar la Cabecera de la Entrada
                 // Debes crear esta función en tu modelo para insertar y retornar el ID insertado
-                $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo);
+                $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
 
                 if ($id_entrada > 0) {
                     $error_detalle = false;

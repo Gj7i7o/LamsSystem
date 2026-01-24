@@ -140,6 +140,7 @@ function hora() {
 function limpiarFormulario() {
   document.getElementById("codigo").value = "";
   document.getElementById("total").value = "";
+  document.getElementById("tipo_pago").value = "contado";
 }
 
 const formulario = document.getElementById("formularioEntradas");
@@ -153,6 +154,7 @@ formulario.addEventListener("submit", function (e) {
     hora: hora(),
     lineas: [],
     total: "",
+    tipo_pago: "",
   };
 
   // Selecciona todos los divs que representan una línea de formulario
@@ -191,6 +193,7 @@ formulario.addEventListener("submit", function (e) {
   data.codigo = codigo.value;
   data.proveedor = proveedor.value;
   data.total = total.value;
+  data.tipo_pago = document.getElementById("tipo_pago").value;
 
   if (data.codigo == "" || data.proveedor == "") {
     alertas("Todos los campos son obligatorios", "warning");

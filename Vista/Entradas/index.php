@@ -59,6 +59,13 @@ include "vista/componentes/header.php";
                     <h3>Proveedor:</h3>
                     <select name="proveedor" id="proveedor"></select>
                 </div>
+                <div class="datos-proveedor">
+                    <h3>Tipo de Pago:</h3>
+                    <select name="tipo_pago" id="tipo_pago">
+                        <option value="contado" selected>Contado</option>
+                        <option value="credito">Crédito</option>
+                    </select>
+                </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
                     <input type="text" id="codigo" name="codigo" placeholder="Código Factura" required>

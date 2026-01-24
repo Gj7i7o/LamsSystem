@@ -61,7 +61,7 @@ class categoriasModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters" : "SELECT * FROM categoria $filters LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters ORDER BY id DESC" : "SELECT * FROM categoria $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

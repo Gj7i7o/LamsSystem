@@ -33,14 +33,14 @@ class entradasModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"]);
-        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters" :
-            "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC" :
+            "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
 
     /*regisEntrada: Obtiene los datos para validarlos y realizar las opciones de entrada*/
-    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo)
+    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo, string $tipo_pago = 'contado')
     {
         // 1. Verificar si el código de factura/entrada ya existe
         $verificar = "SELECT * FROM entrada WHERE cod_docum = '$codigo'";
@@ -48,8 +48,8 @@ class entradasModel extends query
 
         if (empty($existe)) {
             // 2. Insertar cabecera
-            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum) VALUES (?,?,?,?,?)";
-            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo);
+            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago) VALUES (?,?,?,?,?,?)";
+            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
             $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
 
             if ($data > 0) {

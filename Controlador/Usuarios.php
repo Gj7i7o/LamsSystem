@@ -31,15 +31,21 @@ class usuarios extends controlador
             $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
             $data = $this->model->tomarUsuarios($params);
             $total = $this->model->getCount($params);
+            $idUsuarioActivo = $_SESSION['id_usuario'];
             for ($i = 0; $i < count($data); $i++) {
+                $btnEditar = '<button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>';
+
                 if ($data[$i]['estado'] == 'activo') {
-                    $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                    // No mostrar botón de desactivar si es el usuario con sesión activa
+                    if ($data[$i]['id'] == $idUsuarioActivo) {
+                        $data[$i]['acciones'] = '<div>' . $btnEditar . '</div>';
+                    } else {
+                        $data[$i]['acciones'] = '<div>' . $btnEditar . '
                 <button class="warning" type="button" onclick="btnDesUsuario(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
                 </div>';
+                    }
                 } else {
-                    $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                    $data[$i]['acciones'] = '<div>' . $btnEditar . '
                 <button class="secure" type="button" onclick="btnActUsuario(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }

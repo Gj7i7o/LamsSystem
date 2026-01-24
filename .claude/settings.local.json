@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(cd:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(python:*)",
+      "Bash(php:*)",
+      "Bash(\"C:\\xampp\\php\\php.exe\" -r \"$file = ''C:\\Users\\Gabriel SG\\dev\\xampp\\htdocs\\LamsSystem\\DB\\proyecto.sql''; $content = file_get_contents($file); $content = str_replace(\"\"''Za-1232''),\"\", \"\"''Za-1232'', ''contado''),\"\", $content); file_put_contents($file, $content); echo ''Done'';\")",
+      "Bash(node -e:*)"
     ]
   }
 }

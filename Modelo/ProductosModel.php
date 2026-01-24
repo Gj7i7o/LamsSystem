@@ -43,7 +43,7 @@ class productosModel extends query
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
         $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
-            LEFT JOIN marca m ON p.idmarca = m.id $filters LIMIT 10 OFFSET $offset";
+            LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
