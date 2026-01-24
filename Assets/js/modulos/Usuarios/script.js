@@ -159,6 +159,7 @@ function btnDesUsuario(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }
@@ -185,6 +186,7 @@ function btnActUsuario(id) {
         if (this.readyState == 4 && this.status == 200) {
           const res = JSON.parse(this.responseText);
           alertas(res.msg, res.icono);
+          recargarVista();
         }
       };
     }
