@@ -111,6 +111,8 @@ class productos extends controlador
                 $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
+                } else if ($data == "existe") {
+                    $msg = array('msg' => 'El producto ya existe', 'icono' => 'warning');
                 } else {
                     $msg = array('msg' => 'Error al modificar el producto', 'icono' => 'error');
                 }

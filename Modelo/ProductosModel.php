@@ -93,13 +93,19 @@ class productosModel extends query
         $this->categoria = $categoria;
         $this->marca = $marca;
         $this->id = $id;
-        $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ? WHERE id = ?";
-        $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $this->id);
-        $data = $this->save($sql, $datos);
-        if ($data == 1) {
-            $res = "modificado";
+        $verificar = "SELECT * FROM producto WHERE codigo = '$this->codigo'";
+        $existe = $this->select($verificar);
+        if (empty($existe)) {
+            $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ? WHERE id = ?";
+            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $this->id);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                $res = "modificado";
+            } else {
+                $res = "error";
+            }
         } else {
-            $res = "error";
+            $res = "existe";
         }
         return $res;
     }
