@@ -64,21 +64,21 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" required>
+                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" maxlength="20" required>
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:</label>
-                    <input type="text" id="ci" name="ci" placeholder="30333222" required>
+                    <input type="text" id="ci" name="ci" placeholder="30333222" maxlength="15" required>
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" maxlength="50" required>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" placeholder="López" required>
+                    <input type="text" id="apellido" name="apellido" placeholder="López" maxlength="50" required>
                 </div>
             </div>
             <div class="form-file">
@@ -88,17 +88,17 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="form-group">
                     <label for="telef">Teléfono:</label>
-                    <input type="text" id="telef" name="telef" placeholder="0414-1234567" required>
+                    <input type="text" id="telef" name="telef" placeholder="0414-1234567" maxlength="15" required>
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Pedro*15">
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Pedro*15" maxlength="16">
                 </div>
                 <div class="form-group">
                     <label for="confirm">Confirmar Contraseña:</label>
-                    <input type="password" id="confirm" name="confirm" placeholder="Pedro*15">
+                    <input type="password" id="confirm" name="confirm" placeholder="Pedro*15" maxlength="16">
                 </div>
             </div>
             <div class="modal-footer">

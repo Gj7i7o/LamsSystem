@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="5">No hay entradas disponibles.</td></tr>';
+        '<tr><td colspan="6">No hay entradas disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
+                <td>${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });

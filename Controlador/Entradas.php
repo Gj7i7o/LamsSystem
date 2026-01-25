@@ -30,11 +30,38 @@ class entradas extends controlador
             $params = ['page' => $page, 'query' => $query];
             $data = $this->model->tomarEntrada($params);
             $total = $this->model->getCount($params);
+
+            // Agregar botones de acción a cada registro
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+                    <button class="secure" type="button" onclick="btnVerDetalleEntrada(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+                    <button class="primary" type="button" onclick="btnEditEntrada(' . $data[$i]['id'] . ');" title="Editar"><i class="fa-regular fa-pen-to-square"></i></button>
+                </div>';
+            }
+
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
             die();
         } catch (\Exception $e) {
             return json_encode(["error" => $e->getMessage()]);
         }
+    }
+
+    /*editar: Obtiene los datos de una entrada para edición*/
+    public function editar(int $id)
+    {
+        $cabecera = $this->model->editarEntrada($id);
+        $detalle = $this->model->obtenerDetalleEntrada($id);
+        echo json_encode(['cabecera' => $cabecera, 'detalle' => $detalle], JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*verDetalle: Obtiene los datos completos de una entrada (solo lectura)*/
+    public function verDetalle(int $id)
+    {
+        $cabecera = $this->model->editarEntrada($id);
+        $detalle = $this->model->obtenerDetalleEntrada($id);
+        echo json_encode(['cabecera' => $cabecera, 'detalle' => $detalle], JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     /*registrar: Se encarga de validar y registrar los datos de la entrada en la base de datos*/
@@ -45,6 +72,7 @@ class entradas extends controlador
         $data = json_decode($json, true);
 
         if ($data) {
+            $id = !empty($data['id']) ? $data['id'] : "";
             $fecha = $data['fecha'];
             $hora = $data['hora'];
             $codigo = $data['codigo'];
@@ -68,41 +96,81 @@ class entradas extends controlador
             } else if ($precioInvalido) {
                 $msg = array('msg' => 'El precio debe ser mayor a 0', 'icono' => 'warning');
             } else {
-                // 2. Registrar la Cabecera de la Entrada
-                // Debes crear esta función en tu modelo para insertar y retornar el ID insertado
-                $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
+                // Determinar si es CREAR o ACTUALIZAR
+                if ($id == "") {
+                    // CREAR NUEVA ENTRADA
+                    $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
 
-                if ($id_entrada > 0) {
-                    $error_detalle = false;
+                    if ($id_entrada > 0) {
+                        $error_detalle = false;
 
-                    // 3. Registrar el Detalle (Recorrer las líneas)
-                    foreach ($lineas as $linea) {
-                        $id_producto = $linea['producto'];
-                        $cantidad = $linea['cantidad'];
-                        $precio = $linea['precio'];
-                        $subTotal = $linea['subTotal'];
+                        foreach ($lineas as $linea) {
+                            $id_producto = $linea['producto'];
+                            $cantidad = $linea['cantidad'];
+                            $precio = $linea['precio'];
+                            $subTotal = $linea['subTotal'];
 
-                        // Insertar cada producto vinculado al ID de la entrada
-                        $detalle = $this->model->detalleEntrada($id_entrada, $id_producto, $cantidad, $precio, $subTotal);
+                            $detalle = $this->model->detalleEntrada($id_entrada, $id_producto, $cantidad, $precio, $subTotal);
 
-                        if ($detalle != "ok") {
-                            $error_detalle = true;
-                            break;
+                            if ($detalle != "ok") {
+                                $error_detalle = true;
+                                break;
+                            }
+
+                            $this->model->actualizarStock($id_producto, $cantidad);
                         }
 
-                        // 4. OPCIONAL: Actualizar stock en la tabla productos
-                        $this->model->actualizarStock($id_producto, $cantidad);
-                    }
-
-                    if (!$error_detalle) {
-                        $msg = array('msg' => 'Entrada registrada y stock actualizado', 'icono' => 'success');
+                        if (!$error_detalle) {
+                            $msg = array('msg' => 'Entrada registrada y stock actualizado', 'icono' => 'success');
+                        } else {
+                            $msg = array('msg' => 'Error al registrar el detalle de la entrada', 'icono' => 'error');
+                        }
+                    } else if ($id_entrada == "existe") {
+                        $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
                     } else {
-                        $msg = array('msg' => 'Error al registrar el detalle de la entrada', 'icono' => 'error');
+                        $msg = array('msg' => 'Error al registrar la cabecera', 'icono' => 'error');
                     }
-                } else if ($id_entrada == "existe") {
-                    $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
                 } else {
-                    $msg = array('msg' => 'Error al registrar la cabecera', 'icono' => 'error');
+                    // ACTUALIZAR ENTRADA EXISTENTE
+                    // 1. Revertir el stock anterior
+                    $this->model->revertirStockEntrada($id);
+
+                    // 2. Eliminar detalles anteriores
+                    $this->model->eliminarDetallesEntrada($id);
+
+                    // 3. Actualizar cabecera
+                    $resultado = $this->model->modifEntrada($id, $codigo, $id_proveedor, $total, $tipo_pago);
+
+                    if ($resultado == "modificado") {
+                        $error_detalle = false;
+
+                        // 4. Insertar nuevos detalles y actualizar stock
+                        foreach ($lineas as $linea) {
+                            $id_producto = $linea['producto'];
+                            $cantidad = $linea['cantidad'];
+                            $precio = $linea['precio'];
+                            $subTotal = $linea['subTotal'];
+
+                            $detalle = $this->model->detalleEntrada($id, $id_producto, $cantidad, $precio, $subTotal);
+
+                            if ($detalle != "ok") {
+                                $error_detalle = true;
+                                break;
+                            }
+
+                            $this->model->actualizarStock($id_producto, $cantidad);
+                        }
+
+                        if (!$error_detalle) {
+                            $msg = array('msg' => 'Entrada actualizada correctamente', 'icono' => 'success');
+                        } else {
+                            $msg = array('msg' => 'Error al actualizar el detalle de la entrada', 'icono' => 'error');
+                        }
+                    } else if ($resultado == "existe") {
+                        $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
+                    } else {
+                        $msg = array('msg' => 'Error al actualizar la entrada', 'icono' => 'error');
+                    }
                 }
             }
         } else {

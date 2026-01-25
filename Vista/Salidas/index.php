@@ -27,11 +27,12 @@ include "vista/componentes/header.php";
                 <table id="tablaSalidas">
                     <thead>
                         <tr>
-                            <th data-column="cod_docum" data-order="desc">Código</th>
+                            <th data-column="cod_docum" data-order="desc">Documento</th>
                             <th data-column="tipo_despacho" data-order="desc">Tipo Despacho</th>
                             <th data-column="total" data-order="desc">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
+                            <th data-column="acciones" data-order="desc">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,11 +68,12 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Factura" required>
+                    <input type="text" id="codigo" name="codigo" placeholder="Número de Documento" maxlength="50" required>
                 </div>
             </div>
 
             <form id="formularioSalidas" class="form" method="POST">
+                <input type="number" id="id" name="id" hidden="true">
                 <div id="formularioSalida">
                     <div class="buttonToLine">
                         <button class="button" type="button" data-idx="0" id="deleteLine"><i class="fas fa-trash"></i></button>
@@ -95,6 +97,47 @@ include "vista/componentes/header.php";
                 </div>
 
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalle -->
+    <div id="modalDetalleSalida" class="modal">
+        <div class="modal-content">
+            <span class="close-detalle" title="Cerrar">&times;</span>
+            <div class="modal-header">
+                <h2>Detalle de Salida</h2>
+            </div>
+            <div class="modal-header-info">
+                <div class="datos-proveedor">
+                    <h3>Usuario: <span id="detalle_usuario"></span></h3>
+                </div>
+                <div class="datos-proveedor">
+                    <h3>Tipo Despacho: <span id="detalle_tipo_despacho"></span></h3>
+                </div>
+                <div class="fecha">
+                    <h3>Documento: <span id="detalle_codigo"></span></h3>
+                    <h3>Fecha: <span id="detalle_fecha"></span> - <span id="detalle_hora"></span></h3>
+                </div>
+            </div>
+            <div class="detalle-productos">
+                <table id="tablaDetalleSalida">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Venta</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalleSalidaBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer-info">
+                <div class="datos-proveedor">
+                    <h3>Total: <span id="detalle_total"></span></h3>
+                </div>
+            </div>
         </div>
     </div>
 

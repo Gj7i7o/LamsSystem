@@ -653,3 +653,118 @@ select {
   overflow: hidden;
   white-space: nowrap;
 }
+
+/*=========================================
+    ESTILOS DEL MODAL DE DETALLE (Ver)
+  =========================================*/
+
+/* Botón de cerrar para modal detalle */
+.close-detalle {
+  color: #fff;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 20px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-detalle:hover {
+  color: #ccc;
+}
+
+/* Header del modal de detalle con fondo oscuro */
+#modalDetalleEntrada .modal-header,
+#modalDetalleSalida .modal-header {
+  background-color: #314158;
+  padding: 20px 25px;
+  border-bottom: none;
+}
+
+#modalDetalleEntrada .modal-header h2,
+#modalDetalleSalida .modal-header h2 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Contenido del modal de detalle con márgenes */
+#modalDetalleEntrada .modal-header-info,
+#modalDetalleSalida .modal-header-info {
+  margin: 20px;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-bottom: none;
+}
+
+#modalDetalleEntrada .modal-header-info h3,
+#modalDetalleSalida .modal-header-info h3 {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+#modalDetalleEntrada .modal-header-info span,
+#modalDetalleSalida .modal-header-info span {
+  font-weight: normal;
+  color: #333;
+}
+
+/* Tabla de detalle de productos */
+.detalle-productos {
+  margin: 0 20px 20px 20px;
+}
+
+.detalle-productos table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+}
+
+.detalle-productos th {
+  background-color: #e9ecef;
+  padding: 12px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+.detalle-productos td {
+  padding: 10px;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #eee;
+}
+
+.detalle-productos tr:last-child td {
+  border-bottom: none;
+}
+
+/* Footer del modal de detalle */
+#modalDetalleEntrada .modal-footer-info,
+#modalDetalleSalida .modal-footer-info {
+  margin: 0 20px 20px 20px;
+  padding: 15px 20px;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  border-top: none;
+  justify-content: flex-end;
+}
+
+#modalDetalleEntrada .modal-footer-info h3,
+#modalDetalleSalida .modal-footer-info h3 {
+  font-size: 16px;
+  color: #314158;
+  font-weight: 700;
+}
+
+#modalDetalleEntrada .modal-footer-info span,
+#modalDetalleSalida .modal-footer-info span {
+  color: #16a64d;
+  font-weight: 700;
+}

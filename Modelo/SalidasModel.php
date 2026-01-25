@@ -91,4 +91,60 @@ class salidasModel extends query
         $data = $this->select($sql);
         return $data ? floatval($data['precio']) : 0;
     }
+
+    /*editarSalida: Obtiene la cabecera de una salida con datos del usuario*/
+    public function editarSalida(int $id)
+    {
+        $sql = "SELECT s.*, u.usuario as usuario_nombre
+                FROM salida s
+                LEFT JOIN usuario u ON s.idusuario = u.id
+                WHERE s.id = $id";
+        return $this->select($sql);
+    }
+
+    /*obtenerDetalleSalida: Obtiene las líneas de detalle de una salida*/
+    public function obtenerDetalleSalida(int $id_salida)
+    {
+        $sql = "SELECT sp.*, pr.nombre as producto_nombre, pr.codigo as producto_codigo, pr.precio as producto_precio
+                FROM salidaproducto sp
+                LEFT JOIN producto pr ON sp.idproducto = pr.id
+                WHERE sp.idsalida = $id_salida";
+        return $this->selectAll($sql);
+    }
+
+    /*revertirStockSalida: Suma al stock las cantidades de una salida (para edición - devolver al inventario)*/
+    public function revertirStockSalida(int $id_salida)
+    {
+        $detalles = $this->obtenerDetalleSalida($id_salida);
+        foreach ($detalles as $detalle) {
+            $sql = "UPDATE producto SET cantidad = cantidad + ? WHERE id = ?";
+            $datos = array($detalle['cantidad'], $detalle['idproducto']);
+            $this->save($sql, $datos);
+        }
+        return true;
+    }
+
+    /*eliminarDetallesSalida: Elimina los detalles de una salida*/
+    public function eliminarDetallesSalida(int $id_salida)
+    {
+        $sql = "DELETE FROM salidaproducto WHERE idsalida = ?";
+        return $this->save($sql, array($id_salida));
+    }
+
+    /*modifSalida: Actualiza la cabecera de una salida*/
+    public function modifSalida(int $id, string $codigo, float $total, string $tipo_despacho)
+    {
+        // Verificar código único (excepto para el mismo registro)
+        $verificar = "SELECT * FROM salida WHERE cod_docum = '$codigo' AND id != $id";
+        $existe = $this->select($verificar);
+
+        if (empty($existe)) {
+            $sql = "UPDATE salida SET cod_docum = ?, total = ?, tipo_despacho = ? WHERE id = ?";
+            $datos = array($codigo, $total, $tipo_despacho, $id);
+            $data = $this->save($sql, $datos);
+            return $data == 1 ? "modificado" : "error";
+        } else {
+            return "existe";
+        }
+    }
 }
