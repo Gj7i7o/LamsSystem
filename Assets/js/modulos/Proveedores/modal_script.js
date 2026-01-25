@@ -21,7 +21,8 @@ function limpiarFormulario() {
   document.getElementById("id").value = "";
   document.getElementById("rif").value = "";
   document.getElementById("nombre").value = "";
-  document.getElementById("apellido").value = "";
+  document.getElementById("telefono").value = "";
+  document.getElementById("persona_contacto").value = "";
   document.getElementById("direccion").value = "";
 }
 
@@ -39,36 +40,31 @@ function btnEditProveedor(id) {
       document.getElementById("id").value = res.id;
       document.getElementById("rif").value = res.rif;
       document.getElementById("nombre").value = res.nombre;
-      document.getElementById("apellido").value = res.apellido;
+      document.getElementById("telefono").value = res.telefono || "";
+      document.getElementById("persona_contacto").value = res.persona_contacto || "";
       document.getElementById("direccion").value = res.direccion;
       modal.style.display = "block";
     }
   };
 }
 
-// Manejar el envío del formulario (opcional)
+// Manejar el envío del formulario
+const formularioProveedor = document.getElementById("formularioProveedor");
 formularioProveedor.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
   const rif = document.getElementById("rif");
   const nombre = document.getElementById("nombre");
-  const apellido = document.getElementById("apellido");
   const direccion = document.getElementById("direccion");
-  let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
-  let regexrif = /^([JGVPEjgvpe])([0-9]{8,9})$/;
+  let regexrif = /^([JGVPEjgvpe])[-]([0-9]{7,9})$/;
   if (
     rif.value == "" ||
     nombre.value == "" ||
-    apellido.value == "" ||
     direccion.value == ""
   ) {
-    alertas("Todos los campos son obligatorios", "warning");
-  } else if (letras.test(nombre)) {
-    alertas("No agregue caracteres indevidos en su nombre", "warning");
-  } else if (letras.test(apellido)) {
-    alertas("No agregue caracteres indevidos en su apellido", "warning");
-  } else if (regexrif.test(rif)) {
-    alertas("Escriba correctamente el rif", "warning");
+    alertas("Todos los campos obligatorios deben ser completados", "warning");
+  } else if (!regexrif.test(rif.value)) {
+    alertas("Escriba correctamente el rif (Ej: J-123456789)", "warning");
   } else {
     const url = APP_URL + "proveedores/registrar";
     const frm = document.getElementById("formularioProveedor");

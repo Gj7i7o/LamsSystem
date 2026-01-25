@@ -204,10 +204,11 @@ INSERT INTO `producto` (`id`, `codigo`, `nombre`, `precio`, `cantidad`, `idcateg
 
 CREATE TABLE `proveedor` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `apellido` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `rif` varchar(40) NOT NULL,
   `direccion` text NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `persona_contacto` varchar(100) DEFAULT NULL,
   `estado` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -215,17 +216,17 @@ CREATE TABLE `proveedor` (
 -- Volcado de datos para la tabla `proveedor`
 --
 
-INSERT INTO `proveedor` (`id`, `nombre`, `apellido`, `rif`, `direccion`, `estado`) VALUES
-(1, 'Carlos', 'gomez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'inactivo'),
-(2, 'Miguel', 'Rojas', 'J-407540351', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
-(3, 'Juan', 'Farias', 'J-407540351', 'Calle Acosta Casa Nro 96 Sector Mercado', 'activo'),
-(4, 'Donald', 'Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', 'activo'),
-(6, 'Miguel', 'Farias', 'V-123456789', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
-(8, 'Antonio', 'Martinez', 'V-987654321', 'Calle principal sector el Muco', 'inactivo'),
-(9, 'angel', 'brazon', 'V-123456789', 'calle independencia numero 4', 'inactivo'),
-(10, 'Luis', 'Hernandez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'activo'),
-(12, 'Luis', 'Hernandez', 'V-123456787', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'activo'),
-(13, 'aleida', 'figueroa', 'J-13111111', 'guayacan ', 'activo');
+INSERT INTO `proveedor` (`id`, `nombre`, `rif`, `direccion`, `telefono`, `persona_contacto`, `estado`) VALUES
+(1, 'Carlos gomez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'inactivo'),
+(2, 'Miguel Rojas', 'J-407540351', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', NULL, NULL, 'activo'),
+(3, 'Juan Farias', 'J-407540351', 'Calle Acosta Casa Nro 96 Sector Mercado', NULL, NULL, 'activo'),
+(4, 'Donald Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', NULL, NULL, 'activo'),
+(6, 'Miguel Farias', 'V-123456789', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', NULL, NULL, 'activo'),
+(8, 'Antonio Martinez', 'V-987654321', 'Calle principal sector el Muco', NULL, NULL, 'inactivo'),
+(9, 'angel brazon', 'V-123456789', 'calle independencia numero 4', NULL, NULL, 'inactivo'),
+(10, 'Luis Hernandez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'activo'),
+(12, 'Luis Hernandez', 'V-123456787', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'activo'),
+(13, 'aleida figueroa', 'J-13111111', 'guayacan ', NULL, NULL, 'activo');
 
 -- --------------------------------------------------------
 

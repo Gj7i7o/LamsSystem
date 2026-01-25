@@ -33,7 +33,8 @@ include "vista/componentes/header.php";
                         <tr>
                             <th data-column="rif" data-order="desc">Rif</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
-                            <th data-column="apellido" data-order="desc">Apellido</th>
+                            <th data-column="telefono" data-order="desc">Teléfono</th>
+                            <th data-column="persona_contacto" data-order="desc">Persona Contacto</th>
                             <th data-column="direccion" data-order="desc">Dirección</th>
                             <th data-column="estado" data-order="desc">Estado</th>
                             <th data-column="acciones" data-order="desc">Acciones</th>
@@ -67,14 +68,19 @@ include "vista/componentes/header.php";
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Empresa o Nombre Completo" required>
+            </div>
+
             <div class="form-file">
                 <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" placeholder="0412-1234567">
                 </div>
                 <div class="form-group">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
+                    <label for="persona_contacto">Persona de Contacto:</label>
+                    <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Juan Pérez">
                 </div>
             </div>
 

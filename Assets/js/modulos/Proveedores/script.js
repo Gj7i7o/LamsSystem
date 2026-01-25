@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="7">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.rif}</td>
                 <td>${item.nombre}</td>
-                <td>${item.apellido}</td>
+                <td>${item.telefono || '-'}</td>
+                <td>${item.persona_contacto || '-'}</td>
                 <td>${item.direccion}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>

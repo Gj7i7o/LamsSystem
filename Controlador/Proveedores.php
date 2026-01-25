@@ -76,25 +76,21 @@ class proveedores extends controlador
     {
         $rif = $_POST['rif'];
         $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
         $direccion = $_POST['direccion'];
+        $telefono = $_POST['telefono'] ?? '';
+        $persona_contacto = $_POST['persona_contacto'] ?? '';
         $id = $_POST['id'];
-        $letras = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/";
         $codigo = "/^[JGVEP][-][0-9]{7,9}+$/";
-        if (empty($nombre) || empty($apellido) || empty($rif) || empty($direccion)) {
-            $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
+        if (empty($nombre) || empty($rif) || empty($direccion)) {
+            $msg = array('msg' => 'Todos los campos obligatorios deben ser completados', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($letras, $nombre)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el nombre', 'icono' => 'warning');
-                } else if (!preg_match($letras, $apellido)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el apellido', 'icono' => 'warning');
-                } else if (!preg_match($codigo, $rif)) {
+                if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el proveedor no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisProveedor en el modelo/proveedoresModel.php*/
-                    $data = $this->model->regisProveedor($nombre, $apellido, $rif, $direccion);
+                    $data = $this->model->regisProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Proveedor Registrado', 'icono' => 'success');
                     } else if ($data == "existe") {
@@ -104,16 +100,12 @@ class proveedores extends controlador
                     }
                 }
             } else {
-                if (!preg_match($letras, $nombre)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el nombre', 'icono' => 'warning');
-                } else if (!preg_match($letras, $apellido)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el apellido', 'icono' => 'warning');
-                } else if (!preg_match($codigo, $rif)) {
+                if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
                 } else {
                     /*Caso contrario, si el proveedor existe, se interpreta que se desea modificar ese proveedor,
                 por ende lleva los datos a la función modifProveedor en el modelo/proveedoresModel.php*/
-                    $data = $this->model->modifProveedor($nombre, $apellido, $rif, $direccion, $id);
+                    $data = $this->model->modifProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto, $id);
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
                     } else {
