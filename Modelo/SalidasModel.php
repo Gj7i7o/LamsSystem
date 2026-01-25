@@ -33,14 +33,14 @@ class salidasModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"]);
-        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM salida $filters ORDER BY id DESC" :
-            "SELECT id, cod_docum, total, fecha, hora FROM salida $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC" :
+            "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
 
     /*regisSalida: Obtiene los datos para validarlos y realizar las opciones de salida*/
-    public function regisSalida(string $fecha, string $hora, int $idusuario, float $total, string $codigo)
+    public function regisSalida(string $fecha, string $hora, int $idusuario, float $total, string $codigo, string $tipo_despacho = 'venta')
     {
         // 1. Verificar si el código de factura/salida ya existe
         $verificar = "SELECT * FROM salida WHERE cod_docum = '$codigo'";
@@ -48,8 +48,8 @@ class salidasModel extends query
 
         if (empty($existe)) {
             // 2. Insertar cabecera
-            $sql = "INSERT INTO salida (fecha, hora, idusuario, cod_docum, total) VALUES (?,?,?,?,?)";
-            $datos = array($fecha, $hora, $idusuario, $codigo, $total);
+            $sql = "INSERT INTO salida (fecha, hora, idusuario, cod_docum, total, tipo_despacho) VALUES (?,?,?,?,?,?)";
+            $datos = array($fecha, $hora, $idusuario, $codigo, $total, $tipo_despacho);
             $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
 
             if ($data > 0) {

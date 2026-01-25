@@ -28,6 +28,7 @@ include "vista/componentes/header.php";
                     <thead>
                         <tr>
                             <th data-column="cod_docum" data-order="desc">Código</th>
+                            <th data-column="tipo_despacho" data-order="desc">Tipo Despacho</th>
                             <th data-column="total" data-order="desc">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
@@ -56,7 +57,13 @@ include "vista/componentes/header.php";
 
             <div class="modal-header-info">
                 <div class="datos-proveedor">
-
+                    <h3>Tipo de Despacho:</h3>
+                    <select name="tipo_despacho" id="tipo_despacho">
+                        <option value="venta" selected>Venta</option>
+                        <option value="uso_interno">Uso Interno</option>
+                        <option value="danado">Dañado</option>
+                        <option value="devolucion">Devolución</option>
+                    </select>
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>

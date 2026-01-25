@@ -240,14 +240,15 @@ CREATE TABLE `salida` (
   `hora` varchar(20) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `total` float NOT NULL,
-  `cod_docum` varchar(30) NOT NULL
+  `cod_docum` varchar(30) NOT NULL,
+  `tipo_despacho` varchar(20) NOT NULL DEFAULT 'venta'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `salida`
 --
 
-INSERT INTO `salida` (`id`, `fecha`, `hora`, `idusuario`, `total`, `cod_docum`) VALUES
+INSERT INTO `salida` (`id`, `fecha`, `hora`, `idusuario`, `total`, `cod_docum`, `tipo_despacho`) VALUES
 (3, '16/1/2026', '8:33:56 p. m.', 1, 255, 'Za-1232'),
 (4, '16/1/2026', '8:36:46 p. m.', 1, 24.2, '2sa5lL*2'),
 (5, '21/1/2026', '9:57:31 a. m.', 1, 340040, '0001');

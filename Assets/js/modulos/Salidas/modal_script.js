@@ -128,6 +128,7 @@ function hora() {
 function limpiarFormulario() {
   document.getElementById("codigo").value = "";
   document.getElementById("total").value = "";
+  document.getElementById("tipo_despacho").value = "venta";
 }
 
 const formulario = document.getElementById("formularioSalidas");
@@ -141,6 +142,7 @@ formulario.addEventListener("submit", function (e) {
     hora: hora(),
     lineas: [],
     total: "",
+    tipo_despacho: "",
   };
 
   // Selecciona todos los divs que representan una línea de formulario
@@ -170,6 +172,7 @@ formulario.addEventListener("submit", function (e) {
   });
   data.codigo = codigo.value;
   data.total = total.value;
+  data.tipo_despacho = document.getElementById("tipo_despacho").value;
 
   // Validar que el precio de venta no sea menor al precio del producto
   let precioInvalido = false;

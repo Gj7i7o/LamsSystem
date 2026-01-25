@@ -51,6 +51,7 @@ class salidas extends controlador
             $codigo = $data['codigo'];
             $id_usuario = $data['usuario'];
             $total = $data['total'];
+            $tipo_despacho = !empty($data['tipo_despacho']) ? $data['tipo_despacho'] : 'venta';
             $lineas = $data['lineas']; // Array de productos
 
             // Validar que el precio de venta no sea menor al precio del producto
@@ -70,9 +71,8 @@ class salidas extends controlador
             } else if ($precioInvalido) {
                 $msg = array('msg' => 'El precio de venta no puede ser menor al precio del producto', 'icono' => 'warning');
             } else {
-                // 2. Registrar la Cabecera de la Entrada
-                // Debes crear esta función en tu modelo para insertar y retornar el ID insertado
-                $id_salida = $this->model->regisSalida($fecha, $hora, $id_usuario, $total, $codigo);
+                // 2. Registrar la Cabecera de la Salida
+                $id_salida = $this->model->regisSalida($fecha, $hora, $id_usuario, $total, $codigo, $tipo_despacho);
 
                 if ($id_salida > 0) {
                     $error_detalle = false;

@@ -11,6 +11,11 @@ class usuarios extends controlador
         if (empty($_SESSION['activo'])) {
             header("location: " . APP_URL);
         }
+        // Verificar que el usuario sea administrador
+        if ($_SESSION['rango'] != 'administrador') {
+            header("location: " . APP_URL . "dashboard");
+            exit();
+        }
         parent::__construct();
     }
 

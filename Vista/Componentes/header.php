@@ -72,16 +72,8 @@
                         <span class="nav-item"><i class="fa-solid fa-door-open"></i> Salidas</span>
                     </a>
                 </li>
-                <!-- Condición que oculta o muestra la sección Usuarios si el Usuario que entra poseé el rango empleado -->
-                <?php if ($_SESSION['rango'] == "empleado") { ?>
-                    <li hidden="true">
-                        <!-- Botón del módulo de usuarios -->
-                        <a href="<?php echo APP_URL; ?>usuarios" title="Usuarios en sistema"
-                            class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'usuarios') !== false) ? 'active' : ''; ?>">
-                            <span class="nav-item"><i class="fas fa-user"></i> Usuarios</span>
-                        </a>
-                    </li>
-                <?php } else { ?>
+                <!-- Módulo de usuarios solo visible para administradores -->
+                <?php if ($_SESSION['rango'] == "administrador") { ?>
                     <li>
                         <!-- Botón del módulo de usuarios -->
                         <a href="<?php echo APP_URL; ?>usuarios" title="Usuarios en sistema"
