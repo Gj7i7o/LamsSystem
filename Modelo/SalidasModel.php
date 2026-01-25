@@ -83,4 +83,12 @@ class salidasModel extends query
         $datos = array($cantidad, $id_producto);
         return $this->save($sql, $datos);
     }
+
+    /*obtenerPrecioProducto: Obtiene el precio de un producto por su id*/
+    public function obtenerPrecioProducto(int $id_producto)
+    {
+        $sql = "SELECT precio FROM producto WHERE id = $id_producto";
+        $data = $this->select($sql);
+        return $data ? floatval($data['precio']) : 0;
+    }
 }

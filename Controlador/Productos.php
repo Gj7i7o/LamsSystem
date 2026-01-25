@@ -33,7 +33,8 @@ class productos extends controlador
             $result[] = [
                 'id' => $producto['id'],
                 'etiqueta' => $etiquetaTruncada,
-                'etiquetaCompleta' => $etiquetaCompleta
+                'etiquetaCompleta' => $etiquetaCompleta,
+                'precio' => $producto['precio']
             ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);

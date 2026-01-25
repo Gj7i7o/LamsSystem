@@ -53,9 +53,20 @@ class entradas extends controlador
             $lineas = $data['lineas']; // Array de productos
             $tipo_pago = !empty($data['tipo_pago']) ? $data['tipo_pago'] : 'contado';
 
+            // Validar que los precios sean mayores a 0
+            $precioInvalido = false;
+            foreach ($lineas as $linea) {
+                if (floatval($linea['precio']) <= 0) {
+                    $precioInvalido = true;
+                    break;
+                }
+            }
+
             // Validaciones básicas de cabecera
             if (empty($codigo) || empty($id_proveedor) || empty($lineas)) {
                 $msg = array('msg' => 'Todos los campos y al menos un producto son obligatorios', 'icono' => 'warning');
+            } else if ($precioInvalido) {
+                $msg = array('msg' => 'El precio debe ser mayor a 0', 'icono' => 'warning');
             } else {
                 // 2. Registrar la Cabecera de la Entrada
                 // Debes crear esta función en tu modelo para insertar y retornar el ID insertado

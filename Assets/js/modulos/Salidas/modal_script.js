@@ -6,6 +6,7 @@ const span = document.getElementsByClassName("close")[0];
 const form = document.getElementById("formularioSalida");
 const btnAddLine = document.getElementById("addLine");
 let opcionesProducto = "";
+let productosData = {}; // Almacena los precios de los productos
 let idx = 0;
 const dataForm = { lines: [] };
 const formLine = ` <div class="input_form" id="line_idx_${idx}">
@@ -67,11 +68,14 @@ async function getListadoProducto() {
   const { data: opciones } = await response.json();
   const selects = document.querySelectorAll("select.producto");
   let opcionesHtml = `<option value="">Seleccione...</option>`;
+  productosData = {}; // Reiniciar datos de productos
   await opciones.forEach((opcion) => {
     const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText}" data-precio="${opcion.precio}">${opcion.etiqueta}</option>
     `;
+    // Guardar el precio del producto para validación
+    productosData[opcion.id] = { precio: parseFloat(opcion.precio) };
   });
   selects.forEach((select) => {
     select.innerHTML = opcionesHtml;
@@ -167,8 +171,23 @@ formulario.addEventListener("submit", function (e) {
   data.codigo = codigo.value;
   data.total = total.value;
 
+  // Validar que el precio de venta no sea menor al precio del producto
+  let precioInvalido = false;
+  let productoConPrecioInvalido = "";
+  for (const linea of data.lineas) {
+    const precioProducto = productosData[linea.producto]?.precio || 0;
+    const precioVenta = parseFloat(linea.precio);
+    if (precioVenta < precioProducto) {
+      precioInvalido = true;
+      productoConPrecioInvalido = linea.producto;
+      break;
+    }
+  }
+
   if (data.codigo == "") {
     alertas("El código de factura es necesario", "warning");
+  } else if (precioInvalido) {
+    alertas("El precio de venta no puede ser menor al precio del producto", "warning");
   } else {
     const url = APP_URL + "salidas/registrar"; // Quitamos los parámetros de la URL
     const http = new XMLHttpRequest();

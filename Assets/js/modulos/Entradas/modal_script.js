@@ -196,8 +196,13 @@ formulario.addEventListener("submit", function (e) {
   data.total = total.value;
   data.tipo_pago = document.getElementById("tipo_pago").value;
 
+  // Validar que todos los precios sean mayores a 0
+  let precioInvalido = data.lineas.some(linea => parseFloat(linea.precio) <= 0);
+
   if (data.codigo == "" || data.proveedor == "") {
     alertas("Todos los campos son obligatorios", "warning");
+  } else if (precioInvalido) {
+    alertas("El precio debe ser mayor a 0", "warning");
   } else {
     const url = APP_URL + "entradas/registrar"; // Quitamos los parámetros de la URL
     const http = new XMLHttpRequest();

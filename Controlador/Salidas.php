@@ -53,9 +53,22 @@ class salidas extends controlador
             $total = $data['total'];
             $lineas = $data['lineas']; // Array de productos
 
+            // Validar que el precio de venta no sea menor al precio del producto
+            $precioInvalido = false;
+            foreach ($lineas as $linea) {
+                $precioProducto = $this->model->obtenerPrecioProducto($linea['producto']);
+                $precioVenta = floatval($linea['precio']);
+                if ($precioVenta < $precioProducto) {
+                    $precioInvalido = true;
+                    break;
+                }
+            }
+
             // Validaciones básicas de cabecera
             if (empty($codigo) || empty($lineas)) {
                 $msg = array('msg' => 'Todos los campos y al menos un producto son obligatorios', 'icono' => 'warning');
+            } else if ($precioInvalido) {
+                $msg = array('msg' => 'El precio de venta no puede ser menor al precio del producto', 'icono' => 'warning');
             } else {
                 // 2. Registrar la Cabecera de la Entrada
                 // Debes crear esta función en tu modelo para insertar y retornar el ID insertado
