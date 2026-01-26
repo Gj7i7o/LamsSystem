@@ -189,4 +189,19 @@ class salidas extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF listado de todas las salidas con sus líneas*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+
+        $query = $_GET["query"] ?? "";
+        $params = ['query' => $query];
+        $salidas = $this->model->tomarSalidasReporte($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('salida_pdf', [
+            'salidas' => $salidas
+        ])->generar('Reporte_Salidas.pdf');
+    }
 }

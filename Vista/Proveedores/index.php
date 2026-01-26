@@ -15,6 +15,7 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div>
                     <button class="button" type="button" id="registrarProveedor" title="Registrar"><i class="fas fa-plus"></i></button>
+                    <button class="primary" type="button" onclick="descargarPDF()" title="Descargar PDF"><i class="fas fa-file-pdf"></i></button>
                     <label for="estado">Estado: </label>
                     <select name="estado" id="estado" onchange="setfilter()">
                         <option value="activo">Activos</option>

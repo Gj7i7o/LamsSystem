@@ -153,4 +153,20 @@ class categorias extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF con todas las categorías*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $estado = $_GET["estado"] ?? "todo";
+        $query = $_GET["query"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+
+        $categorias = $this->model->tomarCategoriasTodas($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('categorias_pdf', [
+            'categorias' => $categorias
+        ])->generar('Reporte_Categorias_' . date('Y-m-d') . '.pdf');
+    }
 }

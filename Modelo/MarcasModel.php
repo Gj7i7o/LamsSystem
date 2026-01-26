@@ -52,6 +52,15 @@ class marcasModel extends query
         return $data;
     }
 
+    /*tomarMarcasTodas: Toma todas las marcas sin paginación (para reportes PDF)*/
+    public function tomarMarcasTodas(array $params)
+    {
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM marca $filters ORDER BY id DESC";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     /*regisProveedor: Guarda la marca, y además verifica si la marca existe,
     en base al nombre ingresado, comparando con la base de datos*/
     public function regisMarca(string $nombre)

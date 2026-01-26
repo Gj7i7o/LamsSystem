@@ -15,6 +15,7 @@ include "vista/componentes/header.php";
         <div class="course-box">
             <div class="form-file">
                 <div>
+                    <button class="primary" type="button" onclick="descargarPDF()" title="Descargar PDF"><i class="fas fa-file-pdf"></i></button>
                     <label for="modulo">Módulo: </label>
                     <select name="modulo" id="modulo" onchange="setfilter()">
                         <option value="todo">Todos</option>

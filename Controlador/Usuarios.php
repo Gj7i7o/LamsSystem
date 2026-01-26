@@ -193,4 +193,20 @@ class usuarios extends controlador
         session_destroy();
         header("location: " . APP_URL);
     }
+
+    /*reportePDF: Genera un reporte PDF con todos los usuarios*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $estado = $_GET["estado"] ?? "todo";
+        $query = $_GET["query"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+
+        $usuarios = $this->model->tomarUsuariosTodos($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('usuarios_pdf', [
+            'usuarios' => $usuarios
+        ])->generar('Reporte_Usuarios_' . date('Y-m-d') . '.pdf');
+    }
 }

@@ -190,3 +190,10 @@ function btnActMarca(id) {
     }
   });
 }
+
+/*Función para descargar reporte PDF*/
+function descargarPDF() {
+  const estado = document.getElementById("estado")?.value || "todo";
+  const query = document.getElementById("query")?.value || "";
+  window.open(APP_URL + "marcas/reportePDF?estado=" + estado + "&query=" + query, "_blank");
+}

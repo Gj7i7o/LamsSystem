@@ -66,6 +66,15 @@ class categoriasModel extends query
         return $data;
     }
 
+    /*tomarCategoriasTodas: Toma todas las categorías sin paginación (para reportes PDF)*/
+    public function tomarCategoriasTodas($params)
+    {
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM categoria $filters ORDER BY id DESC";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     /*regisProveedor: Guarda la categoría, y además verifica si la categoría existe,
     en base al nombre ingresado, comparando con la base de datos*/
     public function regisCategoria(string $nombre, string $descripcion)

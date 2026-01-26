@@ -180,3 +180,11 @@ function setfilter() {
         window.fetchHistorial();
     }
 }
+
+/*Función para descargar reporte PDF*/
+function descargarPDF() {
+    const modulo = document.getElementById("modulo")?.value || "todo";
+    const usuario = document.getElementById("usuario")?.value || "todo";
+    const query = document.getElementById("query")?.value || "";
+    window.open(APP_URL + "historial/reportePDF?modulo=" + modulo + "&usuario=" + usuario + "&query=" + query, "_blank");
+}

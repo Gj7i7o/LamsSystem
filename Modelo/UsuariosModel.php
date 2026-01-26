@@ -44,6 +44,18 @@ class usuariosModel extends query
         return $data;
     }
 
+    /*tomarUsuariosTodos: Toma todos los usuarios sin paginación (para reportes PDF)*/
+    public function tomarUsuariosTodos(array $params)
+    {
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT u.*, p.nombre, p.apellido, p.correo, p.telef
+                FROM usuario u
+                LEFT JOIN persona p ON u.id = p.idusuario
+                $filters ORDER BY u.id DESC";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     /*regisUsuario: Guarda el usuario, y además verifica si el usuario existe,
     en base al usuario ingresado, comparando con la base de datos*/
     public function regisUsuario(string $usuario, string $contrasena)
@@ -103,10 +115,18 @@ class usuariosModel extends query
         $this->correo = $correo;
         $this->telef = $telef;
         $this->id = $id;
-        $sql = "UPDATE usuario SET usuario = ?, nombre = ?, apellido = ?, correo = ?, telef = ? WHERE id = ?";
-        $datos = array($this->usuario, $this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
-        $data = $this->save($sql, $datos);
-        if ($data == 1) {
+
+        // Actualizar tabla usuario
+        $sqlUsuario = "UPDATE usuario SET usuario = ? WHERE id = ?";
+        $datosUsuario = array($this->usuario, $this->id);
+        $dataUsuario = $this->save($sqlUsuario, $datosUsuario);
+
+        // Actualizar tabla persona
+        $sqlPersona = "UPDATE persona SET nombre = ?, apellido = ?, correo = ?, telef = ? WHERE idusuario = ?";
+        $datosPersona = array($this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
+        $dataPersona = $this->save($sqlPersona, $datosPersona);
+
+        if ($dataUsuario == 1 || $dataPersona == 1) {
             $res = "modificado";
         } else {
             $res = "error";
@@ -117,7 +137,10 @@ class usuariosModel extends query
     /*editarUsuario: Hace la consulta SQL que traerá al usuario que posteriormente se modificará*/
     public function editarUsuario(int $id)
     {
-        $sql = "SELECT * FROM usuario WHERE id = $id";
+        $sql = "SELECT u.*, p.ci, p.nombre, p.apellido, p.correo, p.telef
+                FROM usuario u
+                LEFT JOIN persona p ON u.id = p.idusuario
+                WHERE u.id = $id";
         $data = $this->select($sql);
         return $data;
     }

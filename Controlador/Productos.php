@@ -164,4 +164,22 @@ class productos extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF con todos los productos*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $estado = $_GET["estado"] ?? "todo";
+        $query = $_GET["query"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+
+        // Obtener todos los productos sin paginación para el reporte
+        $productos = $this->model->tomarProductosTodos($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('productos_pdf', [
+            'productos' => $productos,
+            'filtro_estado' => $estado
+        ])->generar('Inventario_Productos_' . date('Y-m-d') . '.pdf');
+    }
 }

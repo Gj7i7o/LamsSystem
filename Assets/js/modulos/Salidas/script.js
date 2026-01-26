@@ -148,3 +148,13 @@ function setfilter() {
     window.fetchSalidas();
   }
 }
+
+/*Función para descargar reporte PDF listado de salidas*/
+function descargarPDF() {
+  let query = document.getElementById("query")?.value || "";
+  let url = APP_URL + "salidas/reportePDF";
+  if (query) {
+    url += "?query=" + encodeURIComponent(query);
+  }
+  window.open(url, "_blank");
+}

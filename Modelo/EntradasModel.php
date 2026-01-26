@@ -139,4 +139,27 @@ class entradasModel extends query
             return "existe";
         }
     }
+
+    /*tomarEntradasReporte: Obtiene todas las líneas de entradas con datos de cabecera para reportes*/
+    public function tomarEntradasReporte(array $params)
+    {
+        $conditions = [];
+        if (!empty($params["query"])) {
+            $value = $params["query"];
+            $conditions[] = "(e.cod_docum LIKE '%$value%' OR p.nombre LIKE '%$value%' OR pr.nombre LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+
+        $sql = "SELECT e.cod_docum, e.tipo_pago, e.fecha, e.hora,
+                       p.nombre as proveedor,
+                       pr.nombre as producto,
+                       ep.cantidad, ep.precio, ep.sub_total
+                FROM entradaproducto ep
+                INNER JOIN entrada e ON ep.identrada = e.id
+                LEFT JOIN proveedor p ON e.idproveedor = p.id
+                LEFT JOIN producto pr ON ep.idproducto = pr.id
+                $filter
+                ORDER BY e.id DESC, ep.id ASC";
+        return $this->selectAll($sql);
+    }
 }

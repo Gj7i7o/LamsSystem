@@ -66,4 +66,27 @@ class historial extends controlador
         echo json_encode(["data" => $data], JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF del historial de acciones*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $query = $_GET["query"] ?? "";
+        $modulo = $_GET["modulo"] ?? "todo";
+        $usuario = $_GET["usuario"] ?? "todo";
+
+        $params = [
+            'page' => 1,
+            'query' => $query,
+            'modulo' => $modulo,
+            'usuario' => $usuario
+        ];
+
+        $historial = $this->model->tomarHistorialTodo($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('historial_pdf', [
+            'historial' => $historial
+        ])->generar('Historial_Acciones_' . date('Y-m-d') . '.pdf', 'landscape');
+    }
 }

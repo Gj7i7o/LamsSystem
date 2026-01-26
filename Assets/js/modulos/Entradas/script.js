@@ -138,3 +138,13 @@ function setfilter() {
     window.fetchEntradas();
   }
 }
+
+/*Función para descargar reporte PDF listado de entradas*/
+function descargarPDF() {
+  let query = document.getElementById("query")?.value || "";
+  let url = APP_URL + "entradas/reportePDF";
+  if (query) {
+    url += "?query=" + encodeURIComponent(query);
+  }
+  window.open(url, "_blank");
+}

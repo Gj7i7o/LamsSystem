@@ -17,6 +17,7 @@ include "vista/componentes/header.php";
                 <div>
                     <!-- Botón de registrar -->
                     <button class="button" type="button" id="registrarSalida" title="Crear nueva salida"><i class="fas fa-plus"></i></button>
+                    <button class="primary" type="button" onclick="descargarPDF();" title="Generar Reporte PDF"><i class="fas fa-file-pdf"></i></button>
                 </div>
                 <div class="buscador">
                     <i class="fa-solid fa-magnifying-glass">

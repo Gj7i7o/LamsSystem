@@ -52,6 +52,15 @@ class proveedoresModel extends query
         return $data;
     }
 
+    /*tomarProveedoresTodos: Toma todos los proveedores sin paginación (para reportes PDF)*/
+    public function tomarProveedoresTodos(array $params)
+    {
+        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $sql = "SELECT * FROM proveedor $filters ORDER BY id DESC";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     /*regisProveedor: Guarda el proveedor, y además verifica si el proveedor existe,
     en base al rif ingresado, comparando con la base de datos*/
     public function regisProveedor(string $nombre, string $rif, string $direccion, string $telefono = '', string $persona_contacto = '')
@@ -116,7 +125,7 @@ class proveedoresModel extends query
     }
 
     /*actProveedor: Hace la consulta SQL que traerá al proveedor que posteriormente se cambiará su estado a activo*/
-    public function actProveedores(int $id)
+    public function actProveedor(int $id)
     {
         $sql = "UPDATE proveedor SET estado = 'activo' WHERE id = $id";
         $data = $this->select($sql);

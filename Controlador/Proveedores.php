@@ -159,4 +159,20 @@ class proveedores extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF con todos los proveedores*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $estado = $_GET["estado"] ?? "todo";
+        $query = $_GET["query"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+
+        $proveedores = $this->model->tomarProveedoresTodos($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('proveedores_pdf', [
+            'proveedores' => $proveedores
+        ])->generar('Reporte_Proveedores_' . date('Y-m-d') . '.pdf');
+    }
 }

@@ -99,4 +99,19 @@ class historialModel extends query
         $data = $this->selectAll($sql);
         return $data;
     }
+
+    /*tomarHistorialTodo: Toma todos los registros del historial sin paginación (para reportes PDF)*/
+    public function tomarHistorialTodo(array $params)
+    {
+        $filters = $this->filtersSQL($params);
+
+        $sql = "SELECT h.id, u.usuario, h.modulo, h.accion, h.descripcion, h.fecha, h.hora
+                FROM historial_usuario h
+                INNER JOIN usuario u ON h.idusuario = u.id
+                $filters
+                ORDER BY h.id DESC";
+
+        $data = $this->selectAll($sql);
+        return $data;
+    }
 }

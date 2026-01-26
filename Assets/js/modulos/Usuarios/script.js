@@ -192,3 +192,10 @@ function btnActUsuario(id) {
     }
   });
 }
+
+/*Función para descargar reporte PDF*/
+function descargarPDF() {
+  const estado = document.getElementById("estado")?.value || "todo";
+  const query = document.getElementById("query")?.value || "";
+  window.open(APP_URL + "usuarios/reportePDF?estado=" + estado + "&query=" + query, "_blank");
+}

@@ -41,12 +41,12 @@ function btnEditUsuario(id) {
     if (this.readyState == 4 && this.status == 200) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id").value = res.id;
-      document.getElementById("ci").value = res.ci;
-      document.getElementById("usuario").value = res.idusuario;
-      document.getElementById("nombre").value = res.nombre;
-      document.getElementById("apellido").value = res.apellido;
-      document.getElementById("correo").value = res.correo;
-      document.getElementById("telef").value = res.telef;
+      document.getElementById("ci").value = res.ci || '';
+      document.getElementById("usuario").value = res.usuario;
+      document.getElementById("nombre").value = res.nombre || '';
+      document.getElementById("apellido").value = res.apellido || '';
+      document.getElementById("correo").value = res.correo || '';
+      document.getElementById("telef").value = res.telef || '';
       modal.style.display = "block";
     }
   };

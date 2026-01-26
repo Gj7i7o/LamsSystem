@@ -186,4 +186,19 @@ class entradas extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF listado de todas las entradas con sus líneas*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+
+        $query = $_GET["query"] ?? "";
+        $params = ['query' => $query];
+        $entradas = $this->model->tomarEntradasReporte($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('entrada_pdf', [
+            'entradas' => $entradas
+        ])->generar('Reporte_Entradas.pdf');
+    }
 }

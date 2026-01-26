@@ -147,4 +147,25 @@ class salidasModel extends query
             return "existe";
         }
     }
+
+    /*tomarSalidasReporte: Obtiene todas las líneas de salidas con datos de cabecera para reportes*/
+    public function tomarSalidasReporte(array $params)
+    {
+        $conditions = [];
+        if (!empty($params["query"])) {
+            $value = $params["query"];
+            $conditions[] = "(s.cod_docum LIKE '%$value%' OR pr.nombre LIKE '%$value%')";
+        }
+        $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
+
+        $sql = "SELECT s.cod_docum, s.tipo_despacho, s.fecha, s.hora,
+                       pr.nombre as producto,
+                       sp.cantidad, sp.precio, sp.sub_total
+                FROM salidaproducto sp
+                INNER JOIN salida s ON sp.idsalida = s.id
+                LEFT JOIN producto pr ON sp.idproducto = pr.id
+                $filter
+                ORDER BY s.id DESC, sp.id ASC";
+        return $this->selectAll($sql);
+    }
 }

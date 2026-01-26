@@ -158,4 +158,20 @@ class marcas extends controlador
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*reportePDF: Genera un reporte PDF con todas las marcas*/
+    public function reportePDF()
+    {
+        require_once "config/app/PdfGenerator.php";
+        $estado = $_GET["estado"] ?? "todo";
+        $query = $_GET["query"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+
+        $marcas = $this->model->tomarMarcasTodas($params);
+
+        $pdf = new pdfGenerator();
+        $pdf->cargarVista('marcas_pdf', [
+            'marcas' => $marcas
+        ])->generar('Reporte_Marcas_' . date('Y-m-d') . '.pdf');
+    }
 }
