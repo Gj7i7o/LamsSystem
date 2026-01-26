@@ -113,12 +113,7 @@ class proveedores extends controlador
                     $data = $this->model->modifProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto, $id);
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
-<<<<<<< HEAD
-                    } else if ($data == "existe") {
-                        $msg = array('msg' => 'El proveedor ya existe', 'icono' => 'warning');
-=======
                         $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'modificar', "Modificó proveedor ID: $id - $nombre");
->>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                     } else {
                         $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error');
                     }

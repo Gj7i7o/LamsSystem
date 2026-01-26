@@ -88,27 +88,13 @@ class proveedoresModel extends query
         $this->telefono = $telefono;
         $this->persona_contacto = $persona_contacto;
         $this->id = $id;
-<<<<<<< HEAD
-        $verificar = "SELECT * FROM proveedor WHERE rif = '$this->rif'";
-        $existe = $this->select($verificar);
-        if (empty($existe)) {
-            $sql = "UPDATE proveedor SET nombre = ?, apellido = ?, rif = ?, direccion = ? WHERE id = ?";
-            $datos = array($this->nombre, $this->apellido, $this->rif, $this->direccion, $this->id);
-            $data = $this->save($sql, $datos);
-            if ($data == 1) {
-                $res = "modificado";
-            } else {
-                $res = "error";
-            }
-=======
         $sql = "UPDATE proveedor SET nombre = ?, rif = ?, direccion = ?, telefono = ?, persona_contacto = ? WHERE id = ?";
         $datos = array($this->nombre, $this->rif, $this->direccion, $this->telefono, $this->persona_contacto, $this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";
->>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
         } else {
-            $res = "existe";
+            $res = "error";
         }
         return $res;
     }

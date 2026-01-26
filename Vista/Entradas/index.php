@@ -69,12 +69,8 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
-<<<<<<< HEAD
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" required>
-=======
                     <h3>Documento:<span class="required">*</span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Número de Documento" maxlength="50" required>
->>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="50" required>
                 </div>
             </div>
 
