@@ -20,4 +20,11 @@ class home extends controlador
     {
         $this->vista->getView($this, "index");
     }
+
+    /*logout: Cierra la sesión si el usuario preciona el botón de salir en el Dashboard*/
+    public function logout()
+    {
+        session_destroy();
+        header("location: " . APP_URL);
+    }
 }

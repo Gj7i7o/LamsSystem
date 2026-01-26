@@ -187,13 +187,6 @@ class usuarios extends controlador
         die();
     }
 
-    /*logout: Cierra la sesión si el usuario preciona el botón de salir en el Dashboard*/
-    public function logout()
-    {
-        session_destroy();
-        header("location: " . APP_URL);
-    }
-
     /*reportePDF: Genera un reporte PDF con todos los usuarios*/
     public function reportePDF()
     {

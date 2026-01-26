@@ -93,7 +93,7 @@
 
                 <li>
                     <!-- Botón de cerrar sesión -->
-                    <a href="<?php echo APP_URL; ?>usuarios/logout" class="logout" title="Cerrar sesión">
+                    <a href="<?php echo APP_URL; ?>home/logout" class="logout" title="Cerrar sesión">
                         <span class="nav-item"><i class="fas fa-right-from-bracket"></i> Cerrar Sesión</span>
                     </a>
                 </li>

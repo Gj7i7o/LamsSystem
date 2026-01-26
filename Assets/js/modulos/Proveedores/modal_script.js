@@ -41,7 +41,8 @@ function btnEditProveedor(id) {
       document.getElementById("rif").value = res.rif;
       document.getElementById("nombre").value = res.nombre;
       document.getElementById("telefono").value = res.telefono || "";
-      document.getElementById("persona_contacto").value = res.persona_contacto || "";
+      document.getElementById("persona_contacto").value =
+        res.persona_contacto || "";
       document.getElementById("direccion").value = res.direccion;
       modal.style.display = "block";
     }
@@ -57,11 +58,7 @@ formularioProveedor.addEventListener("submit", function (event) {
   const nombre = document.getElementById("nombre");
   const direccion = document.getElementById("direccion");
   let regexrif = /^([JGVPEjgvpe])[-]([0-9]{7,9})$/;
-  if (
-    rif.value == "" ||
-    nombre.value == "" ||
-    direccion.value == ""
-  ) {
+  if (rif.value == "" || nombre.value == "" || direccion.value == "") {
     alertas("Todos los campos obligatorios deben ser completados", "warning");
   } else if (!regexrif.test(rif.value)) {
     alertas("Escriba correctamente el rif (Ej: J-123456789)", "warning");

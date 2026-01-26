@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.rif}</td>
                 <td>${item.nombre}</td>
-                <td>${item.telefono || '-'}</td>
-                <td>${item.persona_contacto || '-'}</td>
+                <td>${item.telefono || "-"}</td>
+                <td>${item.persona_contacto || "-"}</td>
                 <td>${item.direccion}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>
@@ -201,5 +201,8 @@ function btnActProveedor(id) {
 function descargarPDF() {
   const estado = document.getElementById("estado")?.value || "todo";
   const query = document.getElementById("query")?.value || "";
-  window.open(APP_URL + "proveedores/reportePDF?estado=" + estado + "&query=" + query, "_blank");
+  window.open(
+    APP_URL + "proveedores/reportePDF?estado=" + estado + "&query=" + query,
+    "_blank",
+  );
 }

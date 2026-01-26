@@ -65,21 +65,21 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:<span class="required">*</span></label>
-                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" maxlength="20" required>
+                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" maxlength="20">
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:<span class="required">*</span></label>
-                    <input type="text" id="ci" name="ci" placeholder="30333222" maxlength="15" required>
+                    <input type="text" id="ci" name="ci" placeholder="30333222" maxlength="15">
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" maxlength="50" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" maxlength="50">
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:<span class="required">*</span></label>
-                    <input type="text" id="apellido" name="apellido" placeholder="López" maxlength="50" required>
+                    <input type="text" id="apellido" name="apellido" placeholder="López" maxlength="50">
                 </div>
             </div>
             <div class="form-file">
