@@ -92,6 +92,14 @@ class salidasModel extends query
         return $data ? floatval($data['precio']) : 0;
     }
 
+    /*obtenerStockProducto: Obtiene el stock actual de un producto por su id*/
+    public function obtenerStockProducto(int $id_producto)
+    {
+        $sql = "SELECT cantidad FROM producto WHERE id = $id_producto";
+        $data = $this->select($sql);
+        return $data ? intval($data['cantidad']) : 0;
+    }
+
     /*editarSalida: Obtiene la cabecera de una salida con datos del usuario*/
     public function editarSalida(int $id)
     {
