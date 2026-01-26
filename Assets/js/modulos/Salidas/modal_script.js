@@ -75,10 +75,13 @@ async function getListadoProducto() {
   await opciones.forEach((opcion) => {
     const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
     opcionesHtml += `
-    <option value="${opcion.id}" title="${titleText}" data-precio="${opcion.precio}">${opcion.etiqueta}</option>
+    <option value="${opcion.id}" title="${titleText} (Stock: ${opcion.stock})" data-precio="${opcion.precio}" data-stock="${opcion.stock}">${opcion.etiqueta} (${opcion.stock})</option>
     `;
-    // Guardar el precio del producto para validación
-    productosData[opcion.id] = { precio: parseFloat(opcion.precio) };
+    // Guardar el precio y stock del producto para validación
+    productosData[opcion.id] = {
+      precio: parseFloat(opcion.precio),
+      stock: parseInt(opcion.stock)
+    };
   });
   selects.forEach((select) => {
     select.innerHTML = opcionesHtml;
@@ -330,11 +333,41 @@ formulario.addEventListener("submit", function (e) {
     }
   }
 
+  // Validar que la cantidad no supere el stock disponible
+  // Agrupar cantidades por producto (para múltiples líneas del mismo producto)
+  let stockInsuficiente = false;
+  let productoSinStock = "";
+  const cantidadesPorProducto = {};
+  for (const linea of data.lineas) {
+    const idProducto = linea.producto;
+    const cantidad = parseInt(linea.cantidad);
+    if (!cantidadesPorProducto[idProducto]) {
+      cantidadesPorProducto[idProducto] = 0;
+    }
+    cantidadesPorProducto[idProducto] += cantidad;
+  }
+
+  // Validar stock para cada producto (considerando todas las líneas sumadas)
+  for (const idProducto in cantidadesPorProducto) {
+    const stockDisponible = productosData[idProducto]?.stock || 0;
+    const cantidadTotal = cantidadesPorProducto[idProducto];
+    if (cantidadTotal > stockDisponible) {
+      stockInsuficiente = true;
+      productoSinStock = idProducto;
+      break;
+    }
+  }
+
   if (data.codigo == "") {
     alertas("El código de factura es necesario", "warning");
   } else if (precioInvalido) {
     alertas(
       "El precio de venta no puede ser menor al precio del producto",
+      "warning",
+    );
+  } else if (stockInsuficiente) {
+    alertas(
+      "Stock insuficiente para uno o más productos",
       "warning",
     );
   } else {

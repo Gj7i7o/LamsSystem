@@ -97,11 +97,57 @@ class salidas extends controlador
                 }
             }
 
+            // Validar que la cantidad no supere el stock disponible
+            $stockInsuficiente = false;
+            $productoSinStock = "";
+
+            // Si es edición, primero simular la reversión del stock para calcular disponibilidad real
+            $stockRevertido = [];
+            if ($id != "") {
+                $detallesAnteriores = $this->model->obtenerDetalleSalida($id);
+                foreach ($detallesAnteriores as $detalle) {
+                    $idProd = $detalle['idproducto'];
+                    if (!isset($stockRevertido[$idProd])) {
+                        $stockRevertido[$idProd] = 0;
+                    }
+                    $stockRevertido[$idProd] += intval($detalle['cantidad']);
+                }
+            }
+
+            // Agrupar cantidades solicitadas por producto (para múltiples líneas del mismo producto)
+            $cantidadesPorProducto = [];
+            foreach ($lineas as $linea) {
+                $id_producto = intval($linea['producto']);
+                $cantidad = intval($linea['cantidad']);
+                if (!isset($cantidadesPorProducto[$id_producto])) {
+                    $cantidadesPorProducto[$id_producto] = 0;
+                }
+                $cantidadesPorProducto[$id_producto] += $cantidad;
+            }
+
+            // Validar stock para cada producto (considerando todas las líneas sumadas)
+            foreach ($cantidadesPorProducto as $id_producto => $cantidadTotal) {
+                $stockActual = $this->model->obtenerStockProducto($id_producto);
+
+                // Sumar stock revertido si es edición
+                if (isset($stockRevertido[$id_producto])) {
+                    $stockActual += $stockRevertido[$id_producto];
+                }
+
+                if ($cantidadTotal > $stockActual) {
+                    $stockInsuficiente = true;
+                    $productoSinStock = $id_producto;
+                    break;
+                }
+            }
+
             // Validaciones básicas de cabecera
             if (empty($codigo) || empty($lineas)) {
                 $msg = array('msg' => 'Todos los campos y al menos un producto son obligatorios', 'icono' => 'warning');
             } else if ($precioInvalido) {
                 $msg = array('msg' => 'El precio de venta no puede ser menor al precio del producto', 'icono' => 'warning');
+            } else if ($stockInsuficiente) {
+                $msg = array('msg' => 'Stock insuficiente para uno o más productos', 'icono' => 'warning');
             } else {
                 // Determinar si es CREAR o ACTUALIZAR
                 if ($id == "") {

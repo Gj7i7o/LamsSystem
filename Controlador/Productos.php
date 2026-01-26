@@ -38,7 +38,8 @@ class productos extends controlador
                 'id' => $producto['id'],
                 'etiqueta' => $etiquetaTruncada,
                 'etiquetaCompleta' => $etiquetaCompleta,
-                'precio' => $producto['precio']
+                'precio' => $producto['precio'],
+                'stock' => $producto['cantidad']
             ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
