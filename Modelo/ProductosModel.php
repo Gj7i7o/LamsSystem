@@ -93,7 +93,7 @@ class productosModel extends query
         $this->categoria = $categoria;
         $this->marca = $marca;
         $this->id = $id;
-        $verificar = "SELECT * FROM producto WHERE codigo = '$this->codigo'";
+        $verificar = "SELECT * FROM producto WHERE codigo = '$this->codigo' AND id != $this->id";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ? WHERE id = ?";

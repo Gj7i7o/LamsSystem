@@ -2,8 +2,11 @@
 
 /*Controlador de la Marca: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class marcas extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class marcas extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -90,6 +94,7 @@ class marcas extends controlador
                     $data = $this->model->regisMarca($nombre);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Marca Registrada', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Marcas', 'registrar', "Registró marca: $nombre");
                     } else if ($data == "existe") {
                         $msg = array('msg' => 'La marca ya está registrada', 'icono' => 'warning');
                     } else {
@@ -102,6 +107,7 @@ class marcas extends controlador
                 $data = $this->model->modifMarca($nombre, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Marca modificada', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Marcas', 'modificar', "Modificó marca ID: $id - $nombre");
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'La marca ya existe', 'icono' => 'warning');
                 } else {
@@ -132,6 +138,7 @@ class marcas extends controlador
                 $msg = array('msg' => 'Error al desactivar la marca', 'icono' => 'error');
             } else {
                 $msg = array('msg' => 'Marca desactivada', 'icono' => 'success');
+                $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Marcas', 'desactivar', "Desactivó marca ID: $id");
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
@@ -146,6 +153,7 @@ class marcas extends controlador
             $msg = array('msg' => 'Error al activar la marca', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Marca activada', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Marcas', 'activar', "Activó marca ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

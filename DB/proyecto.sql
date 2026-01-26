@@ -300,6 +300,22 @@ INSERT INTO `usuario` (`id`, `usuario`, `clave`, `rango`, `estado`) VALUES
 (1, 'RuiChan', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'administrador', 'activo'),
 (2, 'MayChan', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_usuario`
+--
+
+CREATE TABLE `historial_usuario` (
+  `id` int(11) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  `modulo` varchar(50) NOT NULL,
+  `accion` varchar(50) NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha` varchar(20) NOT NULL,
+  `hora` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -374,6 +390,13 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_historial_usuario` (`idusuario`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -438,6 +461,12 @@ ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
+-- AUTO_INCREMENT de la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -479,6 +508,12 @@ ALTER TABLE `salida`
 ALTER TABLE `salidaproducto`
   ADD CONSTRAINT `FK_salida_id_producto` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`id`),
   ADD CONSTRAINT `FK_salida_id_salida` FOREIGN KEY (`idsalida`) REFERENCES `salida` (`id`);
+
+--
+-- Filtros para la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  ADD CONSTRAINT `FK_historial_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,8 +2,11 @@
 
 /*Controlador de la Categoría: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class categorias extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class categorias extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -86,6 +90,7 @@ class categorias extends controlador
                 $data = $this->model->regisCategoria($nombre, $descripcion);
                 if ($data == "ok") {
                     $msg = array('msg' => 'Categoría Registrada', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Categorías', 'registrar', "Registró categoría: $nombre");
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'La categoría ya está registrada', 'icono' => 'warning');
                 } else {
@@ -97,6 +102,7 @@ class categorias extends controlador
                 $data = $this->model->modifCategoria($nombre, $descripcion, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Categoría modificada', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Categorías', 'modificar', "Modificó categoría ID: $id - $nombre");
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'La categoría ya existe', 'icono' => 'warning');
                 } else {
@@ -127,6 +133,7 @@ class categorias extends controlador
                 $msg = array('msg' => 'Error al desactivar la categoría', 'icono' => 'error');
             } else {
                 $msg = array('msg' => 'Categoría desactivada', 'icono' => 'success');
+                $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Categorías', 'desactivar', "Desactivó categoría ID: $id");
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
@@ -141,6 +148,7 @@ class categorias extends controlador
             $msg = array('msg' => 'Error al activar la categoría', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Categoría activada', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Categorías', 'activar', "Activó categoría ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

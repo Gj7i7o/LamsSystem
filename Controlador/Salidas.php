@@ -2,8 +2,11 @@
 
 /*Controlador de la Salida*/
 
+require_once "modelo/HistorialModel.php";
+
 class salidas extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class salidas extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -125,6 +129,7 @@ class salidas extends controlador
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Salida registrada y stock actualizado', 'icono' => 'success');
+                            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Salidas', 'registrar', "Registró salida #$codigo - Total: $$total");
                         } else {
                             $msg = array('msg' => 'Error al registrar el detalle de la salida', 'icono' => 'error');
                         }
@@ -166,6 +171,7 @@ class salidas extends controlador
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Salida actualizada correctamente', 'icono' => 'success');
+                            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Salidas', 'modificar', "Modificó salida ID: $id - #$codigo");
                         } else {
                             $msg = array('msg' => 'Error al actualizar el detalle de la salida', 'icono' => 'error');
                         }

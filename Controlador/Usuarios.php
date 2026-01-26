@@ -2,8 +2,11 @@
 
 /*Controlador del Usuario: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class usuarios extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -17,6 +20,7 @@ class usuarios extends controlador
             exit();
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -118,6 +122,7 @@ class usuarios extends controlador
                     }
                     if (!$error) {
                         $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'registrar', "Registró usuario: $usuario");
                     } else {
                         $msg = array('msg' => 'Error al registrar el usuario', 'icono' => 'error');
                     }
@@ -128,6 +133,7 @@ class usuarios extends controlador
                 $data = $this->model->modifUsuario($usuario, $nombre, $apellido, $correo, $telef, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario ID: $id - $usuario");
                 } else {
                     $msg = array('msg' => 'Error al actualizar el Usuario', 'icono' => 'error');
                 }
@@ -159,6 +165,7 @@ class usuarios extends controlador
                 $msg = array('msg' => 'Error al desactivar el Usuario', 'icono' => 'error');
             } else {
                 $msg = array('msg' => 'Usuario desactivado', 'icono' => 'success');
+                $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'desactivar', "Desactivó usuario ID: $id");
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
@@ -173,6 +180,7 @@ class usuarios extends controlador
             $msg = array('msg' => 'Error al activar el Usuario', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Usuario activado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'activar', "Activó usuario ID: $id");
         }
 
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);

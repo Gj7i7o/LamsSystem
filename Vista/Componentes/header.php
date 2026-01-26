@@ -81,6 +81,13 @@
                             <span class="nav-item"><i class="fas fa-user"></i> Usuarios</span>
                         </a>
                     </li>
+                    <li>
+                        <!-- Botón del módulo de historial -->
+                        <a href="<?php echo APP_URL; ?>historial" title="Historial de acciones"
+                            class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'historial') !== false) ? 'active' : ''; ?>">
+                            <span class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> Historial</span>
+                        </a>
+                    </li>
                 <?php } ?>
 
 

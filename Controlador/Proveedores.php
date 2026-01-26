@@ -2,8 +2,11 @@
 
 /*Controlador del Proveedor: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class proveedores extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class proveedores extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -93,6 +97,7 @@ class proveedores extends controlador
                     $data = $this->model->regisProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Proveedor Registrado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'registrar', "Registró proveedor: $nombre (RIF: $rif)");
                     } else if ($data == "existe") {
                         $msg = array('msg' => 'El proveedor ya está registrado', 'icono' => 'warning');
                     } else {
@@ -108,6 +113,7 @@ class proveedores extends controlador
                     $data = $this->model->modifProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto, $id);
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'modificar', "Modificó proveedor ID: $id - $nombre");
                     } else {
                         $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error');
                     }
@@ -134,6 +140,7 @@ class proveedores extends controlador
             $msg = array('msg' => 'Error al desactivar el proveedor', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Proveedor desactivado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'desactivar', "Desactivó proveedor ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
@@ -147,6 +154,7 @@ class proveedores extends controlador
             $msg = array('msg' => 'Error al activar el proveedor', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Proveedor activado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'activar', "Activó proveedor ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

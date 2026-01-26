@@ -2,8 +2,11 @@
 
 /*Controlador de la Entrada*/
 
+require_once "modelo/HistorialModel.php";
+
 class entradas extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class entradas extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -122,6 +126,7 @@ class entradas extends controlador
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Entrada registrada y stock actualizado', 'icono' => 'success');
+                            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Entradas', 'registrar', "Registró entrada #$codigo - Total: $$total");
                         } else {
                             $msg = array('msg' => 'Error al registrar el detalle de la entrada', 'icono' => 'error');
                         }
@@ -163,6 +168,7 @@ class entradas extends controlador
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Entrada actualizada correctamente', 'icono' => 'success');
+                            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Entradas', 'modificar', "Modificó entrada ID: $id - #$codigo");
                         } else {
                             $msg = array('msg' => 'Error al actualizar el detalle de la entrada', 'icono' => 'error');
                         }
