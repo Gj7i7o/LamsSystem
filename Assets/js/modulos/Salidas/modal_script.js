@@ -95,7 +95,7 @@ btnAddLine.onclick = function () {
         <button class="button" type="button" onclick="deleteLine(${idx});"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
-  form.insertAdjacentHTML('beforeend', newLineHtml);
+  form.insertAdjacentHTML("beforeend", newLineHtml);
 };
 
 function deleteLine(idx) {
@@ -133,10 +133,10 @@ if (spanDetalle) {
 
 // Mapeo de valores de tipo_despacho a etiquetas legibles
 const tipoDespachoLabels = {
-  'venta': 'Venta',
-  'uso_interno': 'Uso Interno',
-  'danado': 'Dañado',
-  'devolucion': 'Devolución'
+  venta: "Venta",
+  uso_interno: "Uso Interno",
+  danado: "Dañado",
+  devolucion: "Devolución",
 };
 
 /*Función para ver detalle de una salida*/
@@ -152,12 +152,16 @@ function btnVerDetalleSalida(id) {
       const detalle = res.detalle;
 
       // Llenar datos de cabecera
-      document.getElementById("detalle_usuario").textContent = cabecera.usuario_nombre || "N/A";
-      document.getElementById("detalle_tipo_despacho").textContent = tipoDespachoLabels[cabecera.tipo_despacho] || cabecera.tipo_despacho;
-      document.getElementById("detalle_codigo").textContent = cabecera.cod_docum;
+      document.getElementById("detalle_usuario").textContent =
+        cabecera.usuario_nombre || "N/A";
+      document.getElementById("detalle_tipo_despacho").textContent =
+        tipoDespachoLabels[cabecera.tipo_despacho] || cabecera.tipo_despacho;
+      document.getElementById("detalle_codigo").textContent =
+        cabecera.cod_docum;
       document.getElementById("detalle_fecha").textContent = cabecera.fecha;
       document.getElementById("detalle_hora").textContent = cabecera.hora;
-      document.getElementById("detalle_total").textContent = cabecera.total + "$";
+      document.getElementById("detalle_total").textContent =
+        cabecera.total + "$";
 
       // Llenar tabla de detalle
       const tbody = document.getElementById("detalleSalidaBody");
@@ -233,13 +237,15 @@ function btnEditSalida(id) {
             <button class="button" type="button" onclick="deleteLine(${index});"><i class="fas fa-trash"></i></button>
           </div>
         </div>`;
-        form.insertAdjacentHTML('beforeend', lineHtml);
+        form.insertAdjacentHTML("beforeend", lineHtml);
       });
 
       // Establecer los valores de los selects de producto después de crear las líneas
       setTimeout(() => {
         detalle.forEach((item, index) => {
-          const select = document.querySelector(`select[name="lines[${index}][producto]"]`);
+          const select = document.querySelector(
+            `select[name="lines[${index}][producto]"]`,
+          );
           if (select) {
             select.value = item.idproducto;
           }
@@ -327,7 +333,10 @@ formulario.addEventListener("submit", function (e) {
   if (data.codigo == "") {
     alertas("El código de factura es necesario", "warning");
   } else if (precioInvalido) {
-    alertas("El precio de venta no puede ser menor al precio del producto", "warning");
+    alertas(
+      "El precio de venta no puede ser menor al precio del producto",
+      "warning",
+    );
   } else {
     const url = APP_URL + "salidas/registrar"; // Quitamos los parámetros de la URL
     const http = new XMLHttpRequest();

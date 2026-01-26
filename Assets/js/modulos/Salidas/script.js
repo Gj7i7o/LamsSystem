@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const response = await fetch(
-        "http://localhost/LamsSystem/Salidas/list?" + params
+        "http://localhost/LamsSystem/Salidas/list?" + params,
       );
 
       // Si la respuesta no es exitosa, lanza un error
@@ -49,10 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mapeo de valores de tipo_despacho a etiquetas legibles
   const tipoDespachoLabels = {
-    'venta': 'Venta',
-    'uso_interno': 'Uso Interno',
-    'danado': 'Dañado',
-    'devolucion': 'Devolución'
+    venta: "Venta",
+    uso_interno: "Uso Interno",
+    danado: "Dañado",
+    devolucion: "Devolución",
   };
 
   function renderTable() {
@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
-      const tipoDespachoLabel = tipoDespachoLabels[item.tipo_despacho] || item.tipo_despacho;
+      const tipoDespachoLabel =
+        tipoDespachoLabels[item.tipo_despacho] || item.tipo_despacho;
       row.innerHTML = `
                 <td>${item.cod_docum}</td>
                 <td>${tipoDespachoLabel}</td>
