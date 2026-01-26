@@ -184,7 +184,7 @@ footer {
 .main-skills .card h3 {
   margin: 10px;
   color: #000;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-size: 25px;
 }
 
@@ -204,7 +204,7 @@ footer {
 
 .main-course {
   margin-top: 20px;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 /* Fondo de la tabla */
@@ -280,6 +280,7 @@ tr:nth-child(even) {
 .buscador > input {
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .buscador i {
@@ -478,7 +479,7 @@ tr:nth-child(even) {
 }
 
 /* Estilo de los Inputs */
-.form-group input, 
+.form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -489,6 +490,7 @@ tr:nth-child(even) {
   color: #333;
   background-color: #fff;
   transition: all 0.3s ease;
+  text-transform: uppercase;
 }
 
 /* Efecto al hacer clic en el input */
@@ -550,6 +552,7 @@ tr:nth-child(even) {
   border: 1px solid #d1d5db;
   box-sizing: border-box; /* Evita que el padding ensanche el input */
   padding: 6px;
+  text-transform: uppercase;
 }
 
 .datos-proveedor {
@@ -575,7 +578,8 @@ tr:nth-child(even) {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-} 
+  text-transform: uppercase;
+}
 
 .input_form_select {
   width: 100%;
@@ -584,6 +588,7 @@ tr:nth-child(even) {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  text-transform: uppercase;
 }
 
 .add-line {
@@ -611,6 +616,7 @@ tr:nth-child(even) {
   border: 1px solid #d1d5db;
   box-sizing: border-box; /* Evita que el padding ensanche el input */
   padding: 6px;
+  text-transform: uppercase;
 }
 
 /*=========================================
@@ -623,6 +629,7 @@ select {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  text-transform: uppercase;
 }
 
 /* Selects en formularios de entradas/salidas */
@@ -644,6 +651,7 @@ select {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 /* Selects en formularios generales */
@@ -767,4 +775,24 @@ select {
 #modalDetalleSalida .modal-footer-info span {
   color: #16a64d;
   font-weight: 700;
+}
+
+/*=========================================
+    TRANSFORMACIÓN GLOBAL A MAYÚSCULAS
+  =========================================*/
+
+/* Aplica mayúsculas a todos los inputs y textareas del sistema */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="search"],
+textarea {
+  text-transform: uppercase;
+}
+
+/* Aplica mayúsculas a todos los spans y celdas de tabla */
+td, span {
+  text-transform: uppercase;
 }
