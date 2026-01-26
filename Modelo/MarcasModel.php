@@ -39,7 +39,7 @@ class marcasModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = "SELECT * FROM marca $filters LIMIT 10 OFFSET $offset";
+        $sql = "SELECT * FROM marca $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }

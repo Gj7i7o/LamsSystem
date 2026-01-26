@@ -2,8 +2,11 @@
 
 /*Controlador del Producto: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class productos extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class productos extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -33,7 +37,8 @@ class productos extends controlador
             $result[] = [
                 'id' => $producto['id'],
                 'etiqueta' => $etiquetaTruncada,
-                'etiquetaCompleta' => $etiquetaCompleta
+                'etiquetaCompleta' => $etiquetaCompleta,
+                'precio' => $producto['precio']
             ];
         }
         echo json_encode(["data" => $result], JSON_UNESCAPED_UNICODE);
@@ -99,6 +104,7 @@ class productos extends controlador
                     $data = $this->model->regisProducto($codigo, $nombre, $precio, $categoria, $marca);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Producto Registrado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'registrar', "Registró producto: $nombre (Código: $codigo)");
                     } else if ($data == "existe") {
                         $msg = array('msg' => 'El producto ya está registrado', 'icono' => 'warning');
                     } else {
@@ -111,6 +117,7 @@ class productos extends controlador
                 $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'modificar', "Modificó producto ID: $id - $nombre");
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'El producto ya existe', 'icono' => 'warning');
                 } else {
@@ -138,6 +145,7 @@ class productos extends controlador
             $msg = array('msg' => 'Error al desactivar el producto', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Producto desactivado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'desactivar', "Desactivó producto ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
@@ -151,6 +159,7 @@ class productos extends controlador
             $msg = array('msg' => 'Error al activar el producto', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Producto activado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'activar', "Activó producto ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

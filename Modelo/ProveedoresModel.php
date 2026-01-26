@@ -5,7 +5,7 @@ que se preparan para ser enviadas al controlador*/
 
 class proveedoresModel extends query
 {
-    private $nombre, $apellido, $rif, $direccion, $id;
+    private $nombre, $rif, $direccion, $telefono, $persona_contacto, $id;
     public function __construct()
     {
         parent::__construct();
@@ -28,7 +28,7 @@ class proveedoresModel extends query
             $conditions[] = "estado = '$estado'";
         }
         if (!empty($value)) {
-            $conditions[] = "(rif LIKE '%$value%' OR nombre LIKE '%$value%' OR apellido LIKE '%$value%' OR direccion LIKE '%$value%')";
+            $conditions[] = "(rif LIKE '%$value%' OR nombre LIKE '%$value%' OR direccion LIKE '%$value%' OR telefono LIKE '%$value%' OR persona_contacto LIKE '%$value%')";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -39,7 +39,7 @@ class proveedoresModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"], $params["estado"]);
-        $sql = "SELECT * FROM proveedor $filters LIMIT 10 OFFSET $offset";
+        $sql = "SELECT * FROM proveedor $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -53,18 +53,19 @@ class proveedoresModel extends query
     }
 
     /*regisProveedor: Guarda el proveedor, y además verifica si el proveedor existe,
-    en base al nombre, apellido y rif ingresados, comparando con la base de datos*/
-    public function regisProveedor(string $nombre, string $apellido, string $rif, string $direccion)
+    en base al rif ingresado, comparando con la base de datos*/
+    public function regisProveedor(string $nombre, string $rif, string $direccion, string $telefono = '', string $persona_contacto = '')
     {
         $this->nombre = $nombre;
-        $this->apellido = $apellido;
         $this->rif = $rif;
         $this->direccion = $direccion;
+        $this->telefono = $telefono;
+        $this->persona_contacto = $persona_contacto;
         $verificar = "SELECT * FROM proveedor WHERE rif = '$this->rif'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO proveedor (nombre, apellido, rif, direccion, estado) VALUES (?,?,?,?,'activo')";
-            $datos = array($this->nombre, $this->apellido, $this->rif, $this->direccion);
+            $sql = "INSERT INTO proveedor (nombre, rif, direccion, telefono, persona_contacto, estado) VALUES (?,?,?,?,?,'activo')";
+            $datos = array($this->nombre, $this->rif, $this->direccion, $this->telefono, $this->persona_contacto);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -79,13 +80,15 @@ class proveedoresModel extends query
     }
 
     /*modifProveedor: Modifica el proveedor seleccionado acorde al id*/
-    public function modifProveedor(string $nombre, string $apellido, string $rif, string $direccion, int $id)
+    public function modifProveedor(string $nombre, string $rif, string $direccion, string $telefono, string $persona_contacto, int $id)
     {
         $this->nombre = $nombre;
-        $this->apellido = $apellido;
         $this->rif = $rif;
         $this->direccion = $direccion;
+        $this->telefono = $telefono;
+        $this->persona_contacto = $persona_contacto;
         $this->id = $id;
+<<<<<<< HEAD
         $verificar = "SELECT * FROM proveedor WHERE rif = '$this->rif'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
@@ -97,6 +100,13 @@ class proveedoresModel extends query
             } else {
                 $res = "error";
             }
+=======
+        $sql = "UPDATE proveedor SET nombre = ?, rif = ?, direccion = ?, telefono = ?, persona_contacto = ? WHERE id = ?";
+        $datos = array($this->nombre, $this->rif, $this->direccion, $this->telefono, $this->persona_contacto, $this->id);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "modificado";
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
         } else {
             $res = "existe";
         }

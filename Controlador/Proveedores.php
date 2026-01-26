@@ -2,8 +2,11 @@
 
 /*Controlador del Proveedor: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class proveedores extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class proveedores extends controlador
             header("location: " . APP_URL);
         }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -76,27 +80,24 @@ class proveedores extends controlador
     {
         $rif = $_POST['rif'];
         $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
         $direccion = $_POST['direccion'];
+        $telefono = $_POST['telefono'] ?? '';
+        $persona_contacto = $_POST['persona_contacto'] ?? '';
         $id = $_POST['id'];
-        $letras = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/";
         $codigo = "/^[JGVEP][-][0-9]{7,9}+$/";
-        if (empty($nombre) || empty($apellido) || empty($rif) || empty($direccion)) {
-            $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
+        if (empty($nombre) || empty($rif) || empty($direccion)) {
+            $msg = array('msg' => 'Todos los campos obligatorios deben ser completados', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($letras, $nombre)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el nombre', 'icono' => 'warning');
-                } else if (!preg_match($letras, $apellido)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el apellido', 'icono' => 'warning');
-                } else if (!preg_match($codigo, $rif)) {
+                if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el proveedor no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisProveedor en el modelo/proveedoresModel.php*/
-                    $data = $this->model->regisProveedor($nombre, $apellido, $rif, $direccion);
+                    $data = $this->model->regisProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Proveedor Registrado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'registrar', "Registró proveedor: $nombre (RIF: $rif)");
                     } else if ($data == "existe") {
                         $msg = array('msg' => 'El proveedor ya está registrado', 'icono' => 'warning');
                     } else {
@@ -104,20 +105,20 @@ class proveedores extends controlador
                     }
                 }
             } else {
-                if (!preg_match($letras, $nombre)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el nombre', 'icono' => 'warning');
-                } else if (!preg_match($letras, $apellido)) {
-                    $msg = array('msg' => 'No agregue caracteres indevidos en el apellido', 'icono' => 'warning');
-                } else if (!preg_match($codigo, $rif)) {
+                if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
                 } else {
                     /*Caso contrario, si el proveedor existe, se interpreta que se desea modificar ese proveedor,
                 por ende lleva los datos a la función modifProveedor en el modelo/proveedoresModel.php*/
-                    $data = $this->model->modifProveedor($nombre, $apellido, $rif, $direccion, $id);
+                    $data = $this->model->modifProveedor($nombre, $rif, $direccion, $telefono, $persona_contacto, $id);
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
+<<<<<<< HEAD
                     } else if ($data == "existe") {
                         $msg = array('msg' => 'El proveedor ya existe', 'icono' => 'warning');
+=======
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'modificar', "Modificó proveedor ID: $id - $nombre");
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                     } else {
                         $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error');
                     }
@@ -144,6 +145,7 @@ class proveedores extends controlador
             $msg = array('msg' => 'Error al desactivar el proveedor', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Proveedor desactivado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'desactivar', "Desactivó proveedor ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
@@ -157,6 +159,7 @@ class proveedores extends controlador
             $msg = array('msg' => 'Error al activar el proveedor', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Proveedor activado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'activar', "Activó proveedor ID: $id");
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();

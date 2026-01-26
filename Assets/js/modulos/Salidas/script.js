@@ -47,24 +47,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Mapeo de valores de tipo_despacho a etiquetas legibles
+  const tipoDespachoLabels = {
+    'venta': 'Venta',
+    'uso_interno': 'Uso Interno',
+    'danado': 'Dañado',
+    'devolucion': 'Devolución'
+  };
+
   function renderTable() {
     tableBody.innerHTML = "";
     const paginatedData = currentData;
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="5">No hay salidas disponibles.</td></tr>';
+        '<tr><td colspan="6">No hay salidas disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
 
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
+      const tipoDespachoLabel = tipoDespachoLabels[item.tipo_despacho] || item.tipo_despacho;
       row.innerHTML = `
-                <td>${item.cod_docum}</td>                
+                <td>${item.cod_docum}</td>
+                <td>${tipoDespachoLabel}</td>
                 <td>${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
+                <td>${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });

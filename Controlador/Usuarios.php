@@ -2,8 +2,11 @@
 
 /*Controlador del Usuario: Aquí se llaman a los métodos del modelo y validan datos*/
 
+require_once "modelo/HistorialModel.php";
+
 class usuarios extends controlador
 {
+    private $historialModel;
 
     public function __construct()
     {
@@ -11,7 +14,13 @@ class usuarios extends controlador
         if (empty($_SESSION['activo'])) {
             header("location: " . APP_URL);
         }
+        // Verificar que el usuario sea administrador
+        if ($_SESSION['rango'] != 'administrador') {
+            header("location: " . APP_URL . "dashboard");
+            exit();
+        }
         parent::__construct();
+        $this->historialModel = new historialModel();
     }
 
     /*Vista: Trae la vista correspóndiente*/
@@ -31,15 +40,21 @@ class usuarios extends controlador
             $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
             $data = $this->model->tomarUsuarios($params);
             $total = $this->model->getCount($params);
+            $idUsuarioActivo = $_SESSION['id_usuario'];
             for ($i = 0; $i < count($data); $i++) {
+                $btnEditar = '<button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>';
+
                 if ($data[$i]['estado'] == 'activo') {
-                    $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                    // No mostrar botón de desactivar si es el usuario con sesión activa
+                    if ($data[$i]['id'] == $idUsuarioActivo) {
+                        $data[$i]['acciones'] = '<div>' . $btnEditar . '</div>';
+                    } else {
+                        $data[$i]['acciones'] = '<div>' . $btnEditar . '
                 <button class="warning" type="button" onclick="btnDesUsuario(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
                 </div>';
+                    }
                 } else {
-                    $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditUsuario(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
+                    $data[$i]['acciones'] = '<div>' . $btnEditar . '
                 <button class="secure" type="button" onclick="btnActUsuario(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }
@@ -107,6 +122,7 @@ class usuarios extends controlador
                     }
                     if (!$error) {
                         $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'registrar', "Registró usuario: $usuario");
                     } else {
                         $msg = array('msg' => 'Error al registrar el usuario', 'icono' => 'error');
                     }
@@ -117,6 +133,7 @@ class usuarios extends controlador
                 $data = $this->model->modifUsuario($usuario, $nombre, $apellido, $correo, $telef, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario ID: $id - $usuario");
                 } else {
                     $msg = array('msg' => 'Error al actualizar el Usuario', 'icono' => 'error');
                 }
@@ -148,6 +165,7 @@ class usuarios extends controlador
                 $msg = array('msg' => 'Error al desactivar el Usuario', 'icono' => 'error');
             } else {
                 $msg = array('msg' => 'Usuario desactivado', 'icono' => 'success');
+                $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'desactivar', "Desactivó usuario ID: $id");
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
@@ -162,6 +180,7 @@ class usuarios extends controlador
             $msg = array('msg' => 'Error al activar el Usuario', 'icono' => 'error');
         } else {
             $msg = array('msg' => 'Usuario activado', 'icono' => 'success');
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'activar', "Activó usuario ID: $id");
         }
 
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);

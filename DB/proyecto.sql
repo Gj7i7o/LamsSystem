@@ -60,24 +60,25 @@ CREATE TABLE `entrada` (
   `hora` varchar(20) NOT NULL,
   `idproveedor` int(11) NOT NULL,
   `total` float NOT NULL,
-  `cod_docum` varchar(20) NOT NULL
+  `cod_docum` varchar(20) NOT NULL,
+  `tipo_pago` varchar(15) NOT NULL DEFAULT 'contado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `entrada`
 --
 
-INSERT INTO `entrada` (`id`, `fecha`, `hora`, `idproveedor`, `total`, `cod_docum`) VALUES
-(5, '13/1/2026', '5:43:20 p. m.', 2, 36, 'Za-3333'),
-(7, '13/1/2026', '6:00:41 p. m.', 2, 60, 'Za-1234'),
-(8, '13/1/2026', '6:03:22 p. m.', 2, 0.03, 'Za-1232'),
-(9, '17/1/2026', '10:50:46 a. m.', 4, 86, 'Za-1233'),
-(10, '17/1/2026', '10:53:45 a. m.', 2, 160, 'Za-1235'),
-(11, '18/1/2026', '10:05:30 p. m.', 2, 160, '990-00-123'),
-(12, '18/1/2026', '10:18:02 p. m.', 2, 160, 'Za-2222'),
-(13, '21/1/2026', '9:41:13 a. m.', 2, 140, '3456'),
-(14, '21/1/2026', '9:49:39 a. m.', 2, 619, '00001'),
-(15, '21/1/2026', '9:52:48 a. m.', 2, 30, '0002');
+INSERT INTO `entrada` (`id`, `fecha`, `hora`, `idproveedor`, `total`, `cod_docum`, `tipo_pago`) VALUES
+(5, '13/1/2026', '5:43:20 p. m.', 2, 36, 'Za-3333', 'contado'),
+(7, '13/1/2026', '6:00:41 p. m.', 2, 60, 'Za-1234', 'contado'),
+(8, '13/1/2026', '6:03:22 p. m.', 2, 0.03, 'Za-1232', 'contado'),
+(9, '17/1/2026', '10:50:46 a. m.', 4, 86, 'Za-1233', 'contado'),
+(10, '17/1/2026', '10:53:45 a. m.', 2, 160, 'Za-1235', 'contado'),
+(11, '18/1/2026', '10:05:30 p. m.', 2, 160, '990-00-123', 'contado'),
+(12, '18/1/2026', '10:18:02 p. m.', 2, 160, 'Za-2222', 'contado'),
+(13, '21/1/2026', '9:41:13 a. m.', 2, 140, '3456', 'contado'),
+(14, '21/1/2026', '9:49:39 a. m.', 2, 619, '00001', 'contado'),
+(15, '21/1/2026', '9:52:48 a. m.', 2, 30, '0002', 'contado');
 
 -- --------------------------------------------------------
 
@@ -203,10 +204,11 @@ INSERT INTO `producto` (`id`, `codigo`, `nombre`, `precio`, `cantidad`, `idcateg
 
 CREATE TABLE `proveedor` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `apellido` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `rif` varchar(40) NOT NULL,
   `direccion` text NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `persona_contacto` varchar(100) DEFAULT NULL,
   `estado` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -214,17 +216,17 @@ CREATE TABLE `proveedor` (
 -- Volcado de datos para la tabla `proveedor`
 --
 
-INSERT INTO `proveedor` (`id`, `nombre`, `apellido`, `rif`, `direccion`, `estado`) VALUES
-(1, 'Carlos', 'gomez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'inactivo'),
-(2, 'Miguel', 'Rojas', 'J-407540351', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
-(3, 'Juan', 'Farias', 'J-407540351', 'Calle Acosta Casa Nro 96 Sector Mercado', 'activo'),
-(4, 'Donald', 'Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', 'activo'),
-(6, 'Miguel', 'Farias', 'V-123456789', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', 'activo'),
-(8, 'Antonio', 'Martinez', 'V-987654321', 'Calle principal sector el Muco', 'inactivo'),
-(9, 'angel', 'brazon', 'V-123456789', 'calle independencia numero 4', 'inactivo'),
-(10, 'Luis', 'Hernandez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'activo'),
-(12, 'Luis', 'Hernandez', 'V-123456787', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', 'activo'),
-(13, 'aleida', 'figueroa', 'J-13111111', 'guayacan ', 'activo');
+INSERT INTO `proveedor` (`id`, `nombre`, `rif`, `direccion`, `telefono`, `persona_contacto`, `estado`) VALUES
+(1, 'Carlos gomez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'inactivo'),
+(2, 'Miguel Rojas', 'J-407540351', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', NULL, NULL, 'activo'),
+(3, 'Juan Farias', 'J-407540351', 'Calle Acosta Casa Nro 96 Sector Mercado', NULL, NULL, 'activo'),
+(4, 'Donald Tyson', 'V-123456743', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2005', NULL, NULL, 'activo'),
+(6, 'Miguel Farias', 'V-123456789', 'Industria Municipal Norte 91-100 Valencia Carabobo Zona Postal 2003', NULL, NULL, 'activo'),
+(8, 'Antonio Martinez', 'V-987654321', 'Calle principal sector el Muco', NULL, NULL, 'inactivo'),
+(9, 'angel brazon', 'V-123456789', 'calle independencia numero 4', NULL, NULL, 'inactivo'),
+(10, 'Luis Hernandez', 'V-123456789', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'activo'),
+(12, 'Luis Hernandez', 'V-123456787', 'Sector el Viñedo Piso N-1 PB-1 Sector El Viñedo. Valencia Carabobo Zona postal 6158', NULL, NULL, 'activo'),
+(13, 'aleida figueroa', 'J-13111111', 'guayacan ', NULL, NULL, 'activo');
 
 -- --------------------------------------------------------
 
@@ -238,14 +240,15 @@ CREATE TABLE `salida` (
   `hora` varchar(20) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `total` float NOT NULL,
-  `cod_docum` varchar(30) NOT NULL
+  `cod_docum` varchar(30) NOT NULL,
+  `tipo_despacho` varchar(20) NOT NULL DEFAULT 'venta'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `salida`
 --
 
-INSERT INTO `salida` (`id`, `fecha`, `hora`, `idusuario`, `total`, `cod_docum`) VALUES
+INSERT INTO `salida` (`id`, `fecha`, `hora`, `idusuario`, `total`, `cod_docum`, `tipo_despacho`) VALUES
 (3, '16/1/2026', '8:33:56 p. m.', 1, 255, 'Za-1232'),
 (4, '16/1/2026', '8:36:46 p. m.', 1, 24.2, '2sa5lL*2'),
 (5, '21/1/2026', '9:57:31 a. m.', 1, 340040, '0001');
@@ -296,6 +299,22 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`id`, `usuario`, `clave`, `rango`, `estado`) VALUES
 (1, 'RuiChan', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'administrador', 'activo'),
 (2, 'MayChan', 'e31597878c5cc1a0d9270fcf811e0c3bbc73fe855907b1e849762792f2b2df7b', 'empleado', 'activo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_usuario`
+--
+
+CREATE TABLE `historial_usuario` (
+  `id` int(11) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  `modulo` varchar(50) NOT NULL,
+  `accion` varchar(50) NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha` varchar(20) NOT NULL,
+  `hora` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -371,6 +390,13 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_historial_usuario` (`idusuario`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -435,6 +461,12 @@ ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
+-- AUTO_INCREMENT de la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -476,6 +508,12 @@ ALTER TABLE `salida`
 ALTER TABLE `salidaproducto`
   ADD CONSTRAINT `FK_salida_id_producto` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`id`),
   ADD CONSTRAINT `FK_salida_id_salida` FOREIGN KEY (`idsalida`) REFERENCES `salida` (`id`);
+
+--
+-- Filtros para la tabla `historial_usuario`
+--
+ALTER TABLE `historial_usuario`
+  ADD CONSTRAINT `FK_historial_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -33,14 +33,14 @@ class entradasModel extends query
     {
         $offset = ($params["page"] - 1) * 10;
         $filters = $this->filtersSQL($params["query"]);
-        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters" :
-            "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC" :
+            "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
 
     /*regisEntrada: Obtiene los datos para validarlos y realizar las opciones de entrada*/
-    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo)
+    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo, string $tipo_pago = 'contado')
     {
         // 1. Verificar si el código de factura/entrada ya existe
         $verificar = "SELECT * FROM entrada WHERE cod_docum = '$codigo'";
@@ -48,8 +48,8 @@ class entradasModel extends query
 
         if (empty($existe)) {
             // 2. Insertar cabecera
-            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum) VALUES (?,?,?,?,?)";
-            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo);
+            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago) VALUES (?,?,?,?,?,?)";
+            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
             $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
 
             if ($data > 0) {
@@ -82,5 +82,61 @@ class entradasModel extends query
         $sql = "UPDATE producto SET cantidad = cantidad + ? WHERE id = ?";
         $datos = array($cantidad, $id_producto);
         return $this->save($sql, $datos);
+    }
+
+    /*editarEntrada: Obtiene la cabecera de una entrada con datos del proveedor*/
+    public function editarEntrada(int $id)
+    {
+        $sql = "SELECT e.*, p.nombre as proveedor_nombre
+                FROM entrada e
+                LEFT JOIN proveedor p ON e.idproveedor = p.id
+                WHERE e.id = $id";
+        return $this->select($sql);
+    }
+
+    /*obtenerDetalleEntrada: Obtiene las líneas de detalle de una entrada*/
+    public function obtenerDetalleEntrada(int $id_entrada)
+    {
+        $sql = "SELECT ep.*, pr.nombre as producto_nombre, pr.codigo as producto_codigo
+                FROM entradaproducto ep
+                LEFT JOIN producto pr ON ep.idproducto = pr.id
+                WHERE ep.identrada = $id_entrada";
+        return $this->selectAll($sql);
+    }
+
+    /*revertirStockEntrada: Resta del stock las cantidades de una entrada (para edición)*/
+    public function revertirStockEntrada(int $id_entrada)
+    {
+        $detalles = $this->obtenerDetalleEntrada($id_entrada);
+        foreach ($detalles as $detalle) {
+            $sql = "UPDATE producto SET cantidad = cantidad - ? WHERE id = ?";
+            $datos = array($detalle['cantidad'], $detalle['idproducto']);
+            $this->save($sql, $datos);
+        }
+        return true;
+    }
+
+    /*eliminarDetallesEntrada: Elimina los detalles de una entrada*/
+    public function eliminarDetallesEntrada(int $id_entrada)
+    {
+        $sql = "DELETE FROM entradaproducto WHERE identrada = ?";
+        return $this->save($sql, array($id_entrada));
+    }
+
+    /*modifEntrada: Actualiza la cabecera de una entrada*/
+    public function modifEntrada(int $id, string $codigo, int $idproveedor, float $total, string $tipo_pago)
+    {
+        // Verificar código único (excepto para el mismo registro)
+        $verificar = "SELECT * FROM entrada WHERE cod_docum = '$codigo' AND id != $id";
+        $existe = $this->select($verificar);
+
+        if (empty($existe)) {
+            $sql = "UPDATE entrada SET cod_docum = ?, idproveedor = ?, total = ?, tipo_pago = ? WHERE id = ?";
+            $datos = array($codigo, $idproveedor, $total, $tipo_pago, $id);
+            $data = $this->save($sql, $datos);
+            return $data == 1 ? "modificado" : "error";
+        } else {
+            return "existe";
+        }
     }
 }

@@ -1,12 +1,15 @@
 /*Modal para registrar entrada*/
 // Obtener los elementos del DOM
 const modal = document.getElementById("modalEntrada");
+const modalDetalle = document.getElementById("modalDetalleEntrada");
 const btn = document.getElementById("registrarEntrada");
 const span = document.getElementsByClassName("close")[0];
+const spanDetalle = document.getElementsByClassName("close-detalle")[0];
 const form = document.getElementById("formularioEntrada");
 const btnAddLine = document.getElementById("addLine");
 let opcionesProducto = "";
 let idx = 0;
+let modoEdicion = false;
 const dataForm = { lines: [] };
 const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     <div>
@@ -97,13 +100,14 @@ async function getListadoProveedor() {
 
 btnAddLine.onclick = function () {
   idx++;
-  form.innerHTML +=
+  const newLineHtml =
     `<div class="input_form" id="line_idx_${idx}">` +
     newFormLine(idx) +
     ` <div class="buttonToLine">
         <button class="button" type="button" onclick="deleteLine(${idx});"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
+  form.insertAdjacentHTML('beforeend', newLineHtml);
 };
 
 function deleteLine(idx) {
@@ -118,6 +122,13 @@ btn.onclick = function () {
   getListadoProveedor();
   document.getElementById("title").innerHTML = "Registrar Entrada";
   document.getElementById("btnAccion").innerHTML = "Registrar";
+  document.getElementById("id").value = "";
+  document.getElementById("codigo").value = "";
+  document.getElementById("proveedor").value = "";
+  document.getElementById("tipo_pago").value = "contado";
+  document.getElementById("total").value = "0.00";
+  modoEdicion = false;
+  idx = 0;
   form.innerHTML = formLine;
   modal.style.display = "block";
 };
@@ -126,6 +137,127 @@ btn.onclick = function () {
 span.onclick = function () {
   modal.style.display = "none";
 };
+
+// Cerrar modal de detalle
+if (spanDetalle) {
+  spanDetalle.onclick = function () {
+    modalDetalle.style.display = "none";
+  };
+}
+
+/*Función para ver detalle de una entrada*/
+function btnVerDetalleEntrada(id) {
+  const url = APP_URL + "entradas/verDetalle/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      const cabecera = res.cabecera;
+      const detalle = res.detalle;
+
+      // Llenar datos de cabecera
+      document.getElementById("detalle_proveedor").textContent = cabecera.proveedor_nombre || "N/A";
+      document.getElementById("detalle_tipo_pago").textContent = cabecera.tipo_pago === "contado" ? "Contado" : "Crédito";
+      document.getElementById("detalle_codigo").textContent = cabecera.cod_docum;
+      document.getElementById("detalle_fecha").textContent = cabecera.fecha;
+      document.getElementById("detalle_hora").textContent = cabecera.hora;
+      document.getElementById("detalle_total").textContent = cabecera.total + "$";
+
+      // Llenar tabla de detalle
+      const tbody = document.getElementById("detalleEntradaBody");
+      tbody.innerHTML = "";
+      detalle.forEach((item) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.producto_nombre} (${item.producto_codigo})</td>
+          <td>${item.cantidad}</td>
+          <td>${item.precio}$</td>
+          <td>${item.sub_total}$</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      modalDetalle.style.display = "block";
+    }
+  };
+}
+
+/*Función para editar una entrada*/
+function btnEditEntrada(id) {
+  document.getElementById("title").innerHTML = "Editar Entrada";
+  document.getElementById("btnAccion").innerHTML = "Modificar";
+  modoEdicion = true;
+
+  const url = APP_URL + "entradas/editar/" + id;
+  const http = new XMLHttpRequest();
+  http.open("GET", url, true);
+  http.send();
+  http.onreadystatechange = async function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      const cabecera = res.cabecera;
+      const detalle = res.detalle;
+
+      // Cargar listas primero
+      await getListadoProducto();
+      await getListadoProveedor();
+
+      // Llenar datos de cabecera
+      document.getElementById("id").value = cabecera.id;
+      document.getElementById("codigo").value = cabecera.cod_docum;
+      document.getElementById("proveedor").value = cabecera.idproveedor;
+      document.getElementById("tipo_pago").value = cabecera.tipo_pago;
+      document.getElementById("total").value = cabecera.total;
+
+      // Limpiar y crear líneas de detalle
+      form.innerHTML = "";
+      idx = 0;
+
+      detalle.forEach((item, index) => {
+        idx = index;
+        const lineHtml = `<div class="input_form" id="line_idx_${index}">
+          <div>
+            <input name="lines[${index}][id]" value="id${index}" hidden="true">
+            <label for="producto">Producto</label>
+            <select name="lines[${index}][producto]" onchange="changeProducto(this)" id="producto${index}" class="input_form_select producto">
+              ${opcionesProducto}
+            </select>
+          </div>
+          <div>
+            <label for="precio">PrecioUni</label>
+            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}" required>
+          </div>
+          <div>
+            <label for="cantidad">Cantidad</label>
+            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}" required>
+          </div>
+          <div>
+            <label for="subTotal">Sub-total</label>
+            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input" required>
+          </div>
+          <div class="buttonToLine">
+            <button class="button" type="button" onclick="deleteLine(${index});"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>`;
+        form.insertAdjacentHTML('beforeend', lineHtml);
+      });
+
+      // Establecer los valores de los selects de producto después de crear las líneas
+      setTimeout(() => {
+        detalle.forEach((item, index) => {
+          const select = document.querySelector(`select[name="lines[${index}][producto]"]`);
+          if (select) {
+            select.value = item.idproducto;
+          }
+        });
+      }, 100);
+
+      modal.style.display = "block";
+    }
+  };
+}
 
 function fecha() {
   const fecha = new Date();
@@ -140,6 +272,7 @@ function hora() {
 function limpiarFormulario() {
   document.getElementById("codigo").value = "";
   document.getElementById("total").value = "";
+  document.getElementById("tipo_pago").value = "contado";
 }
 
 const formulario = document.getElementById("formularioEntradas");
@@ -147,12 +280,14 @@ const formulario = document.getElementById("formularioEntradas");
 formulario.addEventListener("submit", function (e) {
   e.preventDefault();
   let data = {
+    id: document.getElementById("id").value || "",
     proveedor: "",
     codigo: "",
     fecha: fecha(),
     hora: hora(),
     lineas: [],
     total: "",
+    tipo_pago: "",
   };
 
   // Selecciona todos los divs que representan una línea de formulario
@@ -191,9 +326,15 @@ formulario.addEventListener("submit", function (e) {
   data.codigo = codigo.value;
   data.proveedor = proveedor.value;
   data.total = total.value;
+  data.tipo_pago = document.getElementById("tipo_pago").value;
+
+  // Validar que todos los precios sean mayores a 0
+  let precioInvalido = data.lineas.some(linea => parseFloat(linea.precio) <= 0);
 
   if (data.codigo == "" || data.proveedor == "") {
     alertas("Todos los campos son obligatorios", "warning");
+  } else if (precioInvalido) {
+    alertas("El precio debe ser mayor a 0", "warning");
   } else {
     const url = APP_URL + "entradas/registrar"; // Quitamos los parámetros de la URL
     const http = new XMLHttpRequest();

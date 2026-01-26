@@ -63,42 +63,77 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-file">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="usuario">Usuario:</label>
                     <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" required>
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:</label>
                     <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" required>
+=======
+                    <label for="usuario">Usuario:<span class="required">*</span></label>
+                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" maxlength="20" required>
+                </div>
+                <div class="form-group">
+                    <label for="ci">CI:<span class="required">*</span></label>
+                    <input type="text" id="ci" name="ci" placeholder="30333222" maxlength="15" required>
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" required>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
                     <input type="text" id="apellido" name="apellido" placeholder="Ej: López" required>
+=======
+                    <label for="nombre">Nombre:<span class="required">*</span></label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:<span class="required">*</span></label>
+                    <input type="text" id="apellido" name="apellido" placeholder="López" maxlength="50" required>
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="correo">Correo:</label>
+<<<<<<< HEAD
                     <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com" required>
                 </div>
                 <div class="form-group">
                     <label for="telef">Teléfono:</label>
                     <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" required>
+=======
+                    <input type="email" id="correo" name="correo" placeholder="correoreal@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="telef">Teléfono:</label>
+                    <input type="text" id="telef" name="telef" placeholder="0414-1234567" maxlength="15">
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="contrasena">Contraseña:</label>
                     <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15">
                 </div>
                 <div class="form-group">
                     <label for="confirm">Confirmar Contraseña:</label>
                     <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15">
+=======
+                    <label for="contrasena">Contraseña:<span class="required">*</span></label>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Pedro*15" maxlength="16">
+                </div>
+                <div class="form-group">
+                    <label for="confirm">Confirmar Contraseña:<span class="required">*</span></label>
+                    <input type="password" id="confirm" name="confirm" placeholder="Pedro*15" maxlength="16">
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
             <div class="modal-footer">

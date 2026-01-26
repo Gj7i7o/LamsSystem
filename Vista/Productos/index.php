@@ -67,30 +67,44 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-file">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="codigo">Código:</label>
                     <input type="text" id="codigo" name="codigo" placeholder="Ej: 001-22-777" required>
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej: Bujía" required>
+=======
+                    <label for="codigo">Código:<span class="required">*</span></label>
+                    <input type="text" id="codigo" name="codigo" placeholder="001-22-777" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre:<span class="required">*</span></label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Bujía" maxlength="100" required>
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
 
             <div class="form-file">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="precio">Precio $:</label>
                     <input type="text" id="precio" name="precio" placeholder="Ej: 15" required>
+=======
+                    <label for="precio">Precio $:<span class="required">*</span></label>
+                    <input type="number" id="precio" name="precio" placeholder="15" step="0.01" min="0" required>
+>>>>>>> b8dfd1bcd42a5e5726a07bf966931d705379ad81
                 </div>
             </div>
 
             <div class="form-file">
                 <div class="form-group">
-                    <label for="categoria">Categoría:</label>
+                    <label for="categoria">Categoría:<span class="required">*</span></label>
                     <select name="categoria" id="categoria">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="marca">Marca:</label>
+                    <label for="marca">Marca:<span class="required">*</span></label>
                     <select name="marca" id="marca">
                     </select>
                 </div>
