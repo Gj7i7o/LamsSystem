@@ -63,7 +63,7 @@ include "vista/componentes/header.php";
         <form id="formularioMarca" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">Nombre:<span class="required">*</span></label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ford" title="Nombre de la marca" maxlength="20" required>
             </div>
 

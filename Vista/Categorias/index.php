@@ -64,12 +64,12 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-file">
                 <div class="form-group">
-                    <label for="nombre">Nombre:</label>
+                    <label for="nombre">Nombre:<span class="required">*</span></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Accesorios" maxlength="20" required>
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción:</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Accesorios decorativos para vehículos" maxlength="255" required>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Accesorios decorativos para vehículos" maxlength="255">
                 </div>
             </div>
 

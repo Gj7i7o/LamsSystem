@@ -58,7 +58,7 @@ include "vista/componentes/header.php";
 
             <div class="modal-header-info">
                 <div class="datos-proveedor">
-                    <h3>Tipo de Despacho:</h3>
+                    <h3>Tipo de Despacho:<span class="required">*</span></h3>
                     <select name="tipo_despacho" id="tipo_despacho">
                         <option value="venta" selected>Venta</option>
                         <option value="uso_interno">Uso Interno</option>
@@ -68,6 +68,7 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
+                    <h3>Documento:<span class="required">*</span></h3>
                     <input type="text" id="codigo" name="codigo" placeholder="Número de Documento" maxlength="50" required>
                 </div>
             </div>

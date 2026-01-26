@@ -63,13 +63,13 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-file">
                 <div class="form-group">
-                    <label for="rif">Rif/CI:</label>
+                    <label for="rif">Rif/CI:<span class="required">*</span></label>
                     <input type="text" id="rif" name="rif" placeholder="J-123456789" maxlength="40" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">Nombre:<span class="required">*</span></label>
                 <input type="text" id="nombre" name="nombre" placeholder="Empresa o Nombre Completo" maxlength="100" required>
             </div>
 
@@ -79,13 +79,13 @@ include "vista/componentes/header.php";
                     <input type="text" id="telefono" name="telefono" placeholder="0412-1234567" maxlength="20">
                 </div>
                 <div class="form-group">
-                    <label for="persona_contacto">Persona de Contacto:</label>
+                    <label for="persona_contacto">Persona de Contacto:<span class="required">*</span></label>
                     <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Juan Pérez" maxlength="100">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="direccion">Dirección:</label>
+                <label for="direccion">Dirección:<span class="required">*</span></label>
                 <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Calle Acosta casa Nº..." maxlength="255" required>
             </div>
 

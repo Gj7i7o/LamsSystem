@@ -57,11 +57,11 @@ include "vista/componentes/header.php";
 
             <div class="modal-header-info">
                 <div class="datos-proveedor">
-                    <h3>Proveedor:</h3>
+                    <h3>Proveedor:<span class="required">*</span></h3>
                     <select name="proveedor" id="proveedor"></select>
                 </div>
                 <div class="datos-proveedor">
-                    <h3>Tipo de Pago:</h3>
+                    <h3>Tipo de Pago:<span class="required">*</span></h3>
                     <select name="tipo_pago" id="tipo_pago">
                         <option value="contado" selected>Contado</option>
                         <option value="credito">Crédito</option>
@@ -69,6 +69,7 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
+                    <h3>Documento:<span class="required">*</span></h3>
                     <input type="text" id="codigo" name="codigo" placeholder="Número de Documento" maxlength="50" required>
                 </div>
             </div>

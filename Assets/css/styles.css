@@ -478,6 +478,12 @@ tr:nth-child(even) {
   margin-left: 2px;
 }
 
+/* Asterisco rojo para campos requeridos */
+.form-group label .required {
+  color: #e53935;
+  margin-left: 2px;
+}
+
 /* Estilo de los Inputs */
 .form-group input,
 .form-group select,
@@ -545,6 +551,12 @@ tr:nth-child(even) {
   font-size: 1rem;
   color: #444;
   font-weight: 600;
+}
+
+/* Asterisco rojo para campos requeridos en h3 */
+.datos-proveedor h3 .required, .fecha h3 .required {
+  color: #e53935;
+  margin-left: 2px;
 }
 
 .datos-proveedor input, .fecha input {
