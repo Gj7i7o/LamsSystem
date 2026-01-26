@@ -63,24 +63,24 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="rif">Rif/CI:</label>
-                    <input type="text" id="rif" name="rif" placeholder="J-123456789" required>
+                    <input type="text" id="rif" name="rif" placeholder="Ej: J-123456789" required>
                 </div>
             </div>
 
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Juan" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan" required>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" placeholder="Farias" required>
+                    <input type="text" id="apellido" name="apellido" placeholder="Ej: Farias" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Calle Acosta casa Nº..." required>
+                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Ej: Calle Acosta casa Nº..." required>
             </div>
 
             <div class="modal-footer">

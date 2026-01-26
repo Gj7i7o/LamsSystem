@@ -33,7 +33,7 @@ class categoriasModel extends query
             $conditions[] = "estado = '$estado'";
         }
         if (!empty($value)) {
-            $conditions[] = "(nombre LIKE '%$value%' OR descrip LIKE '%$value%')";
+            $conditions[] = "(id LIKE '%$value%' OR nombre LIKE '%$value%' OR descrip LIKE '%$value%')";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;

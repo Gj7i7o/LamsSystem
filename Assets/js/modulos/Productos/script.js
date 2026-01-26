@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.codigo}</td>
                 <td>${item.nombre}</td>
-                <td>${item.precio}</td>
+                <td>${item.precio}$</td>
                 <td>${item.cantidad}</td>
                 <td>${item.categoria}</td>
                 <td>${item.marca}</td>

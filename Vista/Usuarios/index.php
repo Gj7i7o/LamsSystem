@@ -64,41 +64,41 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="UserMax123" required>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" required>
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:</label>
-                    <input type="text" id="ci" name="ci" placeholder="30333222" required>
+                    <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" required>
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Pedro" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" required>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" placeholder="López" required>
+                    <input type="text" id="apellido" name="apellido" placeholder="Ej: López" required>
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" placeholder="correoreal@gmail.com" required>
+                    <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com" required>
                 </div>
                 <div class="form-group">
                     <label for="telef">Teléfono:</label>
-                    <input type="text" id="telef" name="telef" placeholder="0414-1234567" required>
+                    <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" required>
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Pedro*15">
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15">
                 </div>
                 <div class="form-group">
                     <label for="confirm">Confirmar Contraseña:</label>
-                    <input type="password" id="confirm" name="confirm" placeholder="Pedro*15">
+                    <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15">
                 </div>
             </div>
             <div class="modal-footer">

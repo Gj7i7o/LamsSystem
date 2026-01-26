@@ -116,6 +116,8 @@ class proveedores extends controlador
                     $data = $this->model->modifProveedor($nombre, $apellido, $rif, $direccion, $id);
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
+                    } else if ($data == "existe") {
+                        $msg = array('msg' => 'El proveedor ya existe', 'icono' => 'warning');
                     } else {
                         $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error');
                     }

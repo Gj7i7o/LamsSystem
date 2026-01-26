@@ -28,7 +28,7 @@ class marcasModel extends query
             $conditions[] = "estado = '$estado'";
         }
         if (!empty($value)) {
-            $conditions[] = "nombre LIKE '%$value%'";
+            $conditions[] = "id LIKE '%$value%' OR nombre LIKE '%$value%'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;

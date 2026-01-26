@@ -65,11 +65,11 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Accesorios" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Accesorios" required>
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción:</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Accesorios decorativos para vehículos" required>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Ej: Accesorios decorativos para vehículos" required>
                 </div>
             </div>
 

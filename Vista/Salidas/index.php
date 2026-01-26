@@ -60,7 +60,7 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Factura" required>
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" required>
                 </div>
             </div>
 
