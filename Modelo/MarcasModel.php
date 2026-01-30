@@ -14,21 +14,29 @@ class marcasModel extends query
     /*getCount: Cuenta las marcas según el estado y búsqueda*/
     public function getCount(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM marca $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $estado): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
         if ($estado != "todo") {
             $conditions[] = "estado = '$estado'";
         }
         if (!empty($value)) {
-            $conditions[] = "id LIKE '%$value%' OR nombre LIKE '%$value%'";
+            $conditions[] = "(id LIKE '%$value%' OR nombre LIKE '%$value%')";
+        }
+        if (!empty($fecha_desde)) {
+            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($fecha_hasta)) {
+            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -38,7 +46,9 @@ class marcasModel extends query
     public function tomarMarcas(array $params)
     {
         $offset = ($params["page"] - 1) * 10;
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM marca $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
@@ -55,7 +65,9 @@ class marcasModel extends query
     /*tomarMarcasTodas: Toma todas las marcas sin paginación (para reportes PDF)*/
     public function tomarMarcasTodas(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM marca $filters ORDER BY id DESC";
         $data = $this->selectAll($sql);
         return $data;

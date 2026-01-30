@@ -139,6 +139,12 @@
     <div class="info">
         <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y H:i:s'); ?></p>
         <p><strong>Total de registros:</strong> <?php echo count($proveedores); ?></p>
+        <?php if (!empty($filtro_fecha_desde) || !empty($filtro_fecha_hasta)): ?>
+            <p><strong>Rango de fecha:</strong>
+                <?php echo !empty($filtro_fecha_desde) ? $filtro_fecha_desde : 'Inicio'; ?> -
+                <?php echo !empty($filtro_fecha_hasta) ? $filtro_fecha_hasta : 'Actual'; ?>
+            </p>
+        <?php endif; ?>
     </div>
 
     <table>

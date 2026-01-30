@@ -52,7 +52,9 @@ class marcas extends controlador
             $page = $_GET["page"] ?? 1;
             $estado = $_GET["estado"] ?? "activo";
             $query = $_GET["query"] ?? "";
-            $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
+            $fecha_desde = $_GET["fecha_desde"] ?? "";
+            $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
             $data = $this->model->tomarMarcas($params);
             $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
@@ -165,13 +167,17 @@ class marcas extends controlador
         require_once "config/app/PdfGenerator.php";
         $estado = $_GET["estado"] ?? "todo";
         $query = $_GET["query"] ?? "";
-        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+        $fecha_desde = $_GET["fecha_desde"] ?? "";
+        $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
 
         $marcas = $this->model->tomarMarcasTodas($params);
 
         $pdf = new pdfGenerator();
         $pdf->cargarVista('marcas_pdf', [
-            'marcas' => $marcas
+            'marcas' => $marcas,
+            'filtro_fecha_desde' => $fecha_desde,
+            'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Marcas_' . date('Y-m-d') . '.pdf');
     }
 }

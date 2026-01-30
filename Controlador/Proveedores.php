@@ -52,7 +52,9 @@ class proveedores extends controlador
             $page = $_GET["page"] ?? 1;
             $estado = $_GET["estado"] ?? "activo";
             $query = $_GET["query"] ?? "";
-            $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
+            $fecha_desde = $_GET["fecha_desde"] ?? "";
+            $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
             $data = $this->model->tomarProveedores($params);
             $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
@@ -168,13 +170,17 @@ class proveedores extends controlador
         require_once "config/app/PdfGenerator.php";
         $estado = $_GET["estado"] ?? "todo";
         $query = $_GET["query"] ?? "";
-        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+        $fecha_desde = $_GET["fecha_desde"] ?? "";
+        $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
 
         $proveedores = $this->model->tomarProveedoresTodos($params);
 
         $pdf = new pdfGenerator();
         $pdf->cargarVista('proveedores_pdf', [
-            'proveedores' => $proveedores
+            'proveedores' => $proveedores,
+            'filtro_fecha_desde' => $fecha_desde,
+            'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Proveedores_' . date('Y-m-d') . '.pdf');
     }
 }

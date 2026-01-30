@@ -31,7 +31,9 @@ class salidas extends controlador
         try {
             $page = $_GET["page"] ?? 0;
             $query = $_GET["query"] ?? "";
-            $params = ['page' => $page, 'query' => $query];
+            $fecha_desde = $_GET["fecha_desde"] ?? "";
+            $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
             $data = $this->model->tomarSalida($params);
             $total = $this->model->getCount($params);
 
@@ -241,12 +243,16 @@ class salidas extends controlador
         require_once "config/app/PdfGenerator.php";
 
         $query = $_GET["query"] ?? "";
-        $params = ['query' => $query];
+        $fecha_desde = $_GET["fecha_desde"] ?? "";
+        $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+        $params = ['query' => $query, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
         $salidas = $this->model->tomarSalidasReporte($params);
 
         $pdf = new pdfGenerator();
         $pdf->cargarVista('salida_pdf', [
-            'salidas' => $salidas
+            'salidas' => $salidas,
+            'filtro_fecha_desde' => $fecha_desde,
+            'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Salidas.pdf');
     }
 }

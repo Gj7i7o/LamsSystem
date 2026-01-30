@@ -20,13 +20,15 @@ class categoriasModel extends query
 
     public function getCount(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM categoria $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
-    public function filtersSQL(string $value, string $estado): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
         if ($estado != "todo") {
@@ -34,6 +36,12 @@ class categoriasModel extends query
         }
         if (!empty($value)) {
             $conditions[] = "(id LIKE '%$value%' OR nombre LIKE '%$value%' OR descrip LIKE '%$value%')";
+        }
+        if (!empty($fecha_desde)) {
+            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($fecha_hasta)) {
+            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -60,7 +68,9 @@ class categoriasModel extends query
     public function tomarCategorias($params)
     {
         $offset = ($params["page"] - 1) * 10;
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = $params["page"] <= 0 ? "SELECT * FROM categoria $filters ORDER BY id DESC" : "SELECT * FROM categoria $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
@@ -69,7 +79,9 @@ class categoriasModel extends query
     /*tomarCategoriasTodas: Toma todas las categorías sin paginación (para reportes PDF)*/
     public function tomarCategoriasTodas($params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM categoria $filters ORDER BY id DESC";
         $data = $this->selectAll($sql);
         return $data;

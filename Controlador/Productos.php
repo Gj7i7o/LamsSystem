@@ -54,7 +54,9 @@ class productos extends controlador
             $page = $_GET["page"] ?? 1;
             $estado = $_GET["estado"] ?? "activo";
             $query = $_GET["query"] ?? "";
-            $params = ['page' => $page, 'query' => $query, 'estado' => $estado];
+            $fecha_desde = $_GET["fecha_desde"] ?? "";
+            $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
             $data = $this->model->tomarProductos($params);
             $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
@@ -172,7 +174,9 @@ class productos extends controlador
         require_once "config/app/PdfGenerator.php";
         $estado = $_GET["estado"] ?? "todo";
         $query = $_GET["query"] ?? "";
-        $params = ['page' => 1, 'query' => $query, 'estado' => $estado];
+        $fecha_desde = $_GET["fecha_desde"] ?? "";
+        $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+        $params = ['page' => 1, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
 
         // Obtener todos los productos sin paginación para el reporte
         $productos = $this->model->tomarProductosTodos($params);
@@ -180,7 +184,9 @@ class productos extends controlador
         $pdf = new pdfGenerator();
         $pdf->cargarVista('productos_pdf', [
             'productos' => $productos,
-            'filtro_estado' => $estado
+            'filtro_estado' => $estado,
+            'filtro_fecha_desde' => $fecha_desde,
+            'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Inventario_Productos_' . date('Y-m-d') . '.pdf');
     }
 }

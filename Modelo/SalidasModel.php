@@ -10,11 +10,17 @@ class salidasModel extends query
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value): string
+    public function filtersSQL(string $value, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
         if (!empty($value)) {
             $conditions[] = "(cod_docum LIKE '%$value%' OR total LIKE '%$value%')";
+        }
+        if (!empty($fecha_desde)) {
+            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($fecha_hasta)) {
+            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -22,7 +28,9 @@ class salidasModel extends query
 
     public function getCount(array $params)
     {
-        $filters = $this->filtersSQL($params["query"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM salida $filters";
         $data = $this->selectAll($sql);
         return count($data);
@@ -32,7 +40,9 @@ class salidasModel extends query
     public function tomarSalida(array $params)
     {
         $offset = ($params["page"] - 1) * 10;
-        $filters = $this->filtersSQL($params["query"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
         $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC" :
             "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
@@ -163,6 +173,14 @@ class salidasModel extends query
         if (!empty($params["query"])) {
             $value = $params["query"];
             $conditions[] = "(s.cod_docum LIKE '%$value%' OR pr.nombre LIKE '%$value%')";
+        }
+        if (!empty($params["fecha_desde"])) {
+            $fecha_desde = $params["fecha_desde"];
+            $conditions[] = "DATE(s.creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($params["fecha_hasta"])) {
+            $fecha_hasta = $params["fecha_hasta"];
+            $conditions[] = "DATE(s.creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
 

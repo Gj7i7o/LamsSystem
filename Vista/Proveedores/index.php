@@ -28,6 +28,13 @@ include "vista/componentes/header.php";
                     </i><input type="text" name="query" id="query" placeholder="Buscar..." oninput="setfilter()">
                 </div>
             </div>
+            <div class="filtro-fechas">
+                <label for="fecha_desde">Desde:</label>
+                <input type="date" id="fecha_desde" name="fecha_desde" onchange="setfilter()">
+                <label for="fecha_hasta">Hasta:</label>
+                <input type="date" id="fecha_hasta" name="fecha_hasta" onchange="setfilter()">
+                <button class="btn-limpiar-fechas" type="button" onclick="limpiarFechas()">Limpiar fechas</button>
+            </div>
             <div>
                 <table id="TablaProveedores">
                     <thead>

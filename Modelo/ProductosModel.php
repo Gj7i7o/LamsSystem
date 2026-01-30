@@ -14,7 +14,9 @@ class productosModel extends query
     /*getCount: Cuenta los productos según el estado y búsqueda*/
     public function getCount(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT p.id FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters";
@@ -23,7 +25,7 @@ class productosModel extends query
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $estado): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
         if ($estado != "todo") {
@@ -31,6 +33,12 @@ class productosModel extends query
         }
         if (!empty($value)) {
             $conditions[] = "(p.codigo LIKE '%$value%' OR p.nombre LIKE '%$value%' OR c.nombre LIKE '%$value%' OR m.nombre LIKE '%$value%')";
+        }
+        if (!empty($fecha_desde)) {
+            $conditions[] = "DATE(p.creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($fecha_hasta)) {
+            $conditions[] = "DATE(p.creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -40,7 +48,9 @@ class productosModel extends query
     public function tomarProductos(array $params)
     {
         $offset = ($params["page"] - 1) * 10;
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC LIMIT 10 OFFSET $offset";
@@ -60,7 +70,9 @@ class productosModel extends query
     /*tomarProductosTodos: Toma todos los productos sin paginación (para reportes PDF)*/
     public function tomarProductosTodos(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC";

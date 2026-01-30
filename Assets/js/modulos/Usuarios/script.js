@@ -21,10 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       let estado = document.getElementById("estado");
       let query = document.getElementById("query");
+      let fecha_desde = document.getElementById("fecha_desde");
+      let fecha_hasta = document.getElementById("fecha_hasta");
       const params = new URLSearchParams({
         page: paginaActual,
         estado: estado?.value || "activo",
         query: query?.value || "",
+        fecha_desde: fecha_desde?.value || "",
+        fecha_hasta: fecha_hasta?.value || "",
       });
 
       const response = await fetch(
@@ -139,6 +143,13 @@ function setfilter() {
   }
 }
 
+/*Función para limpiar filtros de fecha*/
+function limpiarFechas() {
+  document.getElementById("fecha_desde").value = "";
+  document.getElementById("fecha_hasta").value = "";
+  setfilter();
+}
+
 /*Botón para desactivar usuarios*/
 function btnDesUsuario(id) {
   Swal.fire({
@@ -197,8 +208,10 @@ function btnActUsuario(id) {
 function descargarPDF() {
   const estado = document.getElementById("estado")?.value || "todo";
   const query = document.getElementById("query")?.value || "";
+  const fecha_desde = document.getElementById("fecha_desde")?.value || "";
+  const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   window.open(
-    APP_URL + "usuarios/reportePDF?estado=" + estado + "&query=" + query,
+    APP_URL + "usuarios/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
     "_blank",
   );
 }

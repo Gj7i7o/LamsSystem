@@ -289,6 +289,45 @@ tr:nth-child(even) {
   margin-right: 5px;
 }
 
+/*=========================================
+  FILTRO DE RANGO DE FECHAS
+  =========================================*/
+
+.filtro-fechas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filtro-fechas label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #314158;
+}
+
+.filtro-fechas input[type="date"] {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 13px;
+  color: #314158;
+}
+
+.filtro-fechas .btn-limpiar-fechas {
+  background: #e0e0e0;
+  color: #314158;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filtro-fechas .btn-limpiar-fechas:hover {
+  background: #ccc;
+}
+
 
 /*=========================================
   BOTONES EN GENERAL, PARA LAS ACCIONES DE 

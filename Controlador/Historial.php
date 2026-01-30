@@ -34,11 +34,16 @@ class historial extends controlador
             $modulo = $_GET["modulo"] ?? "todo";
             $usuario = $_GET["usuario"] ?? "todo";
 
+            $fecha_desde = $_GET["fecha_desde"] ?? "";
+            $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+
             $params = [
                 'page' => $page,
                 'query' => $query,
                 'modulo' => $modulo,
-                'usuario' => $usuario
+                'usuario' => $usuario,
+                'fecha_desde' => $fecha_desde,
+                'fecha_hasta' => $fecha_hasta
             ];
 
             $data = $this->model->tomarHistorial($params);
@@ -75,18 +80,25 @@ class historial extends controlador
         $modulo = $_GET["modulo"] ?? "todo";
         $usuario = $_GET["usuario"] ?? "todo";
 
+        $fecha_desde = $_GET["fecha_desde"] ?? "";
+        $fecha_hasta = $_GET["fecha_hasta"] ?? "";
+
         $params = [
             'page' => 1,
             'query' => $query,
             'modulo' => $modulo,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'fecha_desde' => $fecha_desde,
+            'fecha_hasta' => $fecha_hasta
         ];
 
         $historial = $this->model->tomarHistorialTodo($params);
 
         $pdf = new pdfGenerator();
         $pdf->cargarVista('historial_pdf', [
-            'historial' => $historial
+            'historial' => $historial,
+            'filtro_fecha_desde' => $fecha_desde,
+            'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Historial_Acciones_' . date('Y-m-d') . '.pdf', 'landscape');
     }
 }

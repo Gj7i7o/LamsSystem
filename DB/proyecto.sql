@@ -31,7 +31,8 @@ CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `descrip` text NOT NULL,
-  `estado` varchar(15) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -66,7 +67,8 @@ CREATE TABLE `entrada` (
   `idproveedor` int(11) NOT NULL,
   `total` float NOT NULL,
   `cod_docum` varchar(20) NOT NULL,
-  `tipo_pago` varchar(15) NOT NULL DEFAULT 'contado'
+  `tipo_pago` varchar(15) NOT NULL DEFAULT 'contado',
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -143,7 +145,8 @@ CREATE TABLE `historial_usuario` (
   `accion` varchar(50) NOT NULL,
   `descripcion` text NOT NULL,
   `fecha` varchar(20) NOT NULL,
-  `hora` varchar(20) NOT NULL
+  `hora` varchar(20) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -164,7 +167,8 @@ INSERT INTO `historial_usuario` (`id`, `idusuario`, `modulo`, `accion`, `descrip
 CREATE TABLE `marca` (
   `id` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
-  `estado` varchar(15) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -198,7 +202,8 @@ CREATE TABLE `persona` (
   `apellido` varchar(20) NOT NULL,
   `telef` varchar(30) NOT NULL,
   `correo` varchar(30) NOT NULL,
-  `idusuario` int(11) NOT NULL
+  `idusuario` int(11) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -224,7 +229,8 @@ CREATE TABLE `producto` (
   `cantidad` int(15) NOT NULL,
   `idcategoria` int(11) NOT NULL,
   `idmarca` int(11) NOT NULL,
-  `estado` varchar(15) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -253,7 +259,8 @@ CREATE TABLE `proveedor` (
   `direccion` text NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `persona_contacto` varchar(100) DEFAULT NULL,
-  `estado` varchar(15) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -286,7 +293,8 @@ CREATE TABLE `salida` (
   `idusuario` int(11) NOT NULL,
   `total` float NOT NULL,
   `cod_docum` varchar(30) NOT NULL,
-  `tipo_despacho` varchar(20) NOT NULL DEFAULT 'venta'
+  `tipo_despacho` varchar(20) NOT NULL DEFAULT 'venta',
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -338,7 +346,8 @@ CREATE TABLE `usuario` (
   `usuario` varchar(20) NOT NULL,
   `clave` varchar(100) NOT NULL,
   `rango` varchar(20) NOT NULL,
-  `estado` varchar(15) NOT NULL
+  `estado` varchar(15) NOT NULL,
+  `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -549,6 +558,20 @@ ALTER TABLE `salidaproducto`
   ADD CONSTRAINT `FK_salida_id_producto` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`id`),
   ADD CONSTRAINT `FK_salida_id_salida` FOREIGN KEY (`idsalida`) REFERENCES `salida` (`id`);
 COMMIT;
+
+--
+-- Agregar columna creadoEl a todas las tablas (para bases de datos existentes)
+--
+
+ALTER TABLE `categoria` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `entrada` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `historial_usuario` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `marca` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `persona` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `producto` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `proveedor` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `salida` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `usuario` ADD COLUMN IF NOT EXISTS `creadoEl` datetime NOT NULL DEFAULT current_timestamp();
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

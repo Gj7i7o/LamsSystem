@@ -60,6 +60,16 @@ class historialModel extends query
             $conditions[] = "(h.descripcion LIKE '%$query%' OR h.accion LIKE '%$query%' OR u.usuario LIKE '%$query%')";
         }
 
+        if (!empty($params['fecha_desde'])) {
+            $fecha_desde = $params['fecha_desde'];
+            $conditions[] = "DATE(h.creadoEl) >= '$fecha_desde'";
+        }
+
+        if (!empty($params['fecha_hasta'])) {
+            $fecha_hasta = $params['fecha_hasta'];
+            $conditions[] = "DATE(h.creadoEl) <= '$fecha_hasta'";
+        }
+
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
     }

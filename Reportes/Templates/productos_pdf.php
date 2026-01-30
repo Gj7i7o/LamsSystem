@@ -142,6 +142,12 @@
         <?php if (!empty($filtro_estado)): ?>
             <p><strong>Estado:</strong> <?php echo ucfirst($filtro_estado); ?></p>
         <?php endif; ?>
+        <?php if (!empty($filtro_fecha_desde) || !empty($filtro_fecha_hasta)): ?>
+            <p><strong>Rango de fecha:</strong>
+                <?php echo !empty($filtro_fecha_desde) ? $filtro_fecha_desde : 'Inicio'; ?> -
+                <?php echo !empty($filtro_fecha_hasta) ? $filtro_fecha_hasta : 'Actual'; ?>
+            </p>
+        <?php endif; ?>
     </div>
 
     <table>

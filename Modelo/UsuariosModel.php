@@ -14,14 +14,16 @@ class usuariosModel extends query
     /*getCount: Cuenta los usuarios según el estado y búsqueda*/
     public function getCount(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM usuario $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $estado): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
         if ($estado != "todo") {
@@ -29,6 +31,12 @@ class usuariosModel extends query
         }
         if (!empty($value)) {
             $conditions[] = "(usuario LIKE '%$value%' OR rango LIKE '%$value%')";
+        }
+        if (!empty($fecha_desde)) {
+            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+        }
+        if (!empty($fecha_hasta)) {
+            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -38,7 +46,9 @@ class usuariosModel extends query
     public function tomarUsuarios(array $params)
     {
         $offset = ($params["page"] - 1) * 10;
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT * FROM usuario $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
@@ -47,7 +57,9 @@ class usuariosModel extends query
     /*tomarUsuariosTodos: Toma todos los usuarios sin paginación (para reportes PDF)*/
     public function tomarUsuariosTodos(array $params)
     {
-        $filters = $this->filtersSQL($params["query"], $params["estado"]);
+        $fecha_desde = $params["fecha_desde"] ?? '';
+        $fecha_hasta = $params["fecha_hasta"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT u.*, p.nombre, p.apellido, p.correo, p.telef
                 FROM usuario u
                 LEFT JOIN persona p ON u.id = p.idusuario

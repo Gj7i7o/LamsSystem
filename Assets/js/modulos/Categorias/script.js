@@ -22,10 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
       let estado = document.getElementById("estado");
       let query = document.getElementById("query");
       // Construir la URL con query parameters
+      let fecha_desde = document.getElementById("fecha_desde");
+      let fecha_hasta = document.getElementById("fecha_hasta");
       const params = new URLSearchParams({
         page: currentPage,
         query: query?.value || "",
         estado: estado?.value || "activo",
+        fecha_desde: fecha_desde?.value || "",
+        fecha_hasta: fecha_hasta?.value || "",
       });
 
       const url = `http://localhost/LamsSystem/categorias/listar?${params}`;
@@ -148,6 +152,13 @@ function setfilter() {
   }
 }
 
+/*Función para limpiar filtros de fecha*/
+function limpiarFechas() {
+  document.getElementById("fecha_desde").value = "";
+  document.getElementById("fecha_hasta").value = "";
+  setfilter();
+}
+
 /*Botón para desactivar categorías*/
 function btnDesCategoria(id) {
   Swal.fire({
@@ -206,8 +217,10 @@ function btnActCategoria(id) {
 function descargarPDF() {
   const estado = document.getElementById("estado")?.value || "todo";
   const query = document.getElementById("query")?.value || "";
+  const fecha_desde = document.getElementById("fecha_desde")?.value || "";
+  const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   window.open(
-    APP_URL + "categorias/reportePDF?estado=" + estado + "&query=" + query,
+    APP_URL + "categorias/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
     "_blank",
   );
 }

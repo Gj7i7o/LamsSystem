@@ -20,9 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchDataAndRenderTable() {
     try {
       let query = document.getElementById("query");
+      let fecha_desde = document.getElementById("fecha_desde");
+      let fecha_hasta = document.getElementById("fecha_hasta");
       const params = new URLSearchParams({
         page: currentPage,
         query: query?.value || "",
+        fecha_desde: fecha_desde?.value || "",
+        fecha_hasta: fecha_hasta?.value || "",
       });
 
       const response = await fetch(
@@ -139,12 +143,24 @@ function setfilter() {
   }
 }
 
+/*Función para limpiar filtros de fecha*/
+function limpiarFechas() {
+  document.getElementById("fecha_desde").value = "";
+  document.getElementById("fecha_hasta").value = "";
+  setfilter();
+}
+
 /*Función para descargar reporte PDF listado de entradas*/
 function descargarPDF() {
   let query = document.getElementById("query")?.value || "";
+  const fecha_desde = document.getElementById("fecha_desde")?.value || "";
+  const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
+  const params = new URLSearchParams();
+  if (query) params.set("query", query);
+  if (fecha_desde) params.set("fecha_desde", fecha_desde);
+  if (fecha_hasta) params.set("fecha_hasta", fecha_hasta);
   let url = APP_URL + "entradas/reportePDF";
-  if (query) {
-    url += "?query=" + encodeURIComponent(query);
-  }
+  const qs = params.toString();
+  if (qs) url += "?" + qs;
   window.open(url, "_blank");
 }
