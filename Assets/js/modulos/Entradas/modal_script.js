@@ -352,32 +352,49 @@ formulario.addEventListener("submit", function (e) {
   } else if (precioInvalido) {
     alertas("El precio debe ser mayor a 0", "warning");
   } else {
-    const url = APP_URL + "entradas/registrar";
-    const http = new XMLHttpRequest();
+    const enviarFormulario = () => {
+      const url = APP_URL + "entradas/registrar";
+      const http = new XMLHttpRequest();
 
-    http.open("POST", url, true);
+      http.open("POST", url, true);
 
-    http.setRequestHeader("Content-Type", "application/json");
+      http.setRequestHeader("Content-Type", "application/json");
 
-    http.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          const res = JSON.parse(this.responseText);
-          if (res.icono != "success") {
-            alertas(res.msg, res.icono);
+      http.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            if (res.icono != "success") {
+              alertas(res.msg, res.icono);
+            } else {
+              alertas(res.msg, res.icono);
+              modal.style.display = "none";
+              limpiarFormulario();
+              recargarVista();
+            }
           } else {
-            alertas(res.msg, res.icono);
-            modal.style.display = "none";
-            limpiarFormulario();
-            recargarVista();
+            console.error("Error en el servidor:", this.responseText);
           }
-        } else {
-          console.error("Error en el servidor:", this.responseText);
         }
-      }
-    };
+      };
 
-    http.send(JSON.stringify(data));
+      http.send(JSON.stringify(data));
+    };
+    if (modoEdicion) {
+      Swal.fire({
+        title: "¿Está seguro de guardar los cambios?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) enviarFormulario();
+      });
+    } else {
+      enviarFormulario();
+    }
   }
 });
 

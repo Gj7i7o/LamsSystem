@@ -63,23 +63,41 @@ formularioProveedor.addEventListener("submit", function (event) {
   } else if (!regexrif.test(rif.value)) {
     alertas("Escriba correctamente el rif (Ej: J-123456789)", "warning");
   } else {
-    const url = APP_URL + "proveedores/registrar";
-    const frm = document.getElementById("formularioProveedor");
-    const http = new XMLHttpRequest();
-    http.open("POST", url, true);
-    http.send(new FormData(frm));
-    http.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        const res = JSON.parse(this.responseText);
-        if (res.icono != "success") {
-          alertas(res.msg, res.icono);
-        } else {
-          alertas(res.msg, res.icono);
-          modal.style.display = "none";
-          limpiarFormulario();
-          recargarVista();
+    const esEdicion = document.getElementById("id").value !== "";
+    const enviarFormulario = () => {
+      const url = APP_URL + "proveedores/registrar";
+      const frm = document.getElementById("formularioProveedor");
+      const http = new XMLHttpRequest();
+      http.open("POST", url, true);
+      http.send(new FormData(frm));
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          if (res.icono != "success") {
+            alertas(res.msg, res.icono);
+          } else {
+            alertas(res.msg, res.icono);
+            modal.style.display = "none";
+            limpiarFormulario();
+            recargarVista();
+          }
         }
-      }
+      };
     };
+    if (esEdicion) {
+      Swal.fire({
+        title: "¿Está seguro de guardar los cambios?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) enviarFormulario();
+      });
+    } else {
+      enviarFormulario();
+    }
   }
 });
