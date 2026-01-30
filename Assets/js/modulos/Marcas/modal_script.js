@@ -41,6 +41,7 @@ function btnEditMarca(id) {
 }
 
 // Manejar el envío del formulario (opcional)
+const formularioMarca = document.getElementById("formularioMarca");
 formularioMarca.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 

@@ -25,12 +25,12 @@
 
                     <div class="input-container">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" name="usuario" id="usuario" title="Nombre de usuario" placeholder="Usuario">
+                        <input type="text" name="usuario" id="usuario" title="Nombre de usuario" placeholder="Usuario" maxlength="10">
                     </div>
 
                     <div class="input-container" style="position: relative;">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" name="contrasena" id="contrasena" title="Contraseña" placeholder="Contraseña">
+                        <input type="password" name="contrasena" id="contrasena" title="Contraseña" placeholder="Contraseña" maxlength="10">
 
                         <!-- Ojo para ocultar/mostrar contraseña -->
                         <i id="togglePassword"

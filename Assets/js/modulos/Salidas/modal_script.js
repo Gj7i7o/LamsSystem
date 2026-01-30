@@ -23,17 +23,17 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
 
                     <div>
                         <label for="precio">Precio venta</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" id="precio" name="lines[${idx}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" required>
+                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" id="precio" name="lines[${idx}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
                     </div>
 
                     <div>
                         <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1" required>
+                        <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1">
                     </div>
 
                     <div>
                         <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input" required>
+                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input">
                     </div>
 
                     <div class="buttonToLine">
@@ -51,17 +51,17 @@ const newFormLine = (index) => `<div>
 
                     <div>
                         <label for="precio">Precio venta</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" required>
+                        <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
                     </div>
 
                     <div>
                         <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" required>
+                        <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1">
                     </div>
                     
                     <div>
                         <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input" required>
+                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input">
                     </div>`;
 
 async function getListadoProducto() {
@@ -80,7 +80,7 @@ async function getListadoProducto() {
     // Guardar el precio y stock del producto para validación
     productosData[opcion.id] = {
       precio: parseFloat(opcion.precio),
-      stock: parseInt(opcion.stock)
+      stock: parseInt(opcion.stock),
     };
   });
   selects.forEach((select) => {
@@ -226,15 +226,15 @@ function btnEditSalida(id) {
           </div>
           <div>
             <label for="precio">Precio venta</label>
-            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}" required>
+            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}">
           </div>
           <div>
             <label for="cantidad">Cantidad</label>
-            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}" required>
+            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}">
           </div>
           <div>
             <label for="subTotal">Sub-total</label>
-            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input" required>
+            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input">
           </div>
           <div class="buttonToLine">
             <button class="button" type="button" onclick="deleteLine(${index});"><i class="fas fa-trash"></i></button>
@@ -359,17 +359,14 @@ formulario.addEventListener("submit", function (e) {
   }
 
   if (data.codigo == "") {
-    alertas("El código de factura es necesario", "warning");
+    alertas("Todos los campos son obligatorios", "warning");
   } else if (precioInvalido) {
     alertas(
       "El precio de venta no puede ser menor al precio del producto",
       "warning",
     );
   } else if (stockInsuficiente) {
-    alertas(
-      "Stock insuficiente para uno o más productos",
-      "warning",
-    );
+    alertas("Stock insuficiente para uno o más productos", "warning");
   } else {
     const url = APP_URL + "salidas/registrar"; // Quitamos los parámetros de la URL
     const http = new XMLHttpRequest();

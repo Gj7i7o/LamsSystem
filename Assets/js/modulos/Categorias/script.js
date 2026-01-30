@@ -19,17 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchDataAndRenderTable() {
     try {
-      // Supongamos que 'estadoSeleccionado' es el valor de tu <select> ("activo" o "inactivo")
-      // let endpoint =
-      //   estado.value === "activo" ? "listarActivas" : "listarInactivas";
-
-      // // Construimos la URL dinámicamente
-      // const url =
-      //   `http://localhost/LamsSystem/categorias/${endpoint}?page=` +
-      //   currentPage;
-
-      // const response = await fetch(url);
-
       let estado = document.getElementById("estado");
       let query = document.getElementById("query");
       // Construir la URL con query parameters
@@ -49,10 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
 
-      // const response = await fetch(
-      //   "http://localhost/LamsSystem/categorias/listarActivas?page=" +
-      //     currentPage
-      // );
       // Si la respuesta no es exitosa, lanza un error
       if (response.error) {
         throw new Error(`Error en la solicitud: ${response.error}`);
@@ -87,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.id}</td>
                 <td>${item.nombre}</td>
-                <td>${item.descrip}</td>
+                <td>${item.descrip || "-"}</td>
                 <td>${item.estado}</td>
                 <td>${item.acciones}</td>
             `;
@@ -221,5 +206,8 @@ function btnActCategoria(id) {
 function descargarPDF() {
   const estado = document.getElementById("estado")?.value || "todo";
   const query = document.getElementById("query")?.value || "";
-  window.open(APP_URL + "categorias/reportePDF?estado=" + estado + "&query=" + query, "_blank");
+  window.open(
+    APP_URL + "categorias/reportePDF?estado=" + estado + "&query=" + query,
+    "_blank",
+  );
 }

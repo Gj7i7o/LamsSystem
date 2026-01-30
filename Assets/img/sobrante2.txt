@@ -165,3 +165,9 @@ Tipo de sistema: 64 bits, procesador basado en x64.
 Especificaciones de Windows: 
 Edición: Windows 10 Pro.
 Versión: 22H2.
+
+Botón editar salida:
+<button class="primary" type="button" onclick="btnEditSalida(' . $data[$i]['id'] . ');" title="Editar"><i class="fa-regular fa-pen-to-square"></i></button>
+
+Botón editar entrada:
+<button class="primary" type="button" onclick="btnEditEntrada(' . $data[$i]['id'] . ');" title="Editar"><i class="fa-regular fa-pen-to-square"></i></button>

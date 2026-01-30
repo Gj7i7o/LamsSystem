@@ -13,7 +13,7 @@ class loginModel extends query
     /*tomarUsuario: En base a la contraseña y nombre de usuario ingresados, traerá un usuario que coincida con estos*/
     public function tomarUsuario(string $usuario, string $contrasena)
     {
-        $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$contrasena'";
+        $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$contrasena' AND estado = 'activo'";
         $data = $this->select($sql);
         return $data;
     }

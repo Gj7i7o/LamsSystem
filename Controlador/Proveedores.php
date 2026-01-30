@@ -114,6 +114,8 @@ class proveedores extends controlador
                     if ($data == "modificado") {
                         $msg = array('msg' => 'Proveedor modificado', 'icono' => 'success');
                         $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Proveedores', 'modificar', "Modificó proveedor ID: $id - $nombre");
+                    } else if ($data == "existe") {
+                        $msg = array('msg' => 'El proveedor ya existe', 'icono' => 'warning');
                     } else {
                         $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error');
                     }

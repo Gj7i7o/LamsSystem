@@ -39,7 +39,6 @@ class entradas extends controlador
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
                     <button class="secure" type="button" onclick="btnVerDetalleEntrada(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
-                    <button class="primary" type="button" onclick="btnEditEntrada(' . $data[$i]['id'] . ');" title="Editar"><i class="fa-regular fa-pen-to-square"></i></button>
                 </div>';
             }
 
@@ -81,6 +80,7 @@ class entradas extends controlador
             $hora = $data['hora'];
             $codigo = $data['codigo'];
             $id_proveedor = $data['proveedor'];
+            $id_usuario = $data['usuario'];
             $total = $data['total'];
             $lineas = $data['lineas']; // Array de productos
             $tipo_pago = !empty($data['tipo_pago']) ? $data['tipo_pago'] : 'contado';
@@ -103,7 +103,7 @@ class entradas extends controlador
                 // Determinar si es CREAR o ACTUALIZAR
                 if ($id == "") {
                     // CREAR NUEVA ENTRADA
-                    $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
+                    $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago, $id_usuario);
 
                     if ($id_entrada > 0) {
                         $error_detalle = false;

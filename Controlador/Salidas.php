@@ -39,7 +39,6 @@ class salidas extends controlador
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['acciones'] = '<div>
                     <button class="secure" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
-                    <button class="primary" type="button" onclick="btnEditSalida(' . $data[$i]['id'] . ');" title="Editar"><i class="fa-regular fa-pen-to-square"></i></button>
                 </div>';
             }
 

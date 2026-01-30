@@ -44,7 +44,7 @@ class login extends controlador
                 $_SESSION['activo'] = true;
                 $msg = "ok";
             } else {
-                $msg = array('msg' => 'Usuario o Contraseña incorrecta', 'icono' => 'error');
+                $msg = array('msg' => 'Usuario o Contraseña incorrecta / Su usuario ha sido desactivado', 'icono' => 'error');
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);

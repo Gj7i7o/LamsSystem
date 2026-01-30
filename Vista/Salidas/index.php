@@ -50,7 +50,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal -->
     <div id="modalSalida" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 900px;">
             <span class="close" title="Cerrar">&times;</span>
 
             <div class="modal-header">
@@ -104,7 +104,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal Ver Detalle -->
     <div id="modalDetalleSalida" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 900px;">
             <span class="close-detalle" title="Cerrar">&times;</span>
             <div class="modal-header">
                 <h2>Detalle de Salida</h2>

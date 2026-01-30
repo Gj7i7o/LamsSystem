@@ -107,29 +107,37 @@ class usuariosModel extends query
     }
 
     /*modifUsuario: Modifica el usuario seleccionado acorde al id*/
-    public function modifUsuario(string $usuario, string $nombre, string $apellido, string $correo, string $telef, int $id)
+    public function modifUsuario(string $ci, string $usuario, string $nombre, string $apellido, string $correo, string $telef, int $id)
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->correo = $correo;
         $this->telef = $telef;
+        $this->ci = $ci;
         $this->id = $id;
+        $verificarUsuario = "SELECT * FROM usuario WHERE usuario = '$this->usuario' AND id != '$this->id'";
+        $existeUsuario = $this->select($verificarUsuario);
+        $verificarPersona = "SELECT * FROM persona WHERE ci = '$this->ci' AND id != '$this->id'";
+        $existePersona = $this->select($verificarPersona);
+        if (empty($existeUsuario) || empty($existePersona)) {
+            // Actualizar tabla usuario
+            $sqlUsuario = "UPDATE usuario SET usuario = ? WHERE id = ?";
+            $datosUsuario = array($this->usuario, $this->id);
+            $dataUsuario = $this->save($sqlUsuario, $datosUsuario);
 
-        // Actualizar tabla usuario
-        $sqlUsuario = "UPDATE usuario SET usuario = ? WHERE id = ?";
-        $datosUsuario = array($this->usuario, $this->id);
-        $dataUsuario = $this->save($sqlUsuario, $datosUsuario);
+            // Actualizar tabla persona
+            $sqlPersona = "UPDATE persona SET nombre = ?, apellido = ?, correo = ?, telef = ? WHERE idusuario = ?";
+            $datosPersona = array($this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
+            $dataPersona = $this->save($sqlPersona, $datosPersona);
 
-        // Actualizar tabla persona
-        $sqlPersona = "UPDATE persona SET nombre = ?, apellido = ?, correo = ?, telef = ? WHERE idusuario = ?";
-        $datosPersona = array($this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
-        $dataPersona = $this->save($sqlPersona, $datosPersona);
-
-        if ($dataUsuario == 1 || $dataPersona == 1) {
-            $res = "modificado";
+            if ($dataUsuario == 1 || $dataPersona == 1) {
+                $res = "modificado";
+            } else {
+                $res = "error";
+            }
         } else {
-            $res = "error";
+            return "existe";
         }
         return $res;
     }

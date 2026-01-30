@@ -65,7 +65,7 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-group">
                 <label for="nombre">Nombre:<span class="required">*</span></label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ford" title="Nombre de la marca" maxlength="20" required>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Ford" title="Nombre de la marca" maxlength="15">
             </div>
 
             <div class="modal-footer">

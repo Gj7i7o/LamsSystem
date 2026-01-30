@@ -69,18 +69,18 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="codigo">Código:<span class="required">*</span></label>
-                    <input type="text" id="codigo" name="codigo" placeholder="001-22-777" maxlength="50" required>
+                    <input type="text" id="codigo" name="codigo" placeholder="Ej: 001-22-777" maxlength="15">
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Bujía" maxlength="100" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Bujía" maxlength="30">
                 </div>
             </div>
 
             <div class="form-file">
                 <div class="form-group">
                     <label for="precio">Precio $:<span class="required">*</span></label>
-                    <input type="number" id="precio" name="precio" placeholder="15" step="0.01" min="0" required>
+                    <input type="number" id="precio" name="precio" placeholder="Ej: 15" step="0.01" min="0">
                 </div>
             </div>
 

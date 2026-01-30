@@ -105,7 +105,7 @@ class categoriasModel extends query
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->id = $id;
-        $verificar = "SELECT * FROM categoria WHERE nombre = '$this->nombre'";
+        $verificar = "SELECT * FROM categoria WHERE nombre = '$this->nombre' AND id != '$this->id'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "UPDATE categoria SET nombre = ?, descrip = ? WHERE id = ?";

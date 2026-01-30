@@ -79,9 +79,9 @@ class categorias extends controlador
     public function registrar()
     {
         $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
+        $descripcion = $_POST['descripcion'] ?? '';
         $id = $_POST['id'];
-        if (empty($nombre) || empty($descripcion)) {
+        if (empty($nombre)) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
             if ($id == "") {

@@ -36,21 +36,21 @@ function btnEditCategoria(id) {
       const res = JSON.parse(this.responseText);
       document.getElementById("id").value = res.id;
       document.getElementById("nombre").value = res.nombre;
-      document.getElementById("descripcion").value = res.descrip;
+      document.getElementById("descripcion").value = res.descrip || "";
       modal.style.display = "block";
     }
   };
 }
 
 // Manejar el envío del formulario (opcional)
+const formularioCategoria = document.getElementById("formularioCategoria");
 formularioCategoria.addEventListener("submit", function (event) {
   event.preventDefault(); // Detiene el envío real del formulario
 
   const nombre = document.getElementById("nombre");
-  const descripcion = document.getElementById("descripcion");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
-  if (nombre.value == "" || descripcion.value == "") {
-    alertas("Todos los campos SON obligatorios", "warning");
+  if (nombre.value == "") {
+    alertas("Todos los campos son obligatorios", "warning");
   } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
   } else {

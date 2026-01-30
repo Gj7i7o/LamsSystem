@@ -89,7 +89,7 @@ class marcasModel extends query
     {
         $this->nombre = $nombre;
         $this->id = $id;
-        $verificar = "SELECT * FROM marca WHERE nombre = '$this->nombre'";
+        $verificar = "SELECT * FROM marca WHERE nombre = '$this->nombre' AND id != '$this->id'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
             $sql = "UPDATE marca SET nombre = ? WHERE id = ?";

@@ -22,17 +22,17 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
 
                     <div>
                         <label for="precio">PrecioUni</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" id="precio" name="lines[${idx}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" required>
+                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" id="precio" name="lines[${idx}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
                     </div>
 
                     <div>
                         <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1" required>
+                        <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1">
                     </div>
 
                     <div>
                         <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input" required>
+                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input">
                     </div>
 
                     <div class="buttonToLine">
@@ -50,17 +50,17 @@ const newFormLine = (index) => `<div>
 
                     <div>
                         <label for="precio">PrecioUni</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" required>
+                        <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
                     </div>
 
                     <div>
                         <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" required>
+                        <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1">
                     </div>
                     
                     <div>
                         <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input" required>
+                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input">
                     </div>`;
 
 async function getListadoProducto() {
@@ -107,7 +107,7 @@ btnAddLine.onclick = function () {
         <button class="button" type="button" onclick="deleteLine(${idx});"><i class="fas fa-trash"></i></button>
       </div>
     </div>`;
-  form.insertAdjacentHTML('beforeend', newLineHtml);
+  form.insertAdjacentHTML("beforeend", newLineHtml);
 };
 
 function deleteLine(idx) {
@@ -158,12 +158,18 @@ function btnVerDetalleEntrada(id) {
       const detalle = res.detalle;
 
       // Llenar datos de cabecera
-      document.getElementById("detalle_proveedor").textContent = cabecera.proveedor_nombre || "N/A";
-      document.getElementById("detalle_tipo_pago").textContent = cabecera.tipo_pago === "contado" ? "Contado" : "Crédito";
-      document.getElementById("detalle_codigo").textContent = cabecera.cod_docum;
+      document.getElementById("detalle_proveedor").textContent =
+        cabecera.proveedor_nombre || "N/A";
+      document.getElementById("detalle_usuario").textContent =
+        cabecera.usuario_nombre || "N/A";
+      document.getElementById("detalle_tipo_pago").textContent =
+        cabecera.tipo_pago === "contado" ? "Contado" : "Crédito";
+      document.getElementById("detalle_codigo").textContent =
+        cabecera.cod_docum;
       document.getElementById("detalle_fecha").textContent = cabecera.fecha;
       document.getElementById("detalle_hora").textContent = cabecera.hora;
-      document.getElementById("detalle_total").textContent = cabecera.total + "$";
+      document.getElementById("detalle_total").textContent =
+        cabecera.total + "$";
 
       // Llenar tabla de detalle
       const tbody = document.getElementById("detalleEntradaBody");
@@ -227,27 +233,29 @@ function btnEditEntrada(id) {
           </div>
           <div>
             <label for="precio">PrecioUni</label>
-            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}" required>
+            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}">
           </div>
           <div>
             <label for="cantidad">Cantidad</label>
-            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}" required>
+            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}">
           </div>
           <div>
             <label for="subTotal">Sub-total</label>
-            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input" required>
+            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input">
           </div>
           <div class="buttonToLine">
             <button class="button" type="button" onclick="deleteLine(${index});"><i class="fas fa-trash"></i></button>
           </div>
         </div>`;
-        form.insertAdjacentHTML('beforeend', lineHtml);
+        form.insertAdjacentHTML("beforeend", lineHtml);
       });
 
       // Establecer los valores de los selects de producto después de crear las líneas
       setTimeout(() => {
         detalle.forEach((item, index) => {
-          const select = document.querySelector(`select[name="lines[${index}][producto]"]`);
+          const select = document.querySelector(
+            `select[name="lines[${index}][producto]"]`,
+          );
           if (select) {
             select.value = item.idproducto;
           }
@@ -288,6 +296,7 @@ formulario.addEventListener("submit", function (e) {
     lineas: [],
     total: "",
     tipo_pago: "",
+    usuario: idusuario,
   };
 
   // Selecciona todos los divs que representan una línea de formulario
@@ -329,7 +338,9 @@ formulario.addEventListener("submit", function (e) {
   data.tipo_pago = document.getElementById("tipo_pago").value;
 
   // Validar que todos los precios sean mayores a 0
-  let precioInvalido = data.lineas.some(linea => parseFloat(linea.precio) <= 0);
+  let precioInvalido = data.lineas.some(
+    (linea) => parseFloat(linea.precio) <= 0,
+  );
 
   if (data.codigo == "" || data.proveedor == "") {
     alertas("Todos los campos son obligatorios", "warning");

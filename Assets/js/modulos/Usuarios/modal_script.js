@@ -72,11 +72,9 @@ formularioUsuario.addEventListener("submit", function (event) {
     ci.value == "" ||
     usuario.value == "" ||
     nombre.value == "" ||
-    apellido.value == "" ||
-    correo.value == "" ||
-    telef.value == ""
+    apellido.value == ""
   ) {
-    alertas("Todos los campos SON obligatorios", "warning");
+    alertas("Todos los campos son obligatorios", "warning");
   } else if (contrasena.value != confirm.value) {
     alertas("Las contraseñas no coinciden", "warning");
   } else if (letras.test(nombre)) {
@@ -85,10 +83,10 @@ formularioUsuario.addEventListener("submit", function (event) {
     alertas("No agregue caracteres indevidos en su apellido", "warning");
   } else if (pass.test(contrasena)) {
     alertas("La contraseña NO cumple con las especificaciones", "warning");
-  } else if (email.test(correo)) {
-    alertas("Escriba correctamente el correo", "warning");
-  } else if (phone.test(telef)) {
-    alertas("Escriba correctamente su número", "warning");
+    // } else if (email.test(correo)) {
+    //   alertas("Escriba correctamente el correo", "warning");
+    // } else if (phone.test(telef)) {
+    //   alertas("Escriba correctamente su número", "warning");
   } else {
     const url = APP_URL + "usuarios/registrar";
     const frm = document.getElementById("formularioUsuario");

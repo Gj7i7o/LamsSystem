@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="6">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="8">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -202,5 +202,8 @@ function btnActProducto(id) {
 function descargarPDF() {
   const estado = document.getElementById("estado")?.value || "todo";
   const query = document.getElementById("query")?.value || "";
-  window.open(APP_URL + "productos/reportePDF?estado=" + estado + "&query=" + query, "_blank");
+  window.open(
+    APP_URL + "productos/reportePDF?estado=" + estado + "&query=" + query,
+    "_blank",
+  );
 }

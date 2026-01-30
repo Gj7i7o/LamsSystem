@@ -73,8 +73,8 @@ class usuarios extends controlador
         $usuario = $_POST['usuario'];
         $nombre = $_POST['nombre'];
         $apellido = $_POST['apellido'];
-        $correo = $_POST['correo'];
-        $telef = $_POST['telef'];
+        $correo = $_POST['correo'] || "";
+        $telef = $_POST['telef'] || "";
         $contrasena = $_POST['contrasena'];
         $id = $_POST['id'];
         $hash = hash("SHA256", $contrasena);
@@ -87,9 +87,7 @@ class usuarios extends controlador
             empty($ci) ||
             empty($usuario) ||
             empty($nombre) ||
-            empty($apellido) ||
-            empty($correo) ||
-            empty($telef)
+            empty($apellido)
         ) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
@@ -100,10 +98,10 @@ class usuarios extends controlador
                     $msg = array('msg' => 'No agregue caracteres indevidos en su apellido', 'icono' => 'warning');
                 } else if (!preg_match($pass, $contrasena)) {
                     $msg = array('msg' => 'La contraseña NO cumple con las especificaciones', 'icono' => 'warning');
-                } else if (!preg_match($email, $correo)) {
-                    $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
-                } else if (!preg_match($phone, $telef)) {
-                    $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
+                    // } else if (!preg_match($email, $correo)) {
+                    //     $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
+                    // } else if (!preg_match($phone, $telef)) {
+                    //     $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
                     $error = false;
                     /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
@@ -130,10 +128,12 @@ class usuarios extends controlador
             } else {
                 /*Caso contrario, si el usuario existe, se interpreta que se desea modificar ese usuario,
                 por ende lleva los datos a la función modifUsuario en el modelo/usuariosModel.php*/
-                $data = $this->model->modifUsuario($usuario, $nombre, $apellido, $correo, $telef, $id);
+                $data = $this->model->modifUsuario($ci, $usuario, $nombre, $apellido, $correo, $telef, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
                     $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario ID: $id - $usuario");
+                } else if ($data == "existe") {
+                    $msg = array('msg' => 'El usuario ya existe', 'icono' => 'warning');
                 } else {
                     $msg = array('msg' => 'Error al actualizar el Usuario', 'icono' => 'error');
                 }

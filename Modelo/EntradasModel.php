@@ -40,7 +40,7 @@ class entradasModel extends query
     }
 
     /*regisEntrada: Obtiene los datos para validarlos y realizar las opciones de entrada*/
-    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo, string $tipo_pago = 'contado')
+    public function regisEntrada(string $fecha, string $hora, int $id_proveedor, float $total, string $codigo, string $tipo_pago = 'contado', int $id_usuario)
     {
         // 1. Verificar si el código de factura/entrada ya existe
         $verificar = "SELECT * FROM entrada WHERE cod_docum = '$codigo'";
@@ -48,8 +48,8 @@ class entradasModel extends query
 
         if (empty($existe)) {
             // 2. Insertar cabecera
-            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago) VALUES (?,?,?,?,?,?)";
-            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago);
+            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago, idusuario) VALUES (?,?,?,?,?,?,?)";
+            $datos = array($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago, $id_usuario);
             $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
 
             if ($data > 0) {
@@ -87,9 +87,9 @@ class entradasModel extends query
     /*editarEntrada: Obtiene la cabecera de una entrada con datos del proveedor*/
     public function editarEntrada(int $id)
     {
-        $sql = "SELECT e.*, p.nombre as proveedor_nombre
+        $sql = "SELECT e.*, p.nombre as proveedor_nombre, u.usuario as usuario_nombre
                 FROM entrada e
-                LEFT JOIN proveedor p ON e.idproveedor = p.id
+                LEFT JOIN proveedor p ON e.idproveedor = p.id LEFT JOIN usuario u ON e.idusuario = u.id
                 WHERE e.id = $id";
         return $this->select($sql);
     }

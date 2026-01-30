@@ -49,7 +49,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal -->
     <div id="modalEntrada" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 900px;">
             <span class="close" title="Cerrar">&times;</span>
 
             <div class="modal-header">
@@ -62,7 +62,7 @@ include "vista/componentes/header.php";
                     <select name="proveedor" id="proveedor"></select>
                 </div>
                 <div class="datos-proveedor">
-                    <h3>Tipo de Pago:<span class="required">*</span></h3>
+                    <h3>Condición:<span class="required">*</span></h3>
                     <select name="tipo_pago" id="tipo_pago">
                         <option value="contado" selected>Contado</option>
                         <option value="credito">Crédito</option>
@@ -71,7 +71,7 @@ include "vista/componentes/header.php";
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
                     <h3>Documento:<span class="required">*</span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="50" required>
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="50">
                 </div>
             </div>
 
@@ -105,7 +105,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal Ver Detalle -->
     <div id="modalDetalleEntrada" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 900px;">
             <span class="close-detalle" title="Cerrar">&times;</span>
             <div class="modal-header">
                 <h2>Detalle de Entrada</h2>
@@ -113,6 +113,7 @@ include "vista/componentes/header.php";
             <div class="modal-header-info">
                 <div class="datos-proveedor">
                     <h3>Proveedor: <span id="detalle_proveedor"></span></h3>
+                    <h3>Usuario: <span id="detalle_usuario"></span></h3>
                 </div>
                 <div class="datos-proveedor">
                     <h3>Tipo de Pago: <span id="detalle_tipo_pago"></span></h3>
@@ -146,7 +147,9 @@ include "vista/componentes/header.php";
 
     <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/script.js"></script>
     <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/modal_script.js"></script>
-
+    <script>
+        const idusuario = '<?php echo $_SESSION['id_usuario']; ?>';
+    </script>
     <script>
         const elementoFecha = document.getElementById('fecha');
         const hoy = new Date();

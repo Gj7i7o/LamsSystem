@@ -65,29 +65,29 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="rif">Rif/CI:<span class="required">*</span></label>
-                    <input type="text" id="rif" name="rif" placeholder="J-123456789" maxlength="40" required>
+                    <input type="text" id="rif" name="rif" placeholder="Ej: J-123456789" maxlength="11">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="nombre">Nombre:<span class="required">*</span></label>
-                <input type="text" id="nombre" name="nombre" placeholder="Empresa o Nombre Completo" maxlength="100" required>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Empresa o Nombre Completo" maxlength="50">
             </div>
 
             <div class="form-file">
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" id="telefono" name="telefono" placeholder="0412-1234567" maxlength="20">
+                    <input type="text" id="telefono" name="telefono" placeholder="Ej: 0412-1234567" maxlength="12">
                 </div>
                 <div class="form-group">
                     <label for="persona_contacto">Persona de Contacto:</label>
-                    <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Juan Pérez" maxlength="100">
+                    <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Ej: Juan Pérez" maxlength="40">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="direccion">Dirección:<span class="required">*</span></label>
-                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Calle Acosta casa Nº..." maxlength="255" required>
+                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Ej: Calle Acosta casa Nº..." maxlength="255">
             </div>
 
             <div class="modal-footer">
