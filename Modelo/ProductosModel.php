@@ -16,7 +16,8 @@ class productosModel extends query
     {
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
+        $stock_bajo = $params["stock_bajo"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta, $stock_bajo);
         $sql = "SELECT p.id FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters";
@@ -25,7 +26,7 @@ class productosModel extends query
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = '', string $stock_bajo = ''): string
     {
         $conditions = [];
         if ($estado != "todo") {
@@ -40,6 +41,9 @@ class productosModel extends query
         if (!empty($fecha_hasta)) {
             $conditions[] = "DATE(p.creadoEl) <= '$fecha_hasta'";
         }
+        if (!empty($stock_bajo)) {
+            $conditions[] = "p.cantidad < p.cantidadMinima";
+        }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
     }
@@ -50,8 +54,9 @@ class productosModel extends query
         $offset = ($params["page"] - 1) * 10;
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
-        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        $stock_bajo = $params["stock_bajo"] ?? '';
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta, $stock_bajo);
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, p.cantidadMinima, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
@@ -82,7 +87,7 @@ class productosModel extends query
 
     /*regisProducto: Registra el producto, y además verifica si existe, en base al nombre y código ingresados, comparando
     con la base de datos*/
-    public function regisProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca)
+    public function regisProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $cantidadMinima = 1)
     {
         $this->codigo = $codigo;
         $this->nombre = $nombre;
@@ -92,8 +97,8 @@ class productosModel extends query
         $verificar = "SELECT * FROM producto WHERE nombre = '$this->nombre' AND codigo = '$this->codigo'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO producto (codigo, nombre, precio, idcategoria, idmarca, cantidad, estado) VALUES (?,?,?,?,?,0,'activo')";
-            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca);
+            $sql = "INSERT INTO producto (codigo, nombre, precio, idcategoria, idmarca, cantidad, cantidadMinima, estado) VALUES (?,?,?,?,?,0,?,'activo')";
+            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $cantidadMinima);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -108,7 +113,7 @@ class productosModel extends query
     }
 
     /*modifProducto: Modifica el producto seleccionado acorde al id*/
-    public function modifProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $id)
+    public function modifProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $id, int $cantidadMinima = 1)
     {
         $this->codigo = $codigo;
         $this->nombre = $nombre;
@@ -119,8 +124,8 @@ class productosModel extends query
         $verificar = "SELECT * FROM producto WHERE codigo = '$this->codigo' AND id != '$this->id'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ? WHERE id = ?";
-            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $this->id);
+            $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ?, cantidadMinima = ? WHERE id = ?";
+            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $cantidadMinima, $this->id);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "modificado";
@@ -137,6 +142,14 @@ class productosModel extends query
     public function editarProducto(int $id)
     {
         $sql = "SELECT * FROM producto WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*buscarProductoPorCodigo: Busca un producto activo por su código exacto*/
+    public function buscarProductoPorCodigo(string $codigo)
+    {
+        $sql = "SELECT id, codigo, nombre, precio, cantidad FROM producto WHERE codigo = '$codigo' AND estado = 'activo'";
         $data = $this->select($sql);
         return $data;
     }

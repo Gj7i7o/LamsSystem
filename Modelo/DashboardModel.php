@@ -18,4 +18,11 @@ class dashboardModel extends query
         $data = $this->select($sql);
         return $data;
     }
+
+    public function getProductosBajoStock()
+    {
+        $sql = "SELECT COUNT(*) AS total FROM producto WHERE estado = 'activo' AND cantidad < cantidadMinima";
+        $data = $this->select($sql);
+        return $data;
+    }
 }

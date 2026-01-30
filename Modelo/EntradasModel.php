@@ -99,7 +99,8 @@ class entradasModel extends query
     {
         $sql = "SELECT e.*, p.nombre as proveedor_nombre, u.usuario as usuario_nombre
                 FROM entrada e
-                LEFT JOIN proveedor p ON e.idproveedor = p.id LEFT JOIN usuario u ON e.idusuario = u.id
+                LEFT JOIN proveedor p ON e.idproveedor = p.id
+                LEFT JOIN usuario u ON e.idusuario = u.id
                 WHERE e.id = $id";
         return $this->select($sql);
     }

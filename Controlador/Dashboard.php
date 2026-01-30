@@ -21,6 +21,7 @@ class dashboard extends controlador
         $data['producto'] = $this->model->getDate('producto');
         $data['proveedor'] = $this->model->getDate('proveedor');
         $data['marca'] = $this->model->getDate('marca');
+        $data['stock_bajo'] = $this->model->getProductosBajoStock();
         $this->vista->getView($this, "index", $data);
     }
 }

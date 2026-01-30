@@ -107,7 +107,9 @@ class entradas extends controlador
                     // CREAR NUEVA ENTRADA
                     $id_entrada = $this->model->regisEntrada($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago, $id_usuario);
 
-                    if ($id_entrada > 0) {
+                    if ($id_entrada == "existe") {
+                        $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
+                    } else if ($id_entrada > 0) {
                         $error_detalle = false;
 
                         foreach ($lineas as $linea) {
@@ -132,8 +134,6 @@ class entradas extends controlador
                         } else {
                             $msg = array('msg' => 'Error al registrar el detalle de la entrada', 'icono' => 'error');
                         }
-                    } else if ($id_entrada == "existe") {
-                        $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
                     } else {
                         $msg = array('msg' => 'Error al registrar la cabecera', 'icono' => 'error');
                     }

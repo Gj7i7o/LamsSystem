@@ -68,6 +68,7 @@ CREATE TABLE `entrada` (
   `total` float NOT NULL,
   `cod_docum` varchar(20) NOT NULL,
   `tipo_pago` varchar(15) NOT NULL DEFAULT 'contado',
+  `idusuario` int(11) DEFAULT NULL,
   `creadoEl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -227,6 +228,7 @@ CREATE TABLE `producto` (
   `nombre` varchar(250) NOT NULL,
   `precio` float NOT NULL,
   `cantidad` int(15) NOT NULL,
+  `cantidadMinima` int(11) NOT NULL DEFAULT 1,
   `idcategoria` int(11) NOT NULL,
   `idmarca` int(11) NOT NULL,
   `estado` varchar(15) NOT NULL,
@@ -374,7 +376,8 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `entrada`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_proveedor` (`idproveedor`);
+  ADD KEY `id_proveedor` (`idproveedor`),
+  ADD KEY `id_usuario_entrada` (`idusuario`);
 
 --
 -- Indices de la tabla `entradaproducto`
@@ -517,7 +520,8 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `entrada`
 --
 ALTER TABLE `entrada`
-  ADD CONSTRAINT `entrada_ibfk_1` FOREIGN KEY (`idproveedor`) REFERENCES `proveedor` (`id`);
+  ADD CONSTRAINT `entrada_ibfk_1` FOREIGN KEY (`idproveedor`) REFERENCES `proveedor` (`id`),
+  ADD CONSTRAINT `entrada_ibfk_2` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `entradaproducto`

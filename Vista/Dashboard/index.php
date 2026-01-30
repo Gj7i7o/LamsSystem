@@ -20,6 +20,11 @@ include 'vista/componentes/header.php';
             <h3>Productos</h3>
             <p><?php echo $data['producto']['total']; ?></p>
         </div>
+        <a href="<?php echo APP_URL; ?>productos?stock_bajo=1" class="card" title="Productos con stock bajo" style="text-decoration:none;color:inherit;">
+            <i class="fas fa-triangle-exclamation" style="color:#e74c3c;"></i>
+            <h3>Stock Bajo</h3>
+            <p><?php echo $data['stock_bajo']['total']; ?></p>
+        </a>
         <div class="card" title="Categorías en sistema">
             <i class="fa-solid fa-list"></i>
             <h3>Categorias</h3>
