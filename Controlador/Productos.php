@@ -80,7 +80,8 @@ class productos extends controlador
             $query = $_GET["query"] ?? "";
             $fecha_desde = $_GET["fecha_desde"] ?? "";
             $fecha_hasta = $_GET["fecha_hasta"] ?? "";
-            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
+            $stock_bajo = $_GET["stock_bajo"] ?? "";
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta, 'stock_bajo' => $stock_bajo];
             $data = $this->model->tomarProductos($params);
             $total = $this->model->getCount($params);
             for ($i = 0; $i < count($data); $i++) {
@@ -111,6 +112,7 @@ class productos extends controlador
         $precio = $_POST['precio'];
         $categoria = $_POST['categoria'];
         $marca = $_POST['marca'];
+        $cantidadMinima = isset($_POST['cantidadMinima']) && $_POST['cantidadMinima'] !== '' ? intval($_POST['cantidadMinima']) : 1;
         $id = $_POST['id'];
         $numeros = "/^\d+(\.\d{1,2})?$/";
         if (
@@ -128,7 +130,7 @@ class productos extends controlador
                 } else {
                     /*Tras las validaciones, si el producto no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisProducto en el modelo/productosModel.php*/
-                    $data = $this->model->regisProducto($codigo, $nombre, $precio, $categoria, $marca);
+                    $data = $this->model->regisProducto($codigo, $nombre, $precio, $categoria, $marca, $cantidadMinima);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Producto Registrado', 'icono' => 'success');
                         $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'registrar', "Registró producto: $nombre (Código: $codigo)");
@@ -141,7 +143,7 @@ class productos extends controlador
             } else {
                 /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
                 por ende lleva los datos a la función modifProducto en el modelo/productosModel.php*/
-                $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id);
+                $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id, $cantidadMinima);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
                     $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'modificar', "Modificó producto ID: $id - $nombre");

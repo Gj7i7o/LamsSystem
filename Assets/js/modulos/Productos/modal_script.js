@@ -54,6 +54,7 @@ function limpiarFormulario() {
   document.getElementById("codigo").value = "";
   document.getElementById("nombre").value = "";
   document.getElementById("precio").value = "";
+  document.getElementById("cantidadMinima").value = "1";
 }
 
 /*Botón de modificar producto*/
@@ -73,6 +74,7 @@ function btnEditProducto(id) {
       document.getElementById("codigo").value = res.codigo;
       document.getElementById("nombre").value = res.nombre;
       document.getElementById("precio").value = res.precio;
+      document.getElementById("cantidadMinima").value = res.cantidadMinima || 1;
       document.getElementById("categoria").value = res.idcategoria;
       document.getElementById("marca").value = res.idmarca;
       modal.style.display = "block";

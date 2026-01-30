@@ -23,12 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
       let query = document.getElementById("query");
       let fecha_desde = document.getElementById("fecha_desde");
       let fecha_hasta = document.getElementById("fecha_hasta");
+      const urlParams = new URLSearchParams(window.location.search);
+      const stockBajo = urlParams.get("stock_bajo") || "";
       const params = new URLSearchParams({
         page: currentPage,
         estado: estado?.value || "activo",
         query: query?.value || "",
         fecha_desde: fecha_desde?.value || "",
         fecha_hasta: fecha_hasta?.value || "",
+        stock_bajo: stockBajo,
       });
 
       const response = await fetch(
@@ -62,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (paginatedData.length === 0) {
       tableBody.innerHTML =
-        '<tr><td colspan="8">No hay datos disponibles.</td></tr>';
+        '<tr><td colspan="9">No hay datos disponibles.</td></tr>';
       updatePaginationInfo();
       return;
     }
@@ -74,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.nombre}</td>
                 <td>${item.precio}$</td>
                 <td>${item.cantidad}</td>
+                <td>${item.cantidadMinima}</td>
                 <td>${item.categoria}</td>
                 <td>${item.marca}</td>
                 <td>${item.estado}</td>

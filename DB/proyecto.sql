@@ -228,6 +228,7 @@ CREATE TABLE `producto` (
   `nombre` varchar(250) NOT NULL,
   `precio` float NOT NULL,
   `cantidad` int(15) NOT NULL,
+  `cantidadMinima` int(11) NOT NULL DEFAULT 1,
   `idcategoria` int(11) NOT NULL,
   `idmarca` int(11) NOT NULL,
   `estado` varchar(15) NOT NULL,
