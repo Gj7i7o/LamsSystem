@@ -20,8 +20,8 @@ class historialModel extends query
         $this->accion = $accion;
         $this->descripcion = $descripcion;
         date_default_timezone_set('America/Caracas');
-        $this->fecha = date('Y-m-d');
-        $this->hora = date('H:i:s a');
+        $this->fecha = date('d/m/Y');
+        $this->hora = date('h:i:s a');
 
         $sql = "INSERT INTO historial_usuario (idusuario, modulo, accion, descripcion, fecha, hora) VALUES (?,?,?,?,?,?)";
         $datos = array($this->idusuario, $this->modulo, $this->accion, $this->descripcion, $this->fecha, $this->hora);
