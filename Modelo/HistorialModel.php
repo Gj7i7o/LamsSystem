@@ -77,7 +77,7 @@ class historialModel extends query
     /*tomarHistorial: Toma todos los registros del historial con paginación y filtros*/
     public function tomarHistorial(array $params)
     {
-        $offset = ($params["page"] - 1) * 10;
+        $offset = ($params["page"] - 1) * 15;
         $filters = $this->filtersSQL($params);
 
         $sql = "SELECT h.id, u.usuario, h.modulo, h.accion, h.descripcion, h.fecha, h.hora
@@ -85,7 +85,7 @@ class historialModel extends query
                 INNER JOIN usuario u ON h.idusuario = u.id
                 $filters
                 ORDER BY h.id DESC
-                LIMIT 10 OFFSET $offset";
+                LIMIT 15 OFFSET $offset";
 
         $data = $this->selectAll($sql);
         return $data;

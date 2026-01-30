@@ -126,6 +126,14 @@ btnAddLine.onclick = function () {
   form.insertAdjacentHTML("beforeend", newLineHtml);
 };
 
+// Al presionar Enter en el formulario, agregar nueva línea en lugar de enviar
+form.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    btnAddLine.click();
+  }
+});
+
 function deleteLine(idx) {
   const line = document.getElementById("line_idx_" + idx);
   line.innerHTML = "";

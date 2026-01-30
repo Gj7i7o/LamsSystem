@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageInfo = document.getElementById("pageInfo");
 
     let paginaActual = 1;
-    const rowsPerPage = 10;
+    const rowsPerPage = 15;
     let currentData = [];
     let currentTotal = 0;
 
