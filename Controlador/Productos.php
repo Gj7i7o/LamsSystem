@@ -46,6 +46,30 @@ class productos extends controlador
         die();
     }
 
+    /*buscarPorCodigo: Busca un producto activo por su código exacto*/
+    public function buscarPorCodigo()
+    {
+        $codigo = $_GET["codigo"] ?? "";
+        if (empty($codigo)) {
+            echo json_encode(["encontrado" => false, "msg" => "Código vacío"], JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        $data = $this->model->buscarProductoPorCodigo($codigo);
+        if (!empty($data)) {
+            echo json_encode([
+                "encontrado" => true,
+                "id" => $data['id'],
+                "codigo" => $data['codigo'],
+                "nombre" => $data['nombre'],
+                "precio" => $data['precio'],
+                "stock" => $data['cantidad']
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(["encontrado" => false, "msg" => "El producto no existe"], JSON_UNESCAPED_UNICODE);
+        }
+        die();
+    }
+
     /*listar: Se encarga de colocar los productos existentes en la base de datos
     filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listar()

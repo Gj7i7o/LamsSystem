@@ -141,6 +141,14 @@ class productosModel extends query
         return $data;
     }
 
+    /*buscarProductoPorCodigo: Busca un producto activo por su código exacto*/
+    public function buscarProductoPorCodigo(string $codigo)
+    {
+        $sql = "SELECT id, codigo, nombre, precio, cantidad FROM producto WHERE codigo = '$codigo' AND estado = 'activo'";
+        $data = $this->select($sql);
+        return $data;
+    }
+
     /*desProducto: Hace la consulta SQL que traerá el producto acorde al id, y le cambia su estado a inactivo*/
     public function desProducto(int $id)
     {
