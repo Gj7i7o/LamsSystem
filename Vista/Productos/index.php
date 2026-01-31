@@ -43,7 +43,8 @@ include "vista/componentes/header.php";
                         <tr>
                             <th data-column="codigo" data-order="desc">Código</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
-                            <th data-column="precio" data-order="desc">Precio</th>
+                            <th data-column="precioVenta" data-order="desc">P. Venta</th>
+                            <th data-column="precioCosto" data-order="desc">P. Costo</th>
                             <th data-column="cantidad" data-order="desc">Cantidad</th>
                             <th data-column="cantidadMinima" data-order="desc">Cant. Min</th>
                             <th data-column="categoria" data-order="desc">Categoría</th>
@@ -87,8 +88,12 @@ include "vista/componentes/header.php";
 
             <div class="form-file">
                 <div class="form-group">
-                    <label for="precio">Precio $:<span class="required">*</span></label>
-                    <input type="number" id="precio" name="precio" placeholder="Ej: 15" step="0.01" min="0">
+                    <label for="precioVenta">Precio Venta $:<span class="required">*</span></label>
+                    <input type="number" id="precioVenta" name="precioVenta" placeholder="Ej: 15" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="precioCosto">Precio Costo $:</label>
+                    <input type="number" id="precioCosto" name="precioCosto" placeholder="Ej: 10" step="0.01" min="0" value="0">
                 </div>
                 <div class="form-group">
                     <label for="cantidadMinima">Cant. Mínima:<span class="required">*</span></label>

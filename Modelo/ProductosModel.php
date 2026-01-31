@@ -5,7 +5,7 @@ que se preparan para ser enviadas al controlador*/
 
 class productosModel extends query
 {
-    private $codigo, $nombre, $precio, $categoria, $marca, $id;
+    private $codigo, $nombre, $categoria, $marca, $id;
     public function __construct()
     {
         parent::__construct();
@@ -56,7 +56,7 @@ class productosModel extends query
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $stock_bajo = $params["stock_bajo"] ?? '';
         $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta, $stock_bajo);
-        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, p.cantidadMinima, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precioVenta, p.precioCosto, p.cantidad, p.cantidadMinima, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
@@ -66,7 +66,7 @@ class productosModel extends query
     /*tomarProductosAc: Toma todos los productos activos (para selects)*/
     public function tomarProductosAc()
     {
-        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precioVenta, p.precioCosto, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
         LEFT JOIN categoria c ON p.idcategoria = c.id LEFT JOIN marca m ON p.idmarca = m.id WHERE p.estado = 'activo'";
         $data = $this->selectAll($sql);
         return $data;
@@ -78,7 +78,7 @@ class productosModel extends query
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
-        $sql = "SELECT p.id, p.codigo, p.nombre, p.precio, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
+        $sql = "SELECT p.id, p.codigo, p.nombre, p.precioVenta, p.precioCosto, p.cantidad, c.nombre AS categoria, m.nombre AS marca, p.estado FROM producto p
             LEFT JOIN categoria c ON p.idcategoria = c.id
             LEFT JOIN marca m ON p.idmarca = m.id $filters ORDER BY p.id DESC";
         $data = $this->selectAll($sql);
@@ -87,18 +87,17 @@ class productosModel extends query
 
     /*regisProducto: Registra el producto, y además verifica si existe, en base al nombre y código ingresados, comparando
     con la base de datos*/
-    public function regisProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $cantidadMinima = 1)
+    public function regisProducto(string $codigo, string $nombre, float $precioVenta, float $precioCosto, int $categoria, int $marca, int $cantidadMinima = 1)
     {
         $this->codigo = $codigo;
         $this->nombre = $nombre;
-        $this->precio = $precio;
         $this->categoria = $categoria;
         $this->marca = $marca;
         $verificar = "SELECT * FROM producto WHERE nombre = '$this->nombre' AND codigo = '$this->codigo'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO producto (codigo, nombre, precio, idcategoria, idmarca, cantidad, cantidadMinima, estado) VALUES (?,?,?,?,?,0,?,'activo')";
-            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $cantidadMinima);
+            $sql = "INSERT INTO producto (codigo, nombre, precioVenta, precioCosto, idcategoria, idmarca, cantidad, cantidadMinima, estado) VALUES (?,?,?,?,?,?,0,?,'activo')";
+            $datos = array($this->codigo, $this->nombre, $precioVenta, $precioCosto, $this->categoria, $this->marca, $cantidadMinima);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -113,19 +112,18 @@ class productosModel extends query
     }
 
     /*modifProducto: Modifica el producto seleccionado acorde al id*/
-    public function modifProducto(string $codigo, string $nombre, float $precio, int $categoria, int $marca, int $id, int $cantidadMinima = 1)
+    public function modifProducto(string $codigo, string $nombre, float $precioVenta, float $precioCosto, int $categoria, int $marca, int $id, int $cantidadMinima = 1)
     {
         $this->codigo = $codigo;
         $this->nombre = $nombre;
-        $this->precio = $precio;
         $this->categoria = $categoria;
         $this->marca = $marca;
         $this->id = $id;
         $verificar = "SELECT * FROM producto WHERE codigo = '$this->codigo' AND id != '$this->id'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "UPDATE producto SET codigo = ?, nombre = ?, precio = ?, idcategoria = ?, idmarca = ?, cantidadMinima = ? WHERE id = ?";
-            $datos = array($this->codigo, $this->nombre, $this->precio, $this->categoria, $this->marca, $cantidadMinima, $this->id);
+            $sql = "UPDATE producto SET codigo = ?, nombre = ?, precioVenta = ?, precioCosto = ?, idcategoria = ?, idmarca = ?, cantidadMinima = ? WHERE id = ?";
+            $datos = array($this->codigo, $this->nombre, $precioVenta, $precioCosto, $this->categoria, $this->marca, $cantidadMinima, $this->id);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "modificado";
@@ -149,7 +147,7 @@ class productosModel extends query
     /*buscarProductoPorCodigo: Busca un producto activo por su código exacto*/
     public function buscarProductoPorCodigo(string $codigo)
     {
-        $sql = "SELECT id, codigo, nombre, precio, cantidad FROM producto WHERE codigo = '$codigo' AND estado = 'activo'";
+        $sql = "SELECT id, codigo, nombre, precioVenta, cantidad FROM producto WHERE codigo = '$codigo' AND estado = 'activo'";
         $data = $this->select($sql);
         return $data;
     }

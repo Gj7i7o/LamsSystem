@@ -155,7 +155,8 @@
             <tr>
                 <th style="width: 12%;">CODIGO</th>
                 <th style="width: 25%;">NOMBRE</th>
-                <th style="width: 10%;">PRECIO</th>
+                <th style="width: 10%;">P. VENTA</th>
+                <th style="width: 10%;">P. COSTO</th>
                 <th style="width: 10%;">CANTIDAD</th>
                 <th style="width: 18%;">CATEGORIA</th>
                 <th style="width: 15%;">MARCA</th>
@@ -167,7 +168,8 @@
                 <tr>
                     <td><?php echo strtoupper($producto['codigo']); ?></td>
                     <td><?php echo strtoupper($producto['nombre']); ?></td>
-                    <td>$<?php echo number_format($producto['precio'], 2); ?></td>
+                    <td>$<?php echo number_format($producto['precioVenta'], 2); ?></td>
+                    <td>$<?php echo number_format($producto['precioCosto'], 2); ?></td>
                     <td style="text-align: center;"><?php echo $producto['cantidad']; ?></td>
                     <td><?php echo strtoupper($producto['categoria'] ?? 'N/A'); ?></td>
                     <td><?php echo strtoupper($producto['marca'] ?? 'N/A'); ?></td>

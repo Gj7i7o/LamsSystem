@@ -38,7 +38,7 @@ class productos extends controlador
                 'id' => $producto['id'],
                 'etiqueta' => $etiquetaTruncada,
                 'etiquetaCompleta' => $etiquetaCompleta,
-                'precio' => $producto['precio'],
+                'precio' => $producto['precioVenta'],
                 'stock' => $producto['cantidad']
             ];
         }
@@ -61,7 +61,7 @@ class productos extends controlador
                 "id" => $data['id'],
                 "codigo" => $data['codigo'],
                 "nombre" => $data['nombre'],
-                "precio" => $data['precio'],
+                "precio" => $data['precioVenta'],
                 "stock" => $data['cantidad']
             ], JSON_UNESCAPED_UNICODE);
         } else {
@@ -109,7 +109,8 @@ class productos extends controlador
     {
         $codigo = $_POST['codigo'];
         $nombre = $_POST['nombre'];
-        $precio = $_POST['precio'];
+        $precioVenta = $_POST['precioVenta'];
+        $precioCosto = $_POST['precioCosto'] ?? 0;
         $categoria = $_POST['categoria'];
         $marca = $_POST['marca'];
         $cantidadMinima = isset($_POST['cantidadMinima']) && $_POST['cantidadMinima'] !== '' ? intval($_POST['cantidadMinima']) : 1;
@@ -118,19 +119,19 @@ class productos extends controlador
         if (
             empty($codigo) ||
             empty($nombre) ||
-            empty($precio) ||
+            empty($precioVenta) ||
             empty($categoria) ||
             empty($marca)
         ) {
             $msg = array('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
         } else {
             if ($id == "") {
-                if (!preg_match($numeros, $precio)) {
+                if (!preg_match($numeros, $precioVenta)) {
                     $msg = array('msg' => 'Solo números en el precio', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el producto no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisProducto en el modelo/productosModel.php*/
-                    $data = $this->model->regisProducto($codigo, $nombre, $precio, $categoria, $marca, $cantidadMinima);
+                    $data = $this->model->regisProducto($codigo, $nombre, $precioVenta, $precioCosto, $categoria, $marca, $cantidadMinima);
                     if ($data == "ok") {
                         $msg = array('msg' => 'Producto Registrado', 'icono' => 'success');
                         $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'registrar', "Registró producto: $nombre (Código: $codigo)");
@@ -143,7 +144,7 @@ class productos extends controlador
             } else {
                 /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
                 por ende lleva los datos a la función modifProducto en el modelo/productosModel.php*/
-                $data = $this->model->modifProducto($codigo, $nombre, $precio, $categoria, $marca, $id, $cantidadMinima);
+                $data = $this->model->modifProducto($codigo, $nombre, $precioVenta, $precioCosto, $categoria, $marca, $id, $cantidadMinima);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
                     $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'modificar', "Modificó producto ID: $id - $nombre");

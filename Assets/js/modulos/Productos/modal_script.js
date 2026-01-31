@@ -53,7 +53,8 @@ function limpiarFormulario() {
   document.getElementById("id").value = "";
   document.getElementById("codigo").value = "";
   document.getElementById("nombre").value = "";
-  document.getElementById("precio").value = "";
+  document.getElementById("precioVenta").value = "";
+  document.getElementById("precioCosto").value = "0";
   document.getElementById("cantidadMinima").value = "1";
 }
 
@@ -73,7 +74,8 @@ function btnEditProducto(id) {
       document.getElementById("id").value = res.id;
       document.getElementById("codigo").value = res.codigo;
       document.getElementById("nombre").value = res.nombre;
-      document.getElementById("precio").value = res.precio;
+      document.getElementById("precioVenta").value = res.precioVenta;
+      document.getElementById("precioCosto").value = res.precioCosto || 0;
       document.getElementById("cantidadMinima").value = res.cantidadMinima || 1;
       document.getElementById("categoria").value = res.idcategoria;
       document.getElementById("marca").value = res.idmarca;
@@ -88,13 +90,13 @@ formularioProducto.addEventListener("submit", function (event) {
 
   const codigo = document.getElementById("codigo");
   const nombre = document.getElementById("nombre");
-  const precio = document.getElementById("precio");
+  const precioVenta = document.getElementById("precioVenta");
   const categoria = document.getElementById("categoria");
   const marca = document.getElementById("marca");
   if (
     codigo.value == "" ||
     nombre.value == "" ||
-    precio.value == "" ||
+    precioVenta.value == "" ||
     categoria.value == "" ||
     marca.value == ""
   ) {
