@@ -46,7 +46,7 @@ include "vista/componentes/header.php";
                             <th data-column="precioVenta" data-order="desc">P. Venta</th>
                             <th data-column="precioCosto" data-order="desc">P. Costo</th>
                             <th data-column="cantidad" data-order="desc">Cantidad</th>
-                            <th data-column="cantidadMinima" data-order="desc">Cant. Min</th>
+                            <th data-column="cantidadMinima" data-order="desc">Stock Min</th>
                             <th data-column="categoria" data-order="desc">Categoría</th>
                             <th data-column="marca" data-order="desc">Marca</th>
                             <th data-column="estado" data-order="desc">Estado</th>
@@ -96,7 +96,11 @@ include "vista/componentes/header.php";
                     <input type="number" id="precioCosto" name="precioCosto" placeholder="Ej: 10" step="0.01" min="0" value="0">
                 </div>
                 <div class="form-group">
-                    <label for="cantidadMinima">Cant. Mínima:<span class="required">*</span></label>
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" value="0" min="0" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="cantidadMinima">Stock Mínimo:<span class="required">*</span></label>
                     <input type="number" id="cantidadMinima" name="cantidadMinima" value="1" min="1" step="1">
                 </div>
             </div>
