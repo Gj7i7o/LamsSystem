@@ -190,7 +190,7 @@
                     <td><?php echo $entrada['hora']; ?></td>
                     <td><?php echo strtoupper($entrada['producto'] ?? 'N/A'); ?></td>
                     <td class="text-center"><?php echo $entrada['cantidad']; ?></td>
-                    <td class="text-right">$<?php echo number_format($entrada['precio'], 2); ?></td>
+                    <td class="text-right">$<?php echo number_format($entrada['precioCosto'], 2); ?></td>
                     <td class="text-right">$<?php echo number_format($entrada['sub_total'], 2); ?></td>
                 </tr>
             <?php endforeach; ?>
