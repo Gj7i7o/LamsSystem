@@ -36,6 +36,8 @@ include "vista/componentes/header.php";
                     <thead>
                         <tr>
                             <th data-column="cod_docum" data-order="desc">Documento</th>
+                            <th data-column="proveedor" data-order="desc">Proveedor</th>
+                            <th data-column="tipo_pago" data-order="desc">Condición</th>
                             <th data-column="total" data-order="desc">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
