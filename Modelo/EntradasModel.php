@@ -72,14 +72,17 @@ class entradasModel extends query
         }
     }
 
-    public function detalleEntrada(int $id_entrada, int $id_producto, int $cantidad, float $precio, float $subTotal)
+    public function detalleEntrada(int $id_entrada, int $id_producto, int $cantidad, float $precioCosto, float $precioVenta, float $subTotal)
     {
         // Insertar cada fila del detalle
-        $sql = "INSERT INTO entradaProducto (cantidad, precio, idproducto, identrada, iva, sub_total) VALUES (?,?,?,?,30,?)";
-        $datos = array($cantidad, $precio, $id_producto, $id_entrada, $subTotal);
+        $sql = "INSERT INTO entradaProducto (cantidad, precio, precioVenta, idproducto, identrada, iva, sub_total) VALUES (?,?,?,?,?,30,?)";
+        $datos = array($cantidad, $precioCosto, $precioVenta, $id_producto, $id_entrada, $subTotal);
         $data = $this->save($sql, $datos);
 
         if ($data == 1) {
+            // Actualizar precios del producto
+            $sqlUpdate = "UPDATE producto SET precioVenta = ?, precioCosto = ? WHERE id = ?";
+            $this->save($sqlUpdate, array($precioVenta, $precioCosto, $id_producto));
             return "ok";
         } else {
             return "error";
@@ -108,7 +111,7 @@ class entradasModel extends query
     /*obtenerDetalleEntrada: Obtiene las líneas de detalle de una entrada*/
     public function obtenerDetalleEntrada(int $id_entrada)
     {
-        $sql = "SELECT ep.*, pr.nombre as producto_nombre, pr.codigo as producto_codigo
+        $sql = "SELECT ep.*, ep.precio as precioCosto, ep.precioVenta, pr.nombre as producto_nombre, pr.codigo as producto_codigo
                 FROM entradaproducto ep
                 LEFT JOIN producto pr ON ep.idproducto = pr.id
                 WHERE ep.identrada = $id_entrada";
@@ -172,7 +175,7 @@ class entradasModel extends query
         $sql = "SELECT e.cod_docum, e.tipo_pago, e.fecha, e.hora,
                        p.nombre as proveedor,
                        pr.nombre as producto,
-                       ep.cantidad, ep.precio, ep.sub_total
+                       ep.cantidad, ep.precio as precioCosto, ep.precioVenta, ep.sub_total
                 FROM entradaproducto ep
                 INNER JOIN entrada e ON ep.identrada = e.id
                 LEFT JOIN proveedor p ON e.idproveedor = p.id

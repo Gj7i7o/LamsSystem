@@ -136,7 +136,8 @@ include "vista/componentes/header.php";
                         <tr>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>Precio</th>
+                            <th>P. Costo</th>
+                            <th>P. Venta</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>

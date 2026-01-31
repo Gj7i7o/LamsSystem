@@ -90,7 +90,7 @@ class entradas extends controlador
             // Validar que los precios sean mayores a 0
             $precioInvalido = false;
             foreach ($lineas as $linea) {
-                if (floatval($linea['precio']) <= 0) {
+                if (floatval($linea['precioCosto']) <= 0 || floatval($linea['precioVenta']) <= 0) {
                     $precioInvalido = true;
                     break;
                 }
@@ -115,10 +115,11 @@ class entradas extends controlador
                         foreach ($lineas as $linea) {
                             $id_producto = $linea['producto'];
                             $cantidad = $linea['cantidad'];
-                            $precio = $linea['precio'];
+                            $precioCosto = $linea['precioCosto'];
+                            $precioVenta = $linea['precioVenta'];
                             $subTotal = $linea['subTotal'];
 
-                            $detalle = $this->model->detalleEntrada($id_entrada, $id_producto, $cantidad, $precio, $subTotal);
+                            $detalle = $this->model->detalleEntrada($id_entrada, $id_producto, $cantidad, $precioCosto, $precioVenta, $subTotal);
 
                             if ($detalle != "ok") {
                                 $error_detalle = true;
@@ -155,10 +156,11 @@ class entradas extends controlador
                         foreach ($lineas as $linea) {
                             $id_producto = $linea['producto'];
                             $cantidad = $linea['cantidad'];
-                            $precio = $linea['precio'];
+                            $precioCosto = $linea['precioCosto'];
+                            $precioVenta = $linea['precioVenta'];
                             $subTotal = $linea['subTotal'];
 
-                            $detalle = $this->model->detalleEntrada($id, $id_producto, $cantidad, $precio, $subTotal);
+                            $detalle = $this->model->detalleEntrada($id, $id_producto, $cantidad, $precioCosto, $precioVenta, $subTotal);
 
                             if ($detalle != "ok") {
                                 $error_detalle = true;
