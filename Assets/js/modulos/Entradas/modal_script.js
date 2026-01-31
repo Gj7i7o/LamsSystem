@@ -79,10 +79,16 @@ const newFormLine = (index) => `<div>
                     </div>`;
 
 async function buscarProducto(lineIdx) {
-  const input = document.querySelector(`input[name="lines[${lineIdx}][codigo_producto]"]`);
-  const hiddenId = document.querySelector(`input[name="lines[${lineIdx}][producto]"]`);
+  const input = document.querySelector(
+    `input[name="lines[${lineIdx}][codigo_producto]"]`,
+  );
+  const hiddenId = document.querySelector(
+    `input[name="lines[${lineIdx}][producto]"]`,
+  );
   const lineDiv = document.getElementById("line_idx_" + lineIdx);
-  const nombreInput = lineDiv ? lineDiv.querySelector(".producto_nombre") : null;
+  const nombreInput = lineDiv
+    ? lineDiv.querySelector(".producto_nombre")
+    : null;
   const codigo = input ? input.value.trim() : "";
 
   if (codigo === "") {
@@ -92,7 +98,11 @@ async function buscarProducto(lineIdx) {
   }
 
   try {
-    const response = await fetch(APP_URL + "productos/buscarPorCodigo?codigo=" + encodeURIComponent(codigo));
+    const response = await fetch(
+      APP_URL +
+        "productos/buscarPorCodigo?codigo=" +
+        encodeURIComponent(codigo),
+    );
     const res = await response.json();
     if (res.encontrado) {
       hiddenId.value = res.id;
@@ -261,11 +271,11 @@ function btnEditEntrada(id) {
             <input name="lines[${index}][id]" value="id${index}" hidden="true">
             <input name="lines[${index}][producto]" type="hidden" class="producto_id" value="${item.idproducto}">
             <label>Codigo</label>
-            <input type="text" name="lines[${index}][codigo_producto]" onblur="buscarProducto(${index})" class="input_form_input codigo_producto" placeholder="Código producto" value="${item.producto_codigo || ''}">
+            <input type="text" name="lines[${index}][codigo_producto]" onblur="buscarProducto(${index})" class="input_form_input codigo_producto" placeholder="Código producto" value="${item.producto_codigo || ""}">
           </div>
           <div>
             <label>Producto</label>
-            <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto" value="${(item.producto_nombre || '').toUpperCase()}">
+            <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto" value="${(item.producto_nombre || "").toUpperCase()}">
           </div>
           <div>
             <label>P. Costo</label>
@@ -273,7 +283,7 @@ function btnEditEntrada(id) {
           </div>
           <div>
             <label>P. Venta</label>
-            <input type="number" step="0.01" name="lines[${index}][precioVenta]" min="0.00" class="input_form_input precioVenta" placeholder="1.00$" value="${item.precioVenta || ''}">
+            <input type="number" step="0.01" name="lines[${index}][precioVenta]" min="0.00" class="input_form_input precioVenta" placeholder="1.00$" value="${item.precioVenta || ""}">
           </div>
           <div>
             <label>Cantidad</label>
@@ -335,12 +345,14 @@ formulario.addEventListener("submit", function (e) {
 
   lineasDelFormulario.forEach((lineaDiv) => {
     const id = lineaDiv.querySelector('input[name*="[id]"]')?.value;
-    const producto = lineaDiv.querySelector(
-      'input[name*="[producto]"]',
-    )?.value;
+    const producto = lineaDiv.querySelector('input[name*="[producto]"]')?.value;
     const cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]')?.value;
-    const precioCosto = lineaDiv.querySelector('input[name*="[precioCosto]"]')?.value;
-    const precioVenta = lineaDiv.querySelector('input[name*="[precioVenta]"]')?.value;
+    const precioCosto = lineaDiv.querySelector(
+      'input[name*="[precioCosto]"]',
+    )?.value;
+    const precioVenta = lineaDiv.querySelector(
+      'input[name*="[precioVenta]"]',
+    )?.value;
     const subTotal = lineaDiv.querySelector('input[name*="[subTotal]"]')?.value;
     if (!id || !producto || !proveedor || !cantidad || !codigo) {
       console.log(
@@ -398,9 +410,15 @@ formulario.addEventListener("submit", function (e) {
   } else if (precioVentaInvalido) {
     alertas("El precio de venta debe ser mayor a 0", "warning");
   } else if (ventaMenorCosto) {
-    alertas("El precio de venta no puede ser inferior al precio de costo", "warning");
+    alertas(
+      "El precio de venta no puede ser inferior al precio de costo",
+      "warning",
+    );
   } else if (precioVentaInconsistente) {
-    alertas("Las líneas con el mismo producto deben tener el mismo precio de venta", "warning");
+    alertas(
+      "Las líneas con el mismo producto deben tener el mismo precio de venta",
+      "warning",
+    );
   } else {
     const enviarFormulario = () => {
       const url = APP_URL + "entradas/registrar";

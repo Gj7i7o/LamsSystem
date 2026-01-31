@@ -70,10 +70,16 @@ const newFormLine = (index) => `<div>
                     </div>`;
 
 async function buscarProducto(lineIdx) {
-  const input = document.querySelector(`input[name="lines[${lineIdx}][codigo_producto]"]`);
-  const hiddenId = document.querySelector(`input[name="lines[${lineIdx}][producto]"]`);
+  const input = document.querySelector(
+    `input[name="lines[${lineIdx}][codigo_producto]"]`,
+  );
+  const hiddenId = document.querySelector(
+    `input[name="lines[${lineIdx}][producto]"]`,
+  );
   const lineDiv = document.getElementById("line_idx_" + lineIdx);
-  const nombreInput = lineDiv ? lineDiv.querySelector(".producto_nombre") : null;
+  const nombreInput = lineDiv
+    ? lineDiv.querySelector(".producto_nombre")
+    : null;
   const codigo = input ? input.value.trim() : "";
 
   if (codigo === "") {
@@ -83,11 +89,17 @@ async function buscarProducto(lineIdx) {
   }
 
   try {
-    const response = await fetch(APP_URL + "productos/buscarPorCodigo?codigo=" + encodeURIComponent(codigo));
+    const response = await fetch(
+      APP_URL +
+        "productos/buscarPorCodigo?codigo=" +
+        encodeURIComponent(codigo),
+    );
     const res = await response.json();
     if (res.encontrado) {
       hiddenId.value = res.id;
-      if (nombreInput) nombreInput.value = res.nombre.toUpperCase() + " (Stock: " + res.stock + ")";
+      if (nombreInput)
+        nombreInput.value =
+          res.nombre.toUpperCase() + " (Stock: " + res.stock + ")";
       // Guardar precio y stock para validación
       productosData[res.id] = {
         precio: parseFloat(res.precio),
@@ -247,11 +259,11 @@ function btnEditSalida(id) {
             <input name="lines[${index}][id]" value="id${index}" hidden="true">
             <input name="lines[${index}][producto]" type="hidden" class="producto_id" value="${item.idproducto}">
             <label>Codigo</label>
-            <input type="text" name="lines[${index}][codigo_producto]" onblur="buscarProducto(${index})" class="input_form_input codigo_producto" placeholder="Código producto" value="${item.producto_codigo || ''}">
+            <input type="text" name="lines[${index}][codigo_producto]" onblur="buscarProducto(${index})" class="input_form_input codigo_producto" placeholder="Código producto" value="${item.producto_codigo || ""}">
           </div>
           <div>
             <label>Producto</label>
-            <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto" value="${(item.producto_nombre || '').toUpperCase()}">
+            <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto" value="${(item.producto_nombre || "").toUpperCase()}">
           </div>
           <div>
             <label for="precio">Precio venta</label>
@@ -315,9 +327,7 @@ formulario.addEventListener("submit", function (e) {
 
   lineasDelFormulario.forEach((lineaDiv) => {
     const id = lineaDiv.querySelector('input[name*="[id]"]')?.value;
-    const producto = lineaDiv.querySelector(
-      'input[name*="[producto]"]',
-    )?.value;
+    const producto = lineaDiv.querySelector('input[name*="[producto]"]')?.value;
     const cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]')?.value;
     const precio = lineaDiv.querySelector('input[name*="[precio]"]')?.value;
     const subTotal = lineaDiv.querySelector('input[name*="[subTotal]"]')?.value;

@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const response = await fetch(
-        "http://localhost/LamsSystem/Entradas/list?" + params
+        "http://localhost/LamsSystem/Entradas/list?" + params,
       );
 
       // Si la respuesta no es exitosa, lanza un error
