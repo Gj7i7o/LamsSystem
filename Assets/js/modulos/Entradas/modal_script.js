@@ -23,18 +23,23 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     </div>
 
                     <div>
-                        <label for="precio">PrecioUni</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" id="precio" name="lines[${idx}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
+                        <label>P. Costo</label>
+                        <input type="number" step="0.01" onchange="getSubTotal(${idx})" name="lines[${idx}][precioCosto]" min="0.00" class="input_form_input precioCosto" placeholder="1.00$">
                     </div>
 
                     <div>
-                        <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1">
+                        <label>P. Venta</label>
+                        <input type="number" step="0.01" name="lines[${idx}][precioVenta]" min="0.00" class="input_form_input precioVenta" placeholder="1.00$">
                     </div>
 
                     <div>
-                        <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input">
+                        <label>Cantidad</label>
+                        <input type="number" onchange="getSubTotal(${idx})" name="lines[${idx}][cantidad]" min="1" class="input_form_input cantidad" placeholder="1">
+                    </div>
+
+                    <div>
+                        <label>Sub-total</label>
+                        <input type="number" step="0.01" disabled name="lines[${idx}][subTotal]" value="0.00" min="0.00" class="input_form_input subTotal">
                     </div>
 
                     <div class="buttonToLine">
@@ -54,18 +59,23 @@ const newFormLine = (index) => `<div>
                     </div>
 
                     <div>
-                        <label for="precio">PrecioUni</label>
-                        <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
+                        <label>P. Costo</label>
+                        <input type="number" step="0.01" onchange="getSubTotal(${index})" name="lines[${index}][precioCosto]" min="0.00" class="input_form_input precioCosto" placeholder="1.00$">
                     </div>
 
                     <div>
-                        <label for="cantidad">Cantidad</label>
-                        <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1">
+                        <label>P. Venta</label>
+                        <input type="number" step="0.01" name="lines[${index}][precioVenta]" min="0.00" class="input_form_input precioVenta" placeholder="1.00$">
                     </div>
 
                     <div>
-                        <label for="subTotal">Sub-total</label>
-                        <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input">
+                        <label>Cantidad</label>
+                        <input type="number" onchange="getSubTotal(${index})" name="lines[${index}][cantidad]" min="1" class="input_form_input cantidad" placeholder="1">
+                    </div>
+
+                    <div>
+                        <label>Sub-total</label>
+                        <input type="number" step="0.01" disabled name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input subTotal">
                     </div>`;
 
 async function buscarProducto(lineIdx) {
@@ -203,6 +213,7 @@ function btnVerDetalleEntrada(id) {
           <td>${item.producto_nombre} (${item.producto_codigo})</td>
           <td>${item.cantidad}</td>
           <td>${item.precio}$</td>
+          <td>${item.precioVenta || 0}$</td>
           <td>${item.sub_total}$</td>
         `;
         tbody.appendChild(row);
@@ -257,16 +268,20 @@ function btnEditEntrada(id) {
             <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto" value="${(item.producto_nombre || '').toUpperCase()}">
           </div>
           <div>
-            <label for="precio">PrecioUni</label>
-            <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$" value="${item.precio}">
+            <label>P. Costo</label>
+            <input type="number" step="0.01" onchange="getSubTotal(${index})" name="lines[${index}][precioCosto]" min="0.00" class="input_form_input precioCosto" placeholder="1.00$" value="${item.precio}">
           </div>
           <div>
-            <label for="cantidad">Cantidad</label>
-            <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1" value="${item.cantidad}">
+            <label>P. Venta</label>
+            <input type="number" step="0.01" name="lines[${index}][precioVenta]" min="0.00" class="input_form_input precioVenta" placeholder="1.00$" value="${item.precioVenta || ''}">
           </div>
           <div>
-            <label for="subTotal">Sub-total</label>
-            <input type="number" step="0.01" disabled id="subTotal" name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input">
+            <label>Cantidad</label>
+            <input type="number" onchange="getSubTotal(${index})" name="lines[${index}][cantidad]" min="1" class="input_form_input cantidad" placeholder="1" value="${item.cantidad}">
+          </div>
+          <div>
+            <label>Sub-total</label>
+            <input type="number" step="0.01" disabled name="lines[${index}][subTotal]" value="${item.sub_total}" min="0.00" class="input_form_input subTotal">
           </div>
           <div class="buttonToLine">
             <button class="button" type="button" onclick="deleteLine(${index});"><i class="fas fa-trash"></i></button>
@@ -324,7 +339,8 @@ formulario.addEventListener("submit", function (e) {
       'input[name*="[producto]"]',
     )?.value;
     const cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]')?.value;
-    const precio = lineaDiv.querySelector('input[name*="[precio]"]')?.value;
+    const precioCosto = lineaDiv.querySelector('input[name*="[precioCosto]"]')?.value;
+    const precioVenta = lineaDiv.querySelector('input[name*="[precioVenta]"]')?.value;
     const subTotal = lineaDiv.querySelector('input[name*="[subTotal]"]')?.value;
     if (!id || !producto || !proveedor || !cantidad || !codigo) {
       console.log(
@@ -339,7 +355,8 @@ formulario.addEventListener("submit", function (e) {
       data.lineas.push({
         id: id,
         producto: producto,
-        precio: precio,
+        precioCosto: precioCosto,
+        precioVenta: precioVenta,
         cantidad: parseInt(cantidad),
         subTotal: subTotal,
       });
@@ -350,15 +367,40 @@ formulario.addEventListener("submit", function (e) {
   data.total = total.value;
   data.tipo_pago = document.getElementById("tipo_pago").value;
 
-  // Validar que todos los precios sean mayores a 0
+  // Validar precios
   let precioInvalido = data.lineas.some(
-    (linea) => parseFloat(linea.precio) <= 0,
+    (linea) => parseFloat(linea.precioCosto) <= 0 || !linea.precioCosto,
   );
+  let precioVentaInvalido = data.lineas.some(
+    (linea) => parseFloat(linea.precioVenta) <= 0 || !linea.precioVenta,
+  );
+  // Validar que precioVenta no sea inferior a precioCosto
+  let ventaMenorCosto = data.lineas.some(
+    (linea) => parseFloat(linea.precioVenta) < parseFloat(linea.precioCosto),
+  );
+  // Validar que líneas con el mismo producto tengan el mismo precioVenta
+  let precioVentaInconsistente = false;
+  const preciosPorProducto = {};
+  data.lineas.forEach((linea) => {
+    if (preciosPorProducto[linea.producto] !== undefined) {
+      if (preciosPorProducto[linea.producto] !== linea.precioVenta) {
+        precioVentaInconsistente = true;
+      }
+    } else {
+      preciosPorProducto[linea.producto] = linea.precioVenta;
+    }
+  });
 
   if (data.codigo == "" || data.proveedor == "") {
     alertas("Todos los campos son obligatorios", "warning");
   } else if (precioInvalido) {
-    alertas("El precio debe ser mayor a 0", "warning");
+    alertas("El precio de costo debe ser mayor a 0", "warning");
+  } else if (precioVentaInvalido) {
+    alertas("El precio de venta debe ser mayor a 0", "warning");
+  } else if (ventaMenorCosto) {
+    alertas("El precio de venta no puede ser inferior al precio de costo", "warning");
+  } else if (precioVentaInconsistente) {
+    alertas("Las líneas con el mismo producto deben tener el mismo precio de venta", "warning");
   } else {
     const enviarFormulario = () => {
       const url = APP_URL + "entradas/registrar";
@@ -408,7 +450,7 @@ formulario.addEventListener("submit", function (e) {
 
 function getSubTotal(idx) {
   let precio = document.querySelector(
-    'input[name="lines[' + idx + '][precio]"]',
+    'input[name="lines[' + idx + '][precioCosto]"]',
   )?.value;
   let cantidad = document.querySelector(
     'input[name="lines[' + idx + '][cantidad]"]',

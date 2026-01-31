@@ -102,6 +102,7 @@ CREATE TABLE `entradaproducto` (
   `id` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` float NOT NULL,
+  `precioVenta` float NOT NULL DEFAULT 0,
   `idproducto` int(11) NOT NULL,
   `identrada` int(11) NOT NULL,
   `iva` float NOT NULL,
