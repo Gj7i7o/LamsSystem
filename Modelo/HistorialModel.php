@@ -19,7 +19,6 @@ class historialModel extends query
         $this->modulo = $modulo;
         $this->accion = $accion;
         $this->descripcion = $descripcion;
-        date_default_timezone_set('America/Caracas');
         $this->fecha = date('d/m/Y');
         $this->hora = date('h:i:s a');
 
