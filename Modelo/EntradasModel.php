@@ -14,13 +14,13 @@ class entradasModel extends query
     {
         $conditions = [];
         if (!empty($value)) {
-            $conditions[] = "(cod_docum LIKE '%$value%' OR total LIKE '%$value%')";
+            $conditions[] = "(e.cod_docum LIKE '%$value%' OR e.total LIKE '%$value%' OR p.nombre LIKE '%$value%' OR e.tipo_pago LIKE '%$value%' OR EXISTS (SELECT 1 FROM entradaproducto ep2 INNER JOIN producto pr2 ON ep2.idproducto = pr2.id WHERE ep2.identrada = e.id AND (pr2.nombre LIKE '%$value%' OR pr2.codigo LIKE '%$value%')))";
         }
         if (!empty($fecha_desde)) {
-            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+            $conditions[] = "DATE(e.creadoEl) >= '$fecha_desde'";
         }
         if (!empty($fecha_hasta)) {
-            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
+            $conditions[] = "DATE(e.creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -31,7 +31,7 @@ class entradasModel extends query
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = "SELECT * FROM entrada $filters";
+        $sql = "SELECT e.id FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
@@ -43,8 +43,8 @@ class entradasModel extends query
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC" :
-            "SELECT id, cod_docum, total, fecha, hora FROM entrada $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC" :
+            "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -160,7 +160,7 @@ class entradasModel extends query
         $conditions = [];
         if (!empty($params["query"])) {
             $value = $params["query"];
-            $conditions[] = "(e.cod_docum LIKE '%$value%' OR p.nombre LIKE '%$value%' OR pr.nombre LIKE '%$value%')";
+            $conditions[] = "(e.cod_docum LIKE '%$value%' OR p.nombre LIKE '%$value%' OR pr.nombre LIKE '%$value%' OR pr.codigo LIKE '%$value%' OR e.tipo_pago LIKE '%$value%')";
         }
         if (!empty($params["fecha_desde"])) {
             $fecha_desde = $params["fecha_desde"];

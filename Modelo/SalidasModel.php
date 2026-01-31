@@ -14,13 +14,13 @@ class salidasModel extends query
     {
         $conditions = [];
         if (!empty($value)) {
-            $conditions[] = "(cod_docum LIKE '%$value%' OR total LIKE '%$value%')";
+            $conditions[] = "(s.cod_docum LIKE '%$value%' OR s.total LIKE '%$value%' OR s.tipo_despacho LIKE '%$value%' OR EXISTS (SELECT 1 FROM salidaproducto sp2 INNER JOIN producto pr2 ON sp2.idproducto = pr2.id WHERE sp2.idsalida = s.id AND (pr2.nombre LIKE '%$value%' OR pr2.codigo LIKE '%$value%')))";
         }
         if (!empty($fecha_desde)) {
-            $conditions[] = "DATE(creadoEl) >= '$fecha_desde'";
+            $conditions[] = "DATE(s.creadoEl) >= '$fecha_desde'";
         }
         if (!empty($fecha_hasta)) {
-            $conditions[] = "DATE(creadoEl) <= '$fecha_hasta'";
+            $conditions[] = "DATE(s.creadoEl) <= '$fecha_hasta'";
         }
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
@@ -31,7 +31,7 @@ class salidasModel extends query
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = "SELECT * FROM salida $filters";
+        $sql = "SELECT s.id FROM salida s $filters";
         $data = $this->selectAll($sql);
         return count($data);
     }
@@ -43,8 +43,8 @@ class salidasModel extends query
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
         $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = $params["page"] <= 0 ? "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC" :
-            "SELECT id, cod_docum, total, fecha, hora, tipo_despacho FROM salida $filters ORDER BY id DESC LIMIT 10 OFFSET $offset";
+        $sql = $params["page"] <= 0 ? "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho FROM salida s $filters ORDER BY s.id DESC" :
+            "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho FROM salida s $filters ORDER BY s.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -97,9 +97,9 @@ class salidasModel extends query
     /*obtenerPrecioProducto: Obtiene el precio de un producto por su id*/
     public function obtenerPrecioProducto(int $id_producto)
     {
-        $sql = "SELECT precio FROM producto WHERE id = $id_producto";
+        $sql = "SELECT precioVenta FROM producto WHERE id = $id_producto";
         $data = $this->select($sql);
-        return $data ? floatval($data['precio']) : 0;
+        return $data ? floatval($data['precioVenta']) : 0;
     }
 
     /*obtenerStockProducto: Obtiene el stock actual de un producto por su id*/
@@ -123,7 +123,7 @@ class salidasModel extends query
     /*obtenerDetalleSalida: Obtiene las líneas de detalle de una salida*/
     public function obtenerDetalleSalida(int $id_salida)
     {
-        $sql = "SELECT sp.*, pr.nombre as producto_nombre, pr.codigo as producto_codigo, pr.precio as producto_precio
+        $sql = "SELECT sp.*, pr.nombre as producto_nombre, pr.codigo as producto_codigo, pr.precioVenta as producto_precio
                 FROM salidaproducto sp
                 LEFT JOIN producto pr ON sp.idproducto = pr.id
                 WHERE sp.idsalida = $id_salida";
@@ -172,7 +172,7 @@ class salidasModel extends query
         $conditions = [];
         if (!empty($params["query"])) {
             $value = $params["query"];
-            $conditions[] = "(s.cod_docum LIKE '%$value%' OR pr.nombre LIKE '%$value%')";
+            $conditions[] = "(s.cod_docum LIKE '%$value%' OR pr.nombre LIKE '%$value%' OR pr.codigo LIKE '%$value%' OR s.tipo_despacho LIKE '%$value%')";
         }
         if (!empty($params["fecha_desde"])) {
             $fecha_desde = $params["fecha_desde"];
