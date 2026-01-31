@@ -220,8 +220,10 @@ function descargarPDF() {
   const query = document.getElementById("query")?.value || "";
   const fecha_desde = document.getElementById("fecha_desde")?.value || "";
   const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
+  const urlParams = new URLSearchParams(window.location.search);
+  const stockBajo = urlParams.get("stock_bajo") || "";
   window.open(
-    APP_URL + "productos/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
+    APP_URL + "productos/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta + "&stock_bajo=" + stockBajo,
     "_blank",
   );
 }

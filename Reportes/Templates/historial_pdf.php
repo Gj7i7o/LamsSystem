@@ -147,7 +147,7 @@
     </div>
 
     <div class="info">
-        <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y H:i:s'); ?></p>
+        <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y h:i:s'); ?></p>
         <p><strong>Total de registros:</strong> <?php echo count($historial); ?></p>
         <?php if (!empty($filtro_fecha_desde) || !empty($filtro_fecha_hasta)): ?>
             <p><strong>Rango de fecha:</strong>
