@@ -137,7 +137,7 @@
     </div>
 
     <div class="info">
-        <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y H:i:s'); ?></p>
+        <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y h:i:s'); ?></p>
         <p><strong>Total de registros:</strong> <?php echo count($productos); ?></p>
         <?php if (!empty($filtro_estado)): ?>
             <p><strong>Estado:</strong> <?php echo ucfirst($filtro_estado); ?></p>
