@@ -161,6 +161,67 @@ include "vista/componentes/header.php";
         </div>
     </div>
 
+    <!-- Modal Crear Producto desde Entradas -->
+    <div id="modalNuevoProducto" class="modal">
+        <div class="modal-content">
+            <span class="close-nuevo-producto" title="Cerrar">&times;</span>
+            <div class="modal-header">
+                <h2>Registrar Producto</h2>
+            </div>
+            <form id="formularioNuevoProducto" class="form" method="POST">
+                <input type="hidden" name="id" value="">
+                <div class="form-file">
+                    <div class="form-group">
+                        <label for="np_codigo">Código:<span class="required">*</span></label>
+                        <input type="text" id="np_codigo" name="codigo" placeholder="Ej: 001-22-777" maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="np_nombre">Nombre:<span class="required">*</span></label>
+                        <input type="text" id="np_nombre" name="nombre" placeholder="Ej: Bujía" maxlength="30">
+                    </div>
+                </div>
+
+                <div class="form-file">
+                    <div class="form-group">
+                        <label for="np_precioVenta">Precio Venta $:<span class="required">*</span></label>
+                        <input type="number" id="np_precioVenta" name="precioVenta" placeholder="Ej: 15" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="np_precioCosto">Precio Costo $:</label>
+                        <input type="number" id="np_precioCosto" name="precioCosto" placeholder="Ej: 10" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="np_cantidad">Cantidad:</label>
+                        <input type="number" id="np_cantidad" name="cantidad" value="0" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="np_cantidadMinima">Stock Mínimo:<span class="required">*</span></label>
+                        <input type="number" id="np_cantidadMinima" name="cantidadMinima" value="1" min="1" step="1">
+                    </div>
+                </div>
+
+                <div class="form-file">
+                    <div class="form-group">
+                        <label for="np_categoria">Categoría:<span class="required">*</span></label>
+                        <select name="categoria" id="np_categoria">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="np_marca">Marca:<span class="required">*</span></label>
+                        <select name="marca" id="np_marca">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save"></i> Registrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/script.js"></script>
     <script src="<?php echo APP_URL; ?>assets/js/modulos/entradas/modal_script.js"></script>
     <script>

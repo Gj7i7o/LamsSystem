@@ -860,6 +860,11 @@ select {
   font-weight: 700;
 }
 
+/* Modal de nuevo producto sobre el modal de entradas */
+#modalNuevoProducto {
+  z-index: 1100;
+}
+
 /*=========================================
     TRANSFORMACIÓN GLOBAL A MAYÚSCULAS
   =========================================*/
