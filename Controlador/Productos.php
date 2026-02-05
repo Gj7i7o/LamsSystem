@@ -46,29 +46,68 @@ class productos extends controlador
         die();
     }
 
-    /*buscarPorCodigo: Busca un producto activo por su código exacto*/
+    /* buscarPorCodigo: Método llamado vía AJAX/Fetch */
     public function buscarPorCodigo()
     {
+        // Recibimos el código que se está escribiendo en el input lines[idx][codigo_producto]
         $codigo = $_GET["codigo"] ?? "";
+
+        ob_clean();
+
+        header('Content-Type: application/json'); // <--- IMPORTANTE
+
         if (empty($codigo)) {
-            echo json_encode(["encontrado" => false, "msg" => "Código vacío"], JSON_UNESCAPED_UNICODE);
-            die();
+            echo json_encode([]);
+            exit;
         }
+
+        // Llamada al modelo
         $data = $this->model->buscarProductoPorCodigo($codigo);
-        if (!empty($data)) {
-            echo json_encode([
-                "encontrado" => true,
-                "id" => $data['id'],
-                "codigo" => $data['codigo'],
-                "nombre" => $data['nombre'],
-                "precio" => $data['precioVenta'],
-                "stock" => $data['cantidad']
-            ], JSON_UNESCAPED_UNICODE);
-        } else {
-            echo json_encode(["encontrado" => false, "msg" => "El producto no existe"], JSON_UNESCAPED_UNICODE);
-        }
+
+        // Si el modelo devuelve null o false, forzamos un array vacío
+        if (!$data) $data = [];
+
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    /*buscarPorCodigo: Busca un producto activo por su código exacto*/
+    // public function buscarPorCodigo()
+    // {
+    //     $codigo = $_GET["codigo"] ?? "";
+    //     if (strlen($codigo) < 1) {
+    //         echo json_encode([]);
+    //         die();
+    //     }
+    //     $data = $this->model->buscarProductoPorCodigo($codigo);
+    // if (empty($codigo)) {
+    //     echo json_encode(["encontrado" => false, "msg" => "Código vacío"], JSON_UNESCAPED_UNICODE);
+    //     die();
+    // }
+    // $data = $this->model->buscarProductoPorCodigo($codigo);
+    // if (!empty($data)) {
+    //     echo json_encode([
+    //         "encontrado" => true,
+    //         "id" => $data['id'],
+    //         "codigo" => $data['codigo'],
+    //         "nombre" => $data['nombre'],
+    //         "precio" => $data['precioVenta'],
+    //         "stock" => $data['cantidad']
+    //     ], JSON_UNESCAPED_UNICODE);
+    // } else {
+    //     echo json_encode(["encontrado" => false, "msg" => "El producto no existe"], JSON_UNESCAPED_UNICODE);
+    // }
+    // die();
+    // Estructuramos la respuesta
+    //     if (!empty($data)) {
+    //         // Devolvemos la lista de coincidencias
+    //         echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    //     } else {
+    //         // Array vacío si no hay coincidencias
+    //         echo json_encode([]);
+    //     }
+    //     die();
+    // }
 
     /*listar: Se encarga de colocar los productos existentes en la base de datos
     filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/

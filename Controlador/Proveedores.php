@@ -44,6 +44,28 @@ class proveedores extends controlador
         die();
     }
 
+    /*buscarPorRif: Busca un proveedor activo por su rif exacto*/
+    public function buscarPorRif()
+    {
+        // Validamos que haya al menos un caracter
+        $rif = $_GET["rif"] ?? "";
+        // Opcional: Solo buscar si tiene más de 2 caracteres para optimizar
+        if (strlen($rif) < 1) {
+            echo json_encode([]);
+            die();
+        }
+        $data = $this->model->buscarProveedorPorRif($rif);
+        // Devolvemos el array de objetos directamente (JSON Array)
+        if (!empty($data)) {
+            // Devolvemos la lista de coincidencias
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        } else {
+            // Array vacío si no hay coincidencias
+            echo json_encode([]);
+        }
+        die();
+    }
+
     /*listar: Se encarga de colocar los proveedores existentes en la base de datos
     filtrando por estado. Y a su vez coloca en cada uno los botones de modificar y cambiar estado*/
     public function listar()

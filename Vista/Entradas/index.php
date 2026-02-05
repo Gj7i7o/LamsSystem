@@ -68,7 +68,13 @@ include "vista/componentes/header.php";
             <div class="modal-header-info">
                 <div class="datos-proveedor">
                     <h3>Proveedor:<span class="required">*</span></h3>
-                    <select name="proveedor" id="proveedor"></select>
+                    <div class="autocomplete-container" style="position: relative; display: inline-block;">
+                        <input type="text" id="proveedor_rif" style="width: 150px;" placeholder="Escriba RIF..." autocomplete="off">
+                        <div id="lista_busqueda_proveedor" class="autocomplete-items"></div>
+                    </div>
+                    <input type="hidden" id="proveedor_id" name="proveedor_id">
+                    <br>
+                    <input type="text" id="proveedor_nombre" style="width: 200px; margin-top: 5px;" placeholder="Nombre del proveedor" disabled>
                 </div>
                 <div class="datos-proveedor">
                     <h3>Condición:<span class="required">*</span></h3>

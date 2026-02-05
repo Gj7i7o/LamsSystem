@@ -211,7 +211,15 @@ function descargarPDF() {
   const fecha_desde = document.getElementById("fecha_desde")?.value || "";
   const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   window.open(
-    APP_URL + "usuarios/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
+    APP_URL +
+      "usuarios/reportePDF?estado=" +
+      estado +
+      "&query=" +
+      query +
+      "&fecha_desde=" +
+      fecha_desde +
+      "&fecha_hasta=" +
+      fecha_hasta,
     "_blank",
   );
 }

@@ -78,6 +78,7 @@ class usuarios extends controlador
         $correo = $_POST['correo'] || "";
         $telef = $_POST['telef'] || "";
         $contrasena = $_POST['contrasena'];
+        $rango = $_POST['rango'];
         $id = $_POST['id'];
         $hash = hash("SHA256", $contrasena);
         /*Patrones de validación*/
@@ -108,7 +109,7 @@ class usuarios extends controlador
                     $error = false;
                     /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisUsuario en el modelo/usuariosModel.php*/
-                    $id_usuario = $this->model->regisUsuario($usuario, $hash);
+                    $id_usuario = $this->model->regisUsuario($usuario, $hash, $rango);
                     if ($id_usuario > 0) {
                         //     $msg = array('msg' => 'Usuario Registrado', 'icono' => 'success');
                         // } else if ($data == "existe") {
@@ -130,7 +131,7 @@ class usuarios extends controlador
             } else {
                 /*Caso contrario, si el usuario existe, se interpreta que se desea modificar ese usuario,
                 por ende lleva los datos a la función modifUsuario en el modelo/usuariosModel.php*/
-                $data = $this->model->modifUsuario($ci, $usuario, $nombre, $apellido, $correo, $telef, $id);
+                $data = $this->model->modifUsuario($ci, $usuario, $rango, $nombre, $apellido, $correo, $telef, $id);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
                     $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario ID: $id - $usuario");

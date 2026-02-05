@@ -27,6 +27,7 @@ function limpiarFormulario() {
   document.getElementById("telef").value = "";
   document.getElementById("contrasena").value = "";
   document.getElementById("confirm").value = "";
+  document.getElementById("rango").value = "empleado";
 }
 
 /*Botón de editar usuario*/
@@ -47,6 +48,7 @@ function btnEditUsuario(id) {
       document.getElementById("apellido").value = res.apellido || "";
       document.getElementById("correo").value = res.correo || "";
       document.getElementById("telef").value = res.telef || "";
+      document.getElementById("rango").value = res.rango || "";
       modal.style.display = "block";
     }
   };
@@ -61,6 +63,7 @@ formularioUsuario.addEventListener("submit", function (event) {
   const apellido = document.getElementById("apellido");
   const correo = document.getElementById("correo");
   const telef = document.getElementById("telef");
+  const rango = document.getElementById("rango");
   const contrasena = document.getElementById("contrasena");
   const confirm = document.getElementById("confirm");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;

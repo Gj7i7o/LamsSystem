@@ -5,7 +5,7 @@ que se preparan para ser enviadas al controlador*/
 
 class usuariosModel extends query
 {
-    private $usuario, $ci, $nombre, $apellido, $correo, $telef, $contrasena, $id_usuario, $id;
+    private $usuario, $ci, $nombre, $apellido, $correo, $telef, $contrasena, $rango, $id_usuario, $id;
     public function __construct()
     {
         parent::__construct();
@@ -70,15 +70,16 @@ class usuariosModel extends query
 
     /*regisUsuario: Guarda el usuario, y además verifica si el usuario existe,
     en base al usuario ingresado, comparando con la base de datos*/
-    public function regisUsuario(string $usuario, string $contrasena)
+    public function regisUsuario(string $usuario, string $contrasena, string $rango)
     {
         $this->usuario = $usuario;
         $this->contrasena = $contrasena;
+        $this->rango = $rango;
         $verificar = "SELECT * FROM usuario WHERE usuario = '$this->usuario'";
         $existe = $this->select($verificar);
         if (empty($existe)) {
-            $sql = "INSERT INTO usuario (usuario, clave, rango, estado) VALUES (?,?,'empleado','activo')";
-            $datos = array($this->usuario, $this->contrasena);
+            $sql = "INSERT INTO usuario (usuario, clave, rango, estado) VALUES (?,?,?,'activo')";
+            $datos = array($this->usuario, $this->contrasena, $this->rango);
             $data = $this->insertar($sql, $datos);
             if ($data > 0) {
                 return $data; // Retorna el ID de la entrada para usarlo en los detalles
@@ -119,13 +120,14 @@ class usuariosModel extends query
     }
 
     /*modifUsuario: Modifica el usuario seleccionado acorde al id*/
-    public function modifUsuario(string $ci, string $usuario, string $nombre, string $apellido, string $correo, string $telef, int $id)
+    public function modifUsuario(string $ci, string $usuario, string $nombre, string $apellido, string $correo, string $telef, string $rango, int $id)
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->correo = $correo;
         $this->telef = $telef;
+        $this->rango = $rango;
         $this->ci = $ci;
         $this->id = $id;
         $verificarUsuario = "SELECT * FROM usuario WHERE usuario = '$this->usuario' AND id != '$this->id'";
@@ -134,8 +136,8 @@ class usuariosModel extends query
         $existePersona = $this->select($verificarPersona);
         if (empty($existeUsuario) || empty($existePersona)) {
             // Actualizar tabla usuario
-            $sqlUsuario = "UPDATE usuario SET usuario = ? WHERE id = ?";
-            $datosUsuario = array($this->usuario, $this->id);
+            $sqlUsuario = "UPDATE usuario SET usuario = ?, rango = ? WHERE id = ?";
+            $datosUsuario = array($this->usuario, $this->rango, $this->id);
             $dataUsuario = $this->save($sqlUsuario, $datosUsuario);
 
             // Actualizar tabla persona

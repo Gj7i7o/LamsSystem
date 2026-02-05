@@ -72,11 +72,20 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:<span class="required">*</span></label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" maxlength="20">
+                    <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" maxlength="15">
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:<span class="required">*</span></label>
                     <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" maxlength="15">
+                </div>
+            </div>
+            <div class="form-file">
+                <div class="form-group">
+                    <label for="rango">Rol:<span class="required">*</span></label>
+                    <select name="rango" id="rango">
+                        <option value="empleado" selected>Empleado</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
                 </div>
             </div>
             <div class="form-file">

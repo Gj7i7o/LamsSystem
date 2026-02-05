@@ -11,14 +11,16 @@ let idx = 0;
 let modoEdicion = false;
 const dataForm = { lines: [] };
 const formLine = ` <div class="input_form" id="line_idx_${idx}">
-                    <div>
-                      <input name="lines[${idx}][id]" value="id${idx}" hidden="true">
-                      <input name="lines[${idx}][producto]" type="hidden" class="producto_id">
-                      <label>Codigo</label>
-                      <input type="text" name="lines[${idx}][codigo_producto]" onblur="buscarProducto(${idx})" class="input_form_input codigo_producto" placeholder="Código producto">
+                    <input type="number" name="lines[${idx}][id]" class="input_form_input id" hidden="true">
+                    <div style="position: relative;"> 
+                        <label>Codigo</label>
+                        <input type="text" name="lines[${idx}][codigo]" oninput="buscarProducto(this, ${idx})" class="input_form_input codigo_producto" autocomplete="off" 
+                        placeholder="Código producto">
+                      <div id="lista_productos_${idx}" class="autocomplete-items"></div>
                     </div>
                     <div>
                       <label>Producto</label>
+                      <input type="number" name="lines[${idx}][producto]" class="input_form_input producto_id" hidden="true">
                       <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto">
                     </div>
 
@@ -47,14 +49,17 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     </div>
                     </div>`;
 
-const newFormLine = (index) => `<div>
-                      <input name="lines[${index}][id]" value="id${index}" hidden="true">
-                      <input name="lines[${index}][producto]" type="hidden" class="producto_id">
-                      <label>Codigo</label>
-                      <input type="text" name="lines[${index}][codigo_producto]" onblur="buscarProducto(${index})" class="input_form_input codigo_producto" placeholder="Código producto">
+const newFormLine = (index) => `
+                    <input type="number" name="lines[${index}][id]" class="input_form_input id" hidden="true">
+                    <div style="position: relative;"> 
+                        <label>Codigo</label>
+                        <input type="text" name="lines[${index}][codigo]" oninput="buscarProducto(this, ${index})" class="input_form_input codigo_producto" autocomplete="off" 
+                        placeholder="Código producto">
+                      <div id="lista_productos_${index}" class="autocomplete-items"></div>
                     </div>
                     <div>
                       <label>Producto</label>
+                      <input type="number" name="lines[${index}][producto]" class="input_form_input producto_id" hidden="true">
                       <input type="text" class="input_form_input producto_nombre" disabled placeholder="Nombre del producto">
                     </div>
 
@@ -78,45 +83,232 @@ const newFormLine = (index) => `<div>
                         <input type="number" step="0.01" disabled name="lines[${index}][subTotal]" value="0.00" min="0.00" class="input_form_input subTotal">
                     </div>`;
 
-async function buscarProducto(lineIdx) {
-  const input = document.querySelector(
-    `input[name="lines[${lineIdx}][codigo_producto]"]`,
-  );
-  const hiddenId = document.querySelector(
+// Variable global para evitar múltiples peticiones seguidas (Debounce)
+let timeoutSearch = null;
+
+async function buscarProducto(inputElement, lineIdx) {
+  // 1. Identificar elementos RELATIVOS a la línea (Más seguro)
+  // Buscamos el div padre de la línea actual
+  // Asegúrate que tu fila tenga una clase o ID identificable, ej: id="line_idx_0"
+  const fila =
+    document.getElementById(`line_idx_${lineIdx}`) ||
+    inputElement.closest(".linea-producto") ||
+    inputElement.parentNode.parentNode;
+
+  // Buscamos los inputs dentro de esa fila específica
+  const hiddenId =
+    fila.querySelector(`input[name="lines[${lineIdx}][id]"]`) ||
+    fila.querySelector(".producto_id"); // Añade clase .producto_id al hidden si falla el name
+  const inputNombre = fila.querySelector(".producto_nombre");
+  const hiddenProductoId = fila.querySelector(
     `input[name="lines[${lineIdx}][producto]"]`,
   );
-  const lineDiv = document.getElementById("line_idx_" + lineIdx);
-  const nombreInput = lineDiv
-    ? lineDiv.querySelector(".producto_nombre")
-    : null;
-  const codigo = input ? input.value.trim() : "";
 
-  if (codigo === "") {
-    if (hiddenId) hiddenId.value = "";
-    if (nombreInput) nombreInput.value = "";
+  // 2. Manejo del contenedor de resultados
+  let wrapper = inputElement.parentNode; // El div con position: relative
+  let lista = wrapper.querySelector(".autocomplete-items");
+
+  // Si no existe la lista, la creamos
+  if (!lista) {
+    lista = document.createElement("div");
+    lista.className = "autocomplete-items";
+    // Estilos forzados por JS para asegurar visibilidad
+    lista.style.position = "absolute";
+    lista.style.zIndex = "1000";
+    lista.style.width = "100%";
+    wrapper.appendChild(lista);
+  }
+
+  const codigo = inputElement.value.trim();
+
+  // 3. Limpiar si está vacío
+  if (codigo.length === 0) {
+    lista.innerHTML = "";
+    lista.style.display = "none";
     return;
   }
 
-  try {
-    const response = await fetch(
-      APP_URL +
-        "productos/buscarPorCodigo?codigo=" +
-        encodeURIComponent(codigo),
-    );
-    const res = await response.json();
-    if (res.encontrado) {
-      hiddenId.value = res.id;
-      if (nombreInput) nombreInput.value = res.nombre.toUpperCase();
-    } else {
-      hiddenId.value = "";
-      if (nombreInput) nombreInput.value = "";
-      alertas("El producto no existe", "warning");
-      input.value = "";
+  // 4. Debounce (Esperar a que termine de escribir 300ms)
+  clearTimeout(timeoutSearch);
+  timeoutSearch = setTimeout(async () => {
+    try {
+      console.log("Buscando:", codigo); // Para depurar
+
+      const response = await fetch(
+        APP_URL +
+          "productos/buscarPorCodigo?codigo=" +
+          encodeURIComponent(codigo),
+      );
+
+      if (!response.ok) throw new Error("Error de red");
+
+      const productos = await response.json();
+      console.log("Resultados:", productos); // Ver resultados en consola
+
+      lista.innerHTML = "";
+      lista.style.display = "block";
+
+      if (productos.length > 0) {
+        productos.forEach((prod) => {
+          const item = document.createElement("div");
+          item.className = "autocomplete-item";
+          item.style.padding = "8px";
+          item.style.cursor = "pointer";
+          item.style.borderBottom = "1px solid #eee";
+          item.style.backgroundColor = "#fff";
+
+          item.innerHTML = `<b>${prod.codigo}</b> - ${prod.nombre}`;
+
+          // Al hacer click
+          item.onclick = function () {
+            inputElement.value = prod.codigo; // Pone el código
+            if (inputNombre) inputNombre.value = prod.nombre; // Pone el nombre
+            if (hiddenProductoId) hiddenProductoId.value = prod.id; // ID del producto
+
+            // Ojo: el input 'lines[...][id]' suele ser para el ID de la tabla detalle (base de datos),
+            // si es una línea nueva suele ir vacío o con un ID temporal.
+            // Si necesitas el ID del producto ahí también:
+            if (hiddenId) hiddenId.value = prod.id;
+
+            lista.innerHTML = "";
+            lista.style.display = "none";
+          };
+          lista.appendChild(item);
+        });
+      } else {
+        lista.innerHTML =
+          "<div style='padding:8px; color:red;'>No encontrado</div>";
+      }
+    } catch (error) {
+      console.error("Error JS:", error);
     }
-  } catch (error) {
-    console.error("Error al buscar producto:", error);
-  }
+  }, 300); // Retraso de 300ms
 }
+
+// Cerrar listas al hacer click fuera
+document.addEventListener("click", function (e) {
+  if (!e.target.matches(".codigo")) {
+    document
+      .querySelectorAll(".autocomplete-items")
+      .forEach((el) => (el.innerHTML = ""));
+  }
+});
+
+// async function buscarProducto(lineIdx) {
+//   const input = document.querySelector(
+//     `input[name="lines[${lineIdx}][codigo_producto]"]`,
+//   );
+//   const hiddenId = document.querySelector(
+//     `input[name="lines[${lineIdx}][producto]"]`,
+//   );
+//   const lineDiv = document.getElementById("line_idx_" + lineIdx);
+//   const nombreInput = lineDiv
+//     ? lineDiv.querySelector(".producto_nombre")
+//     : null;
+//   const codigo = input ? input.value.trim() : "";
+
+//   if (codigo === "") {
+//     if (hiddenId) hiddenId.value = "";
+//     if (nombreInput) nombreInput.value = "";
+//     return;
+//   }
+
+//   try {
+//     const response = await fetch(
+//       APP_URL +
+//         "productos/buscarPorCodigo?codigo=" +
+//         encodeURIComponent(codigo),
+//     );
+//     const res = await response.json();
+//     if (res.encontrado) {
+//       hiddenId.value = res.id;
+//       if (nombreInput) nombreInput.value = res.nombre.toUpperCase();
+//     } else {
+//       hiddenId.value = "";
+//       if (nombreInput) nombreInput.value = "";
+//       alertas("El producto no existe", "warning");
+//       input.value = "";
+//     }
+//   } catch (error) {
+//     console.error("Error al buscar producto:", error);
+//   }
+// }
+
+// Variables globales de los elementos
+const inputRif = document.getElementById("proveedor_rif");
+const listaResultados = document.getElementById("lista_busqueda_proveedor");
+const hiddenId = document.getElementById("proveedor_id");
+const nombreInput = document.getElementById("proveedor_nombre");
+
+// Escuchar cuando el usuario escribe
+inputRif.addEventListener("input", function () {
+  let valor = this.value;
+
+  // Limpiar lista si está vacío
+  if (!valor) {
+    cerrarLista();
+    limpiarCampos();
+    return;
+  }
+
+  // Petición al servidor
+  fetch(`${APP_URL}proveedores/buscarPorRif?rif=${encodeURIComponent(valor)}`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Limpiamos la lista actual antes de llenarla
+      cerrarLista();
+
+      if (data.length > 0) {
+        // Creamos los elementos de la lista
+        data.forEach((prov) => {
+          // Crear el DIV que simula la opción del select
+          let item = document.createElement("div");
+
+          // Texto que se muestra: RIF - NOMBRE
+          item.innerHTML = `<strong>${prov.rif}</strong> - ${prov.nombre}`;
+
+          // Input oculto para guardar el valor real de este item
+          item.dataset.id = prov.id;
+          item.dataset.rif = prov.rif;
+          item.dataset.nombre = prov.nombre;
+
+          // Evento al hacer click en una opción
+          item.addEventListener("click", function () {
+            // Llenar los campos del formulario
+            inputRif.value = this.dataset.rif;
+            hiddenId.value = this.dataset.id;
+            nombreInput.value = this.dataset.nombre;
+
+            // Cerrar la lista
+            cerrarLista();
+          });
+
+          listaResultados.appendChild(item);
+        });
+        listaResultados.style.display = "block";
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+});
+
+// Función para cerrar la lista
+function cerrarLista() {
+  listaResultados.innerHTML = "";
+  listaResultados.style.display = "none";
+}
+
+// Función para limpiar campos ocultos si el usuario borra el texto
+function limpiarCampos() {
+  hiddenId.value = "";
+  nombreInput.value = "";
+}
+
+// Cerrar la lista si se hace clic fuera del componente
+document.addEventListener("click", function (e) {
+  if (e.target !== inputRif) {
+    cerrarLista();
+  }
+});
 
 async function getListadoProveedor() {
   const response = await fetch(
@@ -162,12 +354,14 @@ function deleteLine(idx) {
 
 // Cuando el usuario hace clic en el botón, abre el modal
 btn.onclick = function () {
-  getListadoProveedor();
+  // getListadoProveedor();
   document.getElementById("title").innerHTML = "Registrar Entrada";
   document.getElementById("btnAccion").innerHTML = "Registrar";
   document.getElementById("id").value = "";
   document.getElementById("codigo").value = "";
-  document.getElementById("proveedor").value = "";
+  document.getElementById("proveedor_id").value = "";
+  document.getElementById("proveedor_rif").value = "";
+  document.getElementById("proveedor_nombre").value = "";
   document.getElementById("tipo_pago").value = "contado";
   document.getElementById("total").value = "0.00";
   modoEdicion = false;
@@ -316,6 +510,9 @@ function hora() {
 }
 
 function limpiarFormulario() {
+  document.getElementById("proveedor_id").value = "";
+  document.getElementById("proveedor_rif").value = "";
+  document.getElementById("proveedor_nombre").value = "";
   document.getElementById("codigo").value = "";
   document.getElementById("total").value = "";
   document.getElementById("tipo_pago").value = "contado";
@@ -327,7 +524,7 @@ formulario.addEventListener("submit", function (e) {
   e.preventDefault();
   let data = {
     id: document.getElementById("id").value || "",
-    proveedor: "",
+    proveedor: document.getElementById("proveedor_id").value || "",
     codigo: "",
     fecha: fecha(),
     hora: hora(),
@@ -339,7 +536,7 @@ formulario.addEventListener("submit", function (e) {
 
   // Selecciona todos los divs que representan una línea de formulario
   const lineasDelFormulario = formulario.querySelectorAll(".input_form");
-  const proveedor = document.getElementById("proveedor");
+  const proveedor = document.getElementById("proveedor_id");
   const codigo = document.getElementById("codigo");
   const total = document.getElementById("total");
 
@@ -354,14 +551,15 @@ formulario.addEventListener("submit", function (e) {
       'input[name*="[precioVenta]"]',
     )?.value;
     const subTotal = lineaDiv.querySelector('input[name*="[subTotal]"]')?.value;
-    if (!id || !producto || !proveedor || !cantidad || !codigo) {
+    if (!id || !producto || !cantidad) {
       console.log(
         "Error, datos nulos",
+        "Id: ",
         id,
+        "Producto: ",
         producto,
-        proveedor,
+        "Cantidad: ",
         cantidad,
-        codigo,
       );
     } else {
       data.lineas.push({

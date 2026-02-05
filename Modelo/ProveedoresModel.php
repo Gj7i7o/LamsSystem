@@ -134,6 +134,14 @@ class proveedoresModel extends query
         return $data;
     }
 
+    /* buscarProveedorPorRif: Busca proveedores activos que coincidan parcialmente */
+    public function buscarProveedorPorRif(string $rif)
+    {
+        $sql = "SELECT id, rif, nombre FROM proveedor WHERE rif LIKE '%$rif%' AND estado = 'activo' LIMIT 10";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+
     /*desProveedor: Hace la consulta SQL que traerá al proveedor que posteriormente cambiará su estado a inactivo*/
     public function desProveedor(int $id)
     {
