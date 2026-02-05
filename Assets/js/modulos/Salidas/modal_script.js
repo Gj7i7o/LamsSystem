@@ -31,6 +31,11 @@ const formLine = ` <div class="input_form" id="line_idx_${idx}">
                     </div>
 
                     <div>
+                        <label for="stock">Stock</label>
+                        <input type="number" class="input_form_input producto_stock" disabled placeholder="Stock">
+                    </div>
+
+                    <div>
                         <label for="cantidad">Cantidad</label>
                         <input type="number" onchange="getSubTotal(${idx})" id="cantidad" name="lines[${idx}][cantidad]" min="1" class="input_form_input" placeholder="1">
                     </div>
@@ -64,6 +69,11 @@ const newFormLine = (index) => `
                         <input type="number" step="0.01" onchange="getSubTotal(${index})" id="precio" name="lines[${index}][precio]" min="0.00" class="input_form_input" placeholder="1.00$">
                     </div>
 
+                    <div>
+                        <label for="stock">Stock</label>
+                        <input type="number" class="input_form_input producto_stock" disabled placeholder="Stock">
+                    </div>
+                    
                     <div>
                         <label for="cantidad">Cantidad</label>
                         <input type="number" onchange="getSubTotal(${index})" id="cantidad" name="lines[${index}][cantidad]" min="1" class="input_form_input" placeholder="1">
@@ -141,6 +151,10 @@ async function buscarProducto(inputElement, lineIdx) {
   const hiddenProductoId = fila.querySelector(
     `input[name="lines[${lineIdx}][producto]"]`,
   );
+  const inputStock = fila.querySelector(".producto_stock");
+  const precioVenta = fila.querySelector(
+    `input[name="lines[${lineIdx}][precio]"]`,
+  );
 
   // 2. Manejo del contenedor de resultados
   let wrapper = inputElement.parentNode; // El div con position: relative
@@ -202,7 +216,8 @@ async function buscarProducto(inputElement, lineIdx) {
             inputElement.value = prod.codigo; // Pone el código
             if (inputNombre) inputNombre.value = prod.nombre; // Pone el nombre
             if (hiddenProductoId) hiddenProductoId.value = prod.id; // ID del producto
-
+            if (inputStock) inputStock.value = prod.cantidad;
+            if (precioVenta) precioVenta.value = prod.precioVenta;
             // Ojo: el input 'lines[...][id]' suele ser para el ID de la tabla detalle (base de datos),
             // si es una línea nueva suele ir vacío o con un ID temporal.
             // Si necesitas el ID del producto ahí también:

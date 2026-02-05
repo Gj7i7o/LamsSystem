@@ -72,11 +72,11 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:<span class="required">*</span></label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" maxlength="15">
+                    <input type="text" id="usuario" name="usuario" placeholder="Ej: UserMax123" maxlength="16" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:<span class="required">*</span></label>
-                    <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" maxlength="15">
+                    <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" maxlength="16" autocomplete="off">
                 </div>
             </div>
             <div class="form-file">
@@ -91,31 +91,31 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" maxlength="50">
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" maxlength="15" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:<span class="required">*</span></label>
-                    <input type="text" id="apellido" name="apellido" placeholder="Ej: López" maxlength="50">
+                    <input type="text" id="apellido" name="apellido" placeholder="Ej: López" maxlength="15" autocomplete="off">
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com">
+                    <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com" maxlength="25" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="telef">Teléfono:</label>
-                    <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" maxlength="15">
+                    <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" maxlength="15" autocomplete="off">
                 </div>
             </div>
             <div class="form-file">
                 <div class="form-group">
                     <label for="contrasena">Contraseña:<span class="required">*</span></label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15" maxlength="16">
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="confirm">Confirmar Contraseña:<span class="required">*</span></label>
-                    <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15" maxlength="16">
+                    <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off">
                 </div>
             </div>
             <div class="modal-footer">

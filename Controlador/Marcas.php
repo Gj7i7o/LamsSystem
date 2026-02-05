@@ -65,7 +65,6 @@ class marcas extends controlador
                 </div>';
                 } else {
                     $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditMarca(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
                 <button class="secure" type="button" onclick="btnActMarca(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }

@@ -38,7 +38,7 @@ include "vista/componentes/header.php";
                             <th data-column="cod_docum" data-order="desc">Documento</th>
                             <th data-column="proveedor" data-order="desc">Proveedor</th>
                             <th data-column="tipo_pago" data-order="desc">Condición</th>
-                            <th data-column="total" data-order="desc">Precio Total</th>
+                            <th data-column="total" data-order="desc" style="text-align: center;">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
                             <th data-column="acciones" data-order="desc">Acciones</th>
@@ -58,7 +58,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal -->
     <div id="modalEntrada" class="modal">
-        <div class="modal-content" style="width: 900px;">
+        <div class="modal-content" style="width: 1300px;">
             <span class="close" title="Cerrar">&times;</span>
 
             <div class="modal-header">
@@ -86,7 +86,7 @@ include "vista/componentes/header.php";
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
                     <h3>Documento:<span class="required">*</span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="15">
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="15" autocomplete="off">
                 </div>
             </div>
 
@@ -120,7 +120,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal Ver Detalle -->
     <div id="modalDetalleEntrada" class="modal">
-        <div class="modal-content" style="width: 900px;">
+        <div class="modal-content" style="width: 1300px;">
             <span class="close-detalle" title="Cerrar">&times;</span>
             <div class="modal-header">
                 <h2>Detalle de Entrada</h2>

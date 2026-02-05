@@ -37,7 +37,7 @@ include "vista/componentes/header.php";
                         <tr>
                             <th data-column="cod_docum" data-order="desc">Documento</th>
                             <th data-column="tipo_despacho" data-order="desc">Tipo Despacho</th>
-                            <th data-column="total" data-order="desc">Precio Total</th>
+                            <th data-column="total" data-order="desc" style="text-align: center;">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
                             <th data-column="acciones" data-order="desc">Acciones</th>
@@ -57,7 +57,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal -->
     <div id="modalSalida" class="modal">
-        <div class="modal-content" style="width: 900px;">
+        <div class="modal-content" style="width: 1300px;">
             <span class="close" title="Cerrar">&times;</span>
 
             <div class="modal-header">
@@ -77,7 +77,7 @@ include "vista/componentes/header.php";
                 <div class="fecha">
                     <h3>Fecha: <span id="fecha"></span></h3>
                     <h3>Documento:<span class="required">*</span></h3>
-                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="15" required>
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Documento" maxlength="15" required autocomplete="off">
                 </div>
             </div>
 
@@ -111,7 +111,7 @@ include "vista/componentes/header.php";
 
     <!-- Modal Ver Detalle -->
     <div id="modalDetalleSalida" class="modal">
-        <div class="modal-content" style="width: 900px;">
+        <div class="modal-content" style="width: 1300px;">
             <span class="close-detalle" title="Cerrar">&times;</span>
             <div class="modal-header">
                 <h2>Detalle de Salida</h2>

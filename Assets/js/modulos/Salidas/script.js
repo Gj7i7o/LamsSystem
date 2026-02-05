@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.cod_docum}</td>
                 <td>${tipoDespachoLabel}</td>
-                <td>${item.total}$</td>
+                <td style="text-align: center;">${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
                 <td>${item.acciones}</td>

@@ -56,7 +56,7 @@ class usuarios extends controlador
                 </div>';
                     }
                 } else {
-                    $data[$i]['acciones'] = '<div>' . $btnEditar . '
+                    $data[$i]['acciones'] = '<div>' . '
                 <button class="secure" type="button" onclick="btnActUsuario(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }

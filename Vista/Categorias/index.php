@@ -41,11 +41,11 @@ include "vista/componentes/header.php";
                 <table id="TablaCategorias">
                     <thead>
                         <tr>
-                            <th data-column="id" data-order="desc">ID</th>
+                            <th data-column="id" data-order="desc" style="text-align: center;">ID</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
                             <th data-column="descrip" data-order="desc">Descripción</th>
-                            <th data-column="estado" data-order="desc">Estado</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="estado" data-order="desc" style="text-align: center;">Estado</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,12 +73,12 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Accesorios" maxlength="20">
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Accesorios" maxlength="20" autocomplete="off">
                 </div>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <input type="text" id="descripcion" name="descripcion" style="padding-bottom: 60px;" placeholder="Ej: Accesorios decorativos para vehículos" maxlength="255">
+                <input type="text" id="descripcion" name="descripcion" style="padding-bottom: 60px;" placeholder="Ej: Accesorios decorativos para vehículos" maxlength="255" autocomplete="off">
             </div>
 
             <div class="modal-footer">

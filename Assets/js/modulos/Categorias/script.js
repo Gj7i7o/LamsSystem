@@ -74,11 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
     paginatedData.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-                <td>${item.id}</td>
+                <td style="text-align: center;">${item.id}</td>
                 <td>${item.nombre}</td>
                 <td>${item.descrip || "-"}</td>
-                <td>${item.estado}</td>
-                <td>${item.acciones}</td>
+                <td style="text-align: center;">${item.estado}</td>
+                <td style="text-align: center;">${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });
@@ -220,7 +220,15 @@ function descargarPDF() {
   const fecha_desde = document.getElementById("fecha_desde")?.value || "";
   const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   window.open(
-    APP_URL + "categorias/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
+    APP_URL +
+      "categorias/reportePDF?estado=" +
+      estado +
+      "&query=" +
+      query +
+      "&fecha_desde=" +
+      fecha_desde +
+      "&fecha_hasta=" +
+      fecha_hasta,
     "_blank",
   );
 }

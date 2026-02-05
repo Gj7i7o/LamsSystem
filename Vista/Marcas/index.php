@@ -41,10 +41,10 @@ include "vista/componentes/header.php";
                 <table id="TablaMarcas">
                     <thead>
                         <tr>
-                            <th data-column="id" data-order="desc">ID</th>
+                            <th data-column="id" data-order="desc" style="text-align: center;">ID</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
-                            <th data-column="estado" data-order="desc">Estado</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="estado" data-order="desc" style="text-align: center;">Estado</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@ include "vista/componentes/header.php";
             <input type="number" id="id" name="id" hidden="true">
             <div class="form-group">
                 <label for="nombre">Nombre:<span class="required">*</span></label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ej: Ford" title="Nombre de la marca" maxlength="15">
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Ford" title="Nombre de la marca" maxlength="15" autocomplete="off">
             </div>
 
             <div class="modal-footer">

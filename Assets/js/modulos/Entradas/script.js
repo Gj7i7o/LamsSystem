@@ -66,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       row.innerHTML = `
                 <td>${item.cod_docum}</td>
-                <td>${item.proveedor || ''}</td>
-                <td>${item.tipo_pago || ''}</td>
-                <td>${item.total}$</td>
+                <td>${item.proveedor || ""}</td>
+                <td>${item.tipo_pago || ""}</td>
+                <td style="text-align: center;">${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
                 <td>${item.acciones}</td>

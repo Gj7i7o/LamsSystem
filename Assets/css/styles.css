@@ -246,8 +246,8 @@ table {
 th, td {
   border: 1px solid #ddd;
   padding: 4px;
-  /* text-align: left; */
-  text-align: center;
+  text-align: left;
+  /* text-align: center; */
 }
 
 th {
