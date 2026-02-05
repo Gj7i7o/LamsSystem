@@ -208,6 +208,12 @@ async function buscarProducto(inputElement, lineIdx) {
             // Si necesitas el ID del producto ahí también:
             if (hiddenId) hiddenId.value = prod.id;
 
+            // Guardar precio y stock para validación
+            productosData[prod.id] = {
+              precio: parseFloat(prod.precioVenta || 0),
+              stock: parseInt(prod.cantidad || 0),
+            };
+
             lista.innerHTML = "";
             lista.style.display = "none";
           };

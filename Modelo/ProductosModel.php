@@ -148,7 +148,7 @@ class productosModel extends query
     /*buscarProductoPorCodigo: Busca productos activos que coincidan parcialmente*/
     public function buscarProductoPorCodigo(string $codigo)
     {
-        $sql = "SELECT id, codigo, nombre, precioVenta FROM producto WHERE codigo LIKE '%$codigo%' AND estado = 'activo' LIMIT 10";
+        $sql = "SELECT id, codigo, nombre, precioVenta, cantidad FROM producto WHERE codigo LIKE '%$codigo%' AND estado = 'activo' LIMIT 10";
         $data = $this->selectAll($sql);
         return $data;
     }
