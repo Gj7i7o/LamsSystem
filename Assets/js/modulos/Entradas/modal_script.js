@@ -85,6 +85,8 @@ const newFormLine = (index) => `
 
 // Variable global para evitar múltiples peticiones seguidas (Debounce)
 let timeoutSearch = null;
+// Línea activa para asignar el producto recién creado
+let lineaActivaParaProducto = null;
 
 async function buscarProducto(inputElement, lineIdx) {
   // 1. Identificar elementos RELATIVOS a la línea (Más seguro)
@@ -176,8 +178,19 @@ async function buscarProducto(inputElement, lineIdx) {
           lista.appendChild(item);
         });
       } else {
-        lista.innerHTML =
-          "<div style='padding:8px; color:red;'>No encontrado</div>";
+        const noEncontrado = document.createElement("div");
+        noEncontrado.style.padding = "8px";
+        noEncontrado.style.cursor = "pointer";
+        noEncontrado.style.color = "#d33";
+        noEncontrado.style.backgroundColor = "#fff";
+        noEncontrado.style.borderBottom = "1px solid #eee";
+        noEncontrado.innerHTML = `<i class="fas fa-exclamation-triangle"></i> "<b>${codigo}</b>" no encontrado - Click para registrar`;
+        noEncontrado.onclick = function () {
+          lista.innerHTML = "";
+          lista.style.display = "none";
+          mostrarModalProductoNoExiste(codigo, lineIdx);
+        };
+        lista.appendChild(noEncontrado);
       }
     } catch (error) {
       console.error("Error JS:", error);
@@ -692,5 +705,143 @@ function getTotal() {
   const total = document.getElementById("total");
   if (total) {
     total.value = totalGeneral.toFixed(2);
+  }
+}
+
+// === Flujo de producto no existente ===
+
+function mostrarModalProductoNoExiste(codigoBuscado, lineIdx) {
+  Swal.fire({
+    title: "Producto no encontrado",
+    text: `El producto con código "${codigoBuscado}" no existe. ¿Desea registrarlo?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Registrar producto",
+    cancelButtonText: "Cerrar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      lineaActivaParaProducto = lineIdx;
+      abrirModalNuevoProducto(codigoBuscado);
+    }
+  });
+}
+
+async function cargarCategoriasNP() {
+  const response = await fetch(APP_URL + "categorias/getSelect");
+  const { data: opciones } = await response.json();
+  const select = document.getElementById("np_categoria");
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
+  opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
+    opcionesHtml += `<option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>`;
+  });
+  select.innerHTML = opcionesHtml;
+}
+
+async function cargarMarcasNP() {
+  const response = await fetch(APP_URL + "marcas/getSelect");
+  const { data: opciones } = await response.json();
+  const select = document.getElementById("np_marca");
+  let opcionesHtml = `<option value="">Seleccione...</option>`;
+  opciones.forEach((opcion) => {
+    const titleText = opcion.etiquetaCompleta || opcion.etiqueta;
+    opcionesHtml += `<option value="${opcion.id}" title="${titleText}">${opcion.etiqueta}</option>`;
+  });
+  select.innerHTML = opcionesHtml;
+}
+
+function abrirModalNuevoProducto(codigoPrellenado) {
+  // Cargar selects
+  cargarCategoriasNP();
+  cargarMarcasNP();
+
+  // Limpiar formulario
+  document.getElementById("formularioNuevoProducto").reset();
+
+  // Pre-llenar el código buscado
+  document.getElementById("np_codigo").value = codigoPrellenado || "";
+
+  // Mostrar modal
+  document.getElementById("modalNuevoProducto").style.display = "block";
+}
+
+// Cerrar modal de nuevo producto
+const spanNuevoProducto = document.querySelector(".close-nuevo-producto");
+if (spanNuevoProducto) {
+  spanNuevoProducto.onclick = function () {
+    document.getElementById("modalNuevoProducto").style.display = "none";
+  };
+}
+
+// Envío del formulario de nuevo producto
+const formularioNuevoProducto = document.getElementById("formularioNuevoProducto");
+formularioNuevoProducto.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const codigo = document.getElementById("np_codigo").value.trim();
+  const nombre = document.getElementById("np_nombre").value.trim();
+  const precioVenta = document.getElementById("np_precioVenta").value;
+  const categoria = document.getElementById("np_categoria").value;
+  const marca = document.getElementById("np_marca").value;
+
+  if (!codigo || !nombre || !precioVenta || !categoria || !marca) {
+    alertas("Todos los campos obligatorios deben estar completos", "warning");
+    return;
+  }
+
+  const url = APP_URL + "productos/registrar";
+  const http = new XMLHttpRequest();
+  http.open("POST", url, true);
+  http.send(new FormData(formularioNuevoProducto));
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      if (res.icono !== "success") {
+        alertas(res.msg, res.icono);
+      } else {
+        alertas(res.msg, res.icono);
+        document.getElementById("modalNuevoProducto").style.display = "none";
+
+        // Buscar el producto recién creado para obtener su ID y asignarlo a la línea
+        if (lineaActivaParaProducto !== null) {
+          asignarProductoRecienCreado(codigo, nombre, lineaActivaParaProducto);
+        }
+      }
+    }
+  };
+});
+
+async function asignarProductoRecienCreado(codigo, nombre, lineIdx) {
+  try {
+    const response = await fetch(
+      APP_URL + "productos/buscarPorCodigo?codigo=" + encodeURIComponent(codigo),
+    );
+    const productos = await response.json();
+
+    // Buscar coincidencia exacta por código
+    const producto = productos.find(
+      (p) => p.codigo.toLowerCase() === codigo.toLowerCase(),
+    );
+
+    if (producto) {
+      const fila = document.getElementById(`line_idx_${lineIdx}`);
+      if (fila) {
+        const inputCodigo = fila.querySelector(`input[name="lines[${lineIdx}][codigo]"]`);
+        const inputNombre = fila.querySelector(".producto_nombre");
+        const hiddenProductoId = fila.querySelector(`input[name="lines[${lineIdx}][producto]"]`);
+        const hiddenId = fila.querySelector(`input[name="lines[${lineIdx}][id]"]`);
+
+        if (inputCodigo) inputCodigo.value = producto.codigo;
+        if (inputNombre) inputNombre.value = producto.nombre;
+        if (hiddenProductoId) hiddenProductoId.value = producto.id;
+        if (hiddenId) hiddenId.value = producto.id;
+      }
+    }
+  } catch (error) {
+    console.error("Error al asignar producto recién creado:", error);
+  } finally {
+    lineaActivaParaProducto = null;
   }
 }
