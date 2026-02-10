@@ -44,11 +44,11 @@ function btnEditUsuario(id) {
       document.getElementById("id").value = res.id;
       document.getElementById("ci").value = res.ci || "";
       document.getElementById("usuario").value = res.usuario;
+      document.getElementById("rango").value = res.rango || "";
       document.getElementById("nombre").value = res.nombre || "";
       document.getElementById("apellido").value = res.apellido || "";
       document.getElementById("correo").value = res.correo || "";
       document.getElementById("telef").value = res.telef || "";
-      document.getElementById("rango").value = res.rango || "";
       modal.style.display = "block";
     }
   };
@@ -70,7 +70,7 @@ formularioUsuario.addEventListener("submit", function (event) {
   let pass =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/;
   let email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  let phone = /^(0412|0416|0414|0424|0426)[0-9]{7}$/;
+  let phone = /^(0412|0414|0416|0424|0426)[-]\d{7}$/;
   if (
     ci.value == "" ||
     usuario.value == "" ||
@@ -80,16 +80,16 @@ formularioUsuario.addEventListener("submit", function (event) {
     alertas("Todos los campos son obligatorios", "warning");
   } else if (contrasena.value != confirm.value) {
     alertas("Las contraseñas no coinciden", "warning");
-  } else if (letras.test(nombre)) {
+  } else if (!letras.test(nombre.value)) {
     alertas("No agregue caracteres indevidos en su nombre", "warning");
-  } else if (letras.test(apellido)) {
+  } else if (!letras.test(apellido.value)) {
     alertas("No agregue caracteres indevidos en su apellido", "warning");
-  } else if (pass.test(contrasena)) {
-    alertas("La contraseña NO cumple con las especificaciones", "warning");
-    // } else if (email.test(correo)) {
-    //   alertas("Escriba correctamente el correo", "warning");
-    // } else if (phone.test(telef)) {
-    //   alertas("Escriba correctamente su número", "warning");
+  } else if (contrasena.value !== "" && !pass.test(contrasena.value)) {
+    alertas("La contraseña no cumple con las especificaciones", "warning");
+  } else if (correo.value !== "" && !email.test(correo.value)) {
+    alertas("Escriba correctamente el correo", "warning");
+  } else if (telef.value !== "" && !phone.test(telef.value)) {
+    alertas("Escriba correctamente su número", "warning");
   } else {
     const esEdicion = document.getElementById("id").value !== "";
     const enviarFormulario = () => {

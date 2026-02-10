@@ -74,13 +74,14 @@ include "vista/componentes/header.php";
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej: Accesorios" maxlength="20" autocomplete="off">
+                    <p class="ejemplo">Caracteres indevidos: *,."/-_...</p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
                 <input type="text" id="descripcion" name="descripcion" style="padding-bottom: 60px;" placeholder="Ej: Accesorios decorativos para vehículos" maxlength="255" autocomplete="off">
             </div>
-
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

@@ -120,7 +120,6 @@ class productos extends controlador
         if (
             empty($codigo) ||
             empty($nombre) ||
-            empty($precioVenta) ||
             empty($categoria) ||
             empty($marca)
         ) {

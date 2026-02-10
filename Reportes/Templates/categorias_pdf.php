@@ -11,6 +11,12 @@
             box-sizing: border-box;
         }
 
+        .logo-reporte {
+            width: 90px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -132,6 +138,7 @@
     </div>
 
     <div class="header">
+        <img src="<?php echo APP_URL; ?>assets/img/logo.png" class="logo-reporte">
         <h1>REPORTE DE CATEGORIAS</h1>
         <p>LamsSystem - Sistema de Gestion de Inventario</p>
     </div>
@@ -139,6 +146,9 @@
     <div class="info">
         <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y h:i:s'); ?></p>
         <p><strong>Total de registros:</strong> <?php echo count($categorias); ?></p>
+        <?php if (!empty($filtro_estado)): ?>
+            <p><strong>Estado:</strong> <?php echo ucfirst($filtro_estado); ?></p>
+        <?php endif; ?>
         <?php if (!empty($filtro_fecha_desde) || !empty($filtro_fecha_hasta)): ?>
             <p><strong>Rango de fecha:</strong>
                 <?php echo !empty($filtro_fecha_desde) ? $filtro_fecha_desde : 'Inicio'; ?> -

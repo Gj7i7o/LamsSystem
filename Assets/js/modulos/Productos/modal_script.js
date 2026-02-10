@@ -98,7 +98,6 @@ formularioProducto.addEventListener("submit", function (event) {
   if (
     codigo.value == "" ||
     nombre.value == "" ||
-    precioVenta.value == "" ||
     categoria.value == "" ||
     marca.value == ""
   ) {

@@ -44,7 +44,7 @@ include "vista/componentes/header.php";
                             <th data-column="usuario" data-order="desc">Usuario</th>
                             <th data-column="rango" data-order="desc">Rango</th>
                             <th data-column="estado" data-order="desc">Estado</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +69,7 @@ include "vista/componentes/header.php";
         </div>
         <form id="formularioUsuario" class="form" method="POST">
             <input type="number" id="id" name="id" hidden="true">
+
             <div class="form-file">
                 <div class="form-group">
                     <label for="usuario">Usuario:<span class="required">*</span></label>
@@ -76,9 +77,11 @@ include "vista/componentes/header.php";
                 </div>
                 <div class="form-group">
                     <label for="ci">CI:<span class="required">*</span></label>
-                    <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" maxlength="16" autocomplete="off">
+                    <input type="text" id="ci" name="ci" placeholder="Ej: 30333222" maxlength="8" autocomplete="off">
+                    <p class="ejemplo">Formato de Cédula: 30333929</p>
                 </div>
             </div>
+
             <div class="form-file">
                 <div class="form-group">
                     <label for="rango">Rol:<span class="required">*</span></label>
@@ -88,36 +91,47 @@ include "vista/componentes/header.php";
                     </select>
                 </div>
             </div>
+
             <div class="form-file">
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" maxlength="15" autocomplete="off">
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Pedro" maxlength="10" autocomplete="off">
+                    <p class="ejemplo">Caracteres indevidos: *,."/-_...</p>
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:<span class="required">*</span></label>
-                    <input type="text" id="apellido" name="apellido" placeholder="Ej: López" maxlength="15" autocomplete="off">
+                    <input type="text" id="apellido" name="apellido" placeholder="Ej: López" maxlength="10" autocomplete="off">
+                    <p class="ejemplo">Caracteres indevidos: *,."/-_...</p>
                 </div>
             </div>
+
             <div class="form-file">
                 <div class="form-group">
                     <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com" maxlength="25" autocomplete="off">
+                    <input type="email" id="correo" name="correo" placeholder="Ej: correoreal@gmail.com" maxlength="25" autocomplete="off" style="text-transform: none;">
+                    <p class="ejemplo">Formato de Correo: @gmail.com</p>
                 </div>
                 <div class="form-group">
                     <label for="telef">Teléfono:</label>
-                    <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" maxlength="15" autocomplete="off">
+                    <input type="text" id="telef" name="telef" placeholder="Ej: 0414-1234567" maxlength="12" autocomplete="off">
+                    <p class="ejemplo">Formato de teléfono: 0412-, 0414-, 0416-, 0424-, 0426-</p>
                 </div>
             </div>
+
             <div class="form-file">
                 <div class="form-group">
                     <label for="contrasena">Contraseña:<span class="required">*</span></label>
-                    <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off">
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off" style="text-transform: none;">
+                    <p class="ejemplo">Caracteres obligatorios: *_?</p>
                 </div>
                 <div class="form-group">
                     <label for="confirm">Confirmar Contraseña:<span class="required">*</span></label>
-                    <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off">
+                    <input type="password" id="confirm" name="confirm" placeholder="Ej: Pedro*15" maxlength="16" autocomplete="off" style="text-transform: none;">
+                    <p class="ejemplo">Mínimo una mayúscula y minúscula</p>
                 </div>
             </div>
+
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

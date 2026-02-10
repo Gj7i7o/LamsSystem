@@ -19,11 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Función para obtener los datos del servidor
   async function fetchDataAndRenderTable() {
     try {
+      let estado = document.getElementById("estado");
       let query = document.getElementById("query");
       let fecha_desde = document.getElementById("fecha_desde");
       let fecha_hasta = document.getElementById("fecha_hasta");
       const params = new URLSearchParams({
         page: currentPage,
+        estado: estado?.value || "activo",
         query: query?.value || "",
         fecha_desde: fecha_desde?.value || "",
         fecha_hasta: fecha_hasta?.value || "",
@@ -80,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td style="text-align: center;">${item.total}$</td>
                 <td>${item.fecha}</td>
                 <td>${item.hora}</td>
-                <td>${item.acciones}</td>
+                <td style="text-align: center;">${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });
@@ -146,6 +148,60 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. Llama a la función para iniciar el proceso
   fetchDataAndRenderTable();
 });
+
+/*Botón para desactivar salidas*/
+function btnDesSalida(id) {
+  Swal.fire({
+    title: "Está seguro de desactivar la salida?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "salidas/desactivar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+          recargarVista();
+        }
+      };
+    }
+  });
+}
+
+/*Botón para activar entradas*/
+function btnActSalida(id) {
+  Swal.fire({
+    title: "Activar salida?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = APP_URL + "salidas/activar/" + id;
+      const http = new XMLHttpRequest();
+      http.open("GET", url, true);
+      http.send();
+      http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          alertas(res.msg, res.icono);
+          recargarVista();
+        }
+      };
+    }
+  });
+}
 
 /*Función para filtrar por búsqueda*/
 function setfilter() {

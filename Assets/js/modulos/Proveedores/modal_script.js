@@ -57,11 +57,19 @@ formularioProveedor.addEventListener("submit", function (event) {
   const rif = document.getElementById("rif");
   const nombre = document.getElementById("nombre");
   const direccion = document.getElementById("direccion");
-  let regexrif = /^([JGVPEjgvpe])[-]([0-9]{7,9})$/;
+  const telef = document.getElementById("telefono");
+  const persona_contacto = document.getElementById("persona_contacto");
+  let regextelef = /^(0412|0414|0416|0424|0426)[-]\d{7}$/;
+  let regexrif = /^([JGVPECjgvpec])[-]([0-9]{7,9})$/;
+  let regexpersona = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
   if (rif.value == "" || nombre.value == "" || direccion.value == "") {
     alertas("Todos los campos obligatorios deben ser completados", "warning");
   } else if (!regexrif.test(rif.value)) {
     alertas("Escriba correctamente el rif (Ej: J-123456789)", "warning");
+  } else if (telef.value !== "" && !regextelef.test(telef.value)) {
+    alertas("Escriba correctamente su número", "warning");
+  } else if (!regexpersona.test(persona_contacto.value)) {
+    alertas("No agregue caracteres indevidos en su nombre", "warning");
   } else {
     const esEdicion = document.getElementById("id").value !== "";
     const enviarFormulario = () => {

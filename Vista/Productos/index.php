@@ -88,7 +88,7 @@ include "vista/componentes/header.php";
 
             <div class="form-file">
                 <div class="form-group">
-                    <label for="precioVenta">Precio Venta $:<span class="required">*</span></label>
+                    <label for="precioVenta">Precio Venta $:</label>
                     <input type="number" id="precioVenta" name="precioVenta" placeholder="Ej: 15" step="0.01" min="0" autocomplete="off">
                 </div>
                 <div class="form-group">
@@ -117,7 +117,7 @@ include "vista/componentes/header.php";
                     </select>
                 </div>
             </div>
-
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

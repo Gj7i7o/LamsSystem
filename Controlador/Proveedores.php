@@ -108,12 +108,15 @@ class proveedores extends controlador
         $persona_contacto = $_POST['persona_contacto'] ?? '';
         $id = $_POST['id'];
         $codigo = "/^[JGVEP][-][0-9]{7,9}+$/";
+        $phone = "/^(0412|0414|0416|0424|0426)[-]\d{7}$/";
         if (empty($nombre) || empty($rif) || empty($direccion)) {
             $msg = array('msg' => 'Todos los campos obligatorios deben ser completados', 'icono' => 'warning');
         } else {
             if ($id == "") {
                 if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
+                } else if (!preg_match($phone, $telefono) && $telefono != "") {
+                    $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
                     /*Tras las validaciones, si el proveedor no existe, se interpreta como uno nuevo, por ende
                     lleva los datos a la función regisProveedor en el modelo/proveedoresModel.php*/
@@ -130,6 +133,8 @@ class proveedores extends controlador
             } else {
                 if (!preg_match($codigo, $rif)) {
                     $msg = array('msg' => 'Introduzca el rif correctamente', 'icono' => 'warning');
+                } else if (!preg_match($phone, $telefono) && $telefono != "") {
+                    $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
                     /*Caso contrario, si el proveedor existe, se interpreta que se desea modificar ese proveedor,
                 por ende lleva los datos a la función modifProveedor en el modelo/proveedoresModel.php*/
@@ -200,6 +205,7 @@ class proveedores extends controlador
         $pdf = new pdfGenerator();
         $pdf->cargarVista('proveedores_pdf', [
             'proveedores' => $proveedores,
+            'filtro_estado' => $estado,
             'filtro_fecha_desde' => $fecha_desde,
             'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Proveedores_' . date('Y-m-d') . '.pdf');

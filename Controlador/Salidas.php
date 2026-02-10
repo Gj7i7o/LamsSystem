@@ -30,18 +30,41 @@ class salidas extends controlador
     {
         try {
             $page = $_GET["page"] ?? 0;
+            $estado = $_GET["estado"] ?? "activo";
             $query = $_GET["query"] ?? "";
             $fecha_desde = $_GET["fecha_desde"] ?? "";
             $fecha_hasta = $_GET["fecha_hasta"] ?? "";
-            $params = ['page' => $page, 'query' => $query, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
+            $params = ['page' => $page, 'query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
             $data = $this->model->tomarSalida($params);
             $total = $this->model->getCount($params);
-
-            // Agregar botones de acción a cada registro
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['acciones'] = '<div>
-                    <button class="secure" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+            if ($_SESSION['rango'] == "administrador") {
+                // Agregar botones de acción de visualizar y cambiar estado si cumple con el rango
+                for ($i = 0; $i < count($data); $i++) {
+                    if ($data[$i]['estado'] == 'activo') {
+                        $data[$i]['acciones'] = '<div>
+                <button class="ver" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+                <button class="warning" type="button" onclick="btnDesSalida(' . $data[$i]['id'] . ');" title="Desactivar"><i class="fa-solid fa-xmark"></i></button>
                 </div>';
+                    } else {
+                        $data[$i]['acciones'] = '<div>
+                <button class="ver" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+                <button class="secure" type="button" onclick="btnActSalida(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
+                </div>';
+                    }
+                }
+            } else {
+                // Vista si el usuario no es administrador. No podrá activar ni desactivar entradas, pero si verlas
+                for ($i = 0; $i < count($data); $i++) {
+                    if ($data[$i]['estado'] == 'activo') {
+                        $data[$i]['acciones'] = '<div>
+                <button class="ver" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+                </div>';
+                    } else {
+                        $data[$i]['acciones'] = '<div>
+                <button class="ver" type="button" onclick="btnVerDetalleSalida(' . $data[$i]['id'] . ');" title="Ver Detalle"><i class="fa-solid fa-eye"></i></button>
+                </div>';
+                    }
+                }
             }
 
             echo json_encode(["data" => $data, "total" => $total], JSON_UNESCAPED_UNICODE);
@@ -237,20 +260,51 @@ class salidas extends controlador
         die();
     }
 
+    /*desactivar: Envía a la función desSalida del modelo/salidasModel.php con el id correspondiente*/
+    public function desactivar(int $id)
+    {
+        $data = $this->model->desSalida($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al desactivar la salida', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Salida desactivada y stock ajustado', 'icono' => 'success');
+            $this->model->revertirStockSalidaSumar($id);
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Salidas', 'desactivar', "Desactivó salida ID: $id");
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    /*activar: Envía a la función actSalida del modelo/salidasModel.php con el id correspondiente*/
+    public function activar(int $id)
+    {
+        $data = $this->model->actSalida($id);
+        if ($data == 1) {
+            $msg = array('msg' => 'Error al activar la salida', 'icono' => 'error');
+        } else {
+            $msg = array('msg' => 'Salida activada y stock ajustado', 'icono' => 'success');
+            $this->model->revertirStockSalidaRestar($id);
+            $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Salidas', 'activar', "Activó salida ID: $id");
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     /*reportePDF: Genera un reporte PDF listado de todas las salidas con sus líneas*/
     public function reportePDF()
     {
         require_once "config/app/PdfGenerator.php";
-
+        $estado = $_GET["estado"] ?? "todo";
         $query = $_GET["query"] ?? "";
         $fecha_desde = $_GET["fecha_desde"] ?? "";
         $fecha_hasta = $_GET["fecha_hasta"] ?? "";
-        $params = ['query' => $query, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
+        $params = ['query' => $query, 'estado' => $estado, 'fecha_desde' => $fecha_desde, 'fecha_hasta' => $fecha_hasta];
         $salidas = $this->model->tomarSalidasReporte($params);
 
         $pdf = new pdfGenerator();
         $pdf->cargarVista('salida_pdf', [
             'salidas' => $salidas,
+            'filtro_estado' => $estado,
             'filtro_fecha_desde' => $fecha_desde,
             'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Salidas.pdf');

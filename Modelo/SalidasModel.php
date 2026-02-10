@@ -10,9 +10,12 @@ class salidasModel extends query
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $fecha_desde = '', string $fecha_hasta = ''): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "s.estado = '$estado'";
+        }
         if (!empty($value)) {
             $conditions[] = "(s.cod_docum LIKE '%$value%' OR s.total LIKE '%$value%' OR s.tipo_despacho LIKE '%$value%' OR EXISTS (SELECT 1 FROM salidaproducto sp2 INNER JOIN producto pr2 ON sp2.idproducto = pr2.id WHERE sp2.idsalida = s.id AND (pr2.nombre LIKE '%$value%' OR pr2.codigo LIKE '%$value%')))";
         }
@@ -30,7 +33,7 @@ class salidasModel extends query
     {
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT s.id FROM salida s $filters";
         $data = $this->selectAll($sql);
         return count($data);
@@ -42,9 +45,9 @@ class salidasModel extends query
         $offset = ($params["page"] - 1) * 10;
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = $params["page"] <= 0 ? "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho FROM salida s $filters ORDER BY s.id DESC" :
-            "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho FROM salida s $filters ORDER BY s.id DESC LIMIT 10 OFFSET $offset";
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
+        $sql = $params["page"] <= 0 ? "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho, s.estado FROM salida s $filters ORDER BY s.id DESC" :
+            "SELECT s.id, s.cod_docum, s.total, s.fecha, s.hora, s.tipo_despacho, s.estado FROM salida s $filters ORDER BY s.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -130,12 +133,31 @@ class salidasModel extends query
         return $this->selectAll($sql);
     }
 
-    /*revertirStockSalida: Suma al stock las cantidades de una salida (para edición - devolver al inventario)*/
-    public function revertirStockSalida(int $id_salida)
+    /*salidaStock: Obtiene la cantidad de cada linea de producto*/
+    public function salidaStock(int $id)
     {
-        $detalles = $this->obtenerDetalleSalida($id_salida);
+        $sql = "SELECT cantidad, idproducto FROM salidaproducto WHERE idsalida = $id";
+        return $this->selectAll($sql);
+    }
+
+    /*revertirStockSalidaSumar: Suma al stock las cantidades de una salida*/
+    public function revertirStockSalidaSumar(int $id_salida)
+    {
+        $detalles = $this->salidaStock($id_salida);
         foreach ($detalles as $detalle) {
             $sql = "UPDATE producto SET cantidad = cantidad + ? WHERE id = ?";
+            $datos = array($detalle['cantidad'], $detalle['idproducto']);
+            $this->save($sql, $datos);
+        }
+        return true;
+    }
+
+    /*revertirStockSalidaRestar: Resta al stock las cantidades de una salida*/
+    public function revertirStockSalidaRestar(int $id)
+    {
+        $detalles = $this->salidaStock($id);
+        foreach ($detalles as $detalle) {
+            $sql = "UPDATE producto SET cantidad = cantidad - ? WHERE id = ?";
             $datos = array($detalle['cantidad'], $detalle['idproducto']);
             $this->save($sql, $datos);
         }
@@ -164,6 +186,22 @@ class salidasModel extends query
         } else {
             return "existe";
         }
+    }
+
+    /*desSalida: Hace la consulta SQL que traerá la salida acorde al id, y le cambia su estado a inactivo*/
+    public function desSalida(int $id)
+    {
+        $sql = "UPDATE salida SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*actSalida: Hace la consulta SQL que traerá la salida que posteriormente se cambiará su estado a activo*/
+    public function actSalida(int $id)
+    {
+        $sql = "UPDATE salida SET estado = 'activo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
     }
 
     /*tomarSalidasReporte: Obtiene todas las líneas de salidas con datos de cabecera para reportes*/

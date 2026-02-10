@@ -120,7 +120,7 @@ class usuariosModel extends query
     }
 
     /*modifUsuario: Modifica el usuario seleccionado acorde al id*/
-    public function modifUsuario(string $ci, string $usuario, string $nombre, string $apellido, string $correo, string $telef, string $rango, int $id)
+    public function modifUsuario(string $ci, string $usuario, string $rango, string $nombre, string $apellido, string $correo, string $telef, int $id)
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
@@ -132,7 +132,7 @@ class usuariosModel extends query
         $this->id = $id;
         $verificarUsuario = "SELECT * FROM usuario WHERE usuario = '$this->usuario' AND id != '$this->id'";
         $existeUsuario = $this->select($verificarUsuario);
-        $verificarPersona = "SELECT * FROM persona WHERE ci = '$this->ci' AND id != '$this->id'";
+        $verificarPersona = "SELECT * FROM persona WHERE ci = '$this->ci'";
         $existePersona = $this->select($verificarPersona);
         if (empty($existeUsuario) || empty($existePersona)) {
             // Actualizar tabla usuario
@@ -141,8 +141,8 @@ class usuariosModel extends query
             $dataUsuario = $this->save($sqlUsuario, $datosUsuario);
 
             // Actualizar tabla persona
-            $sqlPersona = "UPDATE persona SET nombre = ?, apellido = ?, correo = ?, telef = ? WHERE idusuario = ?";
-            $datosPersona = array($this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
+            $sqlPersona = "UPDATE persona SET ci = ?, nombre = ?, apellido = ?, correo = ?, telef = ? WHERE idusuario = ?";
+            $datosPersona = array($this->ci, $this->nombre, $this->apellido, $this->correo, $this->telef, $this->id);
             $dataPersona = $this->save($sqlPersona, $datosPersona);
 
             if ($dataUsuario == 1 || $dataPersona == 1) {

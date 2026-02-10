@@ -11,13 +11,6 @@ class categoriasModel extends query
         parent::__construct();
     }
 
-    // public function getCountIn()
-    // {
-    //     $sql = "SELECT * FROM categoria WHERE estado = 'inactivo'";
-    //     $data = $this->selectAll($sql);
-    //     return count($data);
-    // }
-
     public function getCount(array $params)
     {
         $fecha_desde = $params["fecha_desde"] ?? '';
@@ -46,15 +39,6 @@ class categoriasModel extends query
         $filter = count($conditions) > 0 ? "WHERE " . implode(" AND ", $conditions) : "";
         return $filter;
     }
-
-    /*tomarCategoriaIn: Toma todas las categorías de la base de datos que tengan el estado inactivo*/
-    // public function tomarCategoriasIn(int $page = 0)
-    // {
-    //     $offset = ($page - 1) * 5;
-    //     $sql = $page <= 0 ? "SELECT * FROM categoria WHERE estado = 'inactivo'" : "SELECT * FROM categoria WHERE estado = 'inactivo' LIMIT 5 OFFSET $offset";
-    //     $data = $this->selectAll($sql);
-    //     return $data;
-    // }
 
     /*tomarCategoriasAc: Toma todas las categorías activas (para selects)*/
     public function tomarCategoriasAc()

@@ -151,7 +151,7 @@ footer {
 }
 
 .main-text{
-  font-size: 17px;
+  font-size: 23px;
   padding-top: 10px;
 }
 
@@ -382,8 +382,24 @@ tr:nth-child(even) {
   background: rgb(253, 17, 17);
 }
 
+.ver {
+  background: rgb(113, 61, 202);
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.ver:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+  background: rgb(67, 13, 160);
+}
+
 .secure {
-  background: rgb(21, 139, 44);
+  background: rgb(22, 126, 72);
   color: #fff;
   padding: 7px 15px;
   border-radius: 10px;
@@ -395,7 +411,7 @@ tr:nth-child(even) {
 .secure:hover {
   transition: 0.5s;
   transform: scale(1.1);
-  background: rgb(55, 183, 81);
+  background: rgb(18, 100, 58);
 }
 
 /* Botón de cerrar (la X en los modales) */
@@ -544,6 +560,13 @@ tr:nth-child(even) {
   border-color: #155DFC; /* Azul del sistema */
   box-shadow: 0 0 0 4px rgba(21, 93, 252, 0.1); /* Resplandor suave */
   outline: none;
+}
+
+/* Texto de indicación de caracteres indevidos o ejemplos */
+.ejemplo {
+  font-size: 15px;
+  padding-left: 10px;
+  color: red;
 }
 
 /* Contenedor para alinear los datos inferiores */

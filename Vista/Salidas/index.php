@@ -18,6 +18,12 @@ include "vista/componentes/header.php";
                     <!-- Botón de registrar -->
                     <button class="button" type="button" id="registrarSalida" title="Crear nueva salida"><i class="fas fa-plus"></i></button>
                     <button class="primary" type="button" onclick="descargarPDF();" title="Generar Reporte PDF"><i class="fas fa-file-pdf"></i></button>
+                    <label for="estado">Estado: </label>
+                    <select name="estado" id="estado" onchange="setfilter()">
+                        <option value="activo">Activos</option>
+                        <option value="inactivo">Inactivos</option>
+                        <option value="todo">Todos</option>
+                    </select>
                 </div>
                 <div class="buscador">
                     <i class="fa-solid fa-magnifying-glass">
@@ -40,7 +46,7 @@ include "vista/componentes/header.php";
                             <th data-column="total" data-order="desc" style="text-align: center;">Precio Total</th>
                             <th data-column="fecha" data-order="desc">Fecha</th>
                             <th data-column="hora" data-order="desc">Hora</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,7 +103,7 @@ include "vista/componentes/header.php";
                         <input type="number" step="0.01" min="0.00" id="total" value="0.00" name="total" disabled onchange="getTotal()">
                     </div>
                 </div>
-
+                <p class="ejemplo">*: Campos obligatorios</p>
                 <div class="modal-footer">
                     <button class="button" type="button" id="addLine" title="Añadir línea de salida"><i class="fas fa-plus"></i></button>
                     <button type="submit" id="btnAccion" class="btn-submit">

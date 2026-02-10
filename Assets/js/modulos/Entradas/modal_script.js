@@ -776,7 +776,9 @@ if (spanNuevoProducto) {
 }
 
 // Envío del formulario de nuevo producto
-const formularioNuevoProducto = document.getElementById("formularioNuevoProducto");
+const formularioNuevoProducto = document.getElementById(
+  "formularioNuevoProducto",
+);
 formularioNuevoProducto.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -816,7 +818,9 @@ formularioNuevoProducto.addEventListener("submit", function (e) {
 async function asignarProductoRecienCreado(codigo, nombre, lineIdx) {
   try {
     const response = await fetch(
-      APP_URL + "productos/buscarPorCodigo?codigo=" + encodeURIComponent(codigo),
+      APP_URL +
+        "productos/buscarPorCodigo?codigo=" +
+        encodeURIComponent(codigo),
     );
     const productos = await response.json();
 
@@ -828,10 +832,16 @@ async function asignarProductoRecienCreado(codigo, nombre, lineIdx) {
     if (producto) {
       const fila = document.getElementById(`line_idx_${lineIdx}`);
       if (fila) {
-        const inputCodigo = fila.querySelector(`input[name="lines[${lineIdx}][codigo]"]`);
+        const inputCodigo = fila.querySelector(
+          `input[name="lines[${lineIdx}][codigo]"]`,
+        );
         const inputNombre = fila.querySelector(".producto_nombre");
-        const hiddenProductoId = fila.querySelector(`input[name="lines[${lineIdx}][producto]"]`);
-        const hiddenId = fila.querySelector(`input[name="lines[${lineIdx}][id]"]`);
+        const hiddenProductoId = fila.querySelector(
+          `input[name="lines[${lineIdx}][producto]"]`,
+        );
+        const hiddenId = fila.querySelector(
+          `input[name="lines[${lineIdx}][id]"]`,
+        );
 
         if (inputCodigo) inputCodigo.value = producto.codigo;
         if (inputNombre) inputNombre.value = producto.nombre;

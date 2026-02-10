@@ -73,8 +73,9 @@ include "vista/componentes/header.php";
             <div class="form-group">
                 <label for="nombre">Nombre:<span class="required">*</span></label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ej: Ford" title="Nombre de la marca" maxlength="15" autocomplete="off">
+                <p class="ejemplo">Caracteres indevidos: *,."/-_...</p>
             </div>
-
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

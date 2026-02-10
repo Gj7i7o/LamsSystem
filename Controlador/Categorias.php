@@ -170,6 +170,7 @@ class categorias extends controlador
         $pdf = new pdfGenerator();
         $pdf->cargarVista('categorias_pdf', [
             'categorias' => $categorias,
+            'filtro_estado' => $estado,
             'filtro_fecha_desde' => $fecha_desde,
             'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Categorias_' . date('Y-m-d') . '.pdf');
