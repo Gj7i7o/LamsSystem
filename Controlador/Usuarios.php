@@ -56,7 +56,7 @@ class usuarios extends controlador
                 </div>';
                     }
                 } else {
-                    $data[$i]['acciones'] = '<div>' . $btnEditar . '
+                    $data[$i]['acciones'] = '<div>' . '
                 <button class="secure" type="button" onclick="btnActUsuario(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }
@@ -85,7 +85,7 @@ class usuarios extends controlador
         $letras = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/";
         $pass = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,16}$/";
         $email = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-        $phone = "/^04(12|14|16|24|26)-\d{7}$/";
+        $phone = "/^(0412|0414|0416|0424|0426)[-]\d{7}$/";
         if (
             empty($ci) ||
             empty($usuario) ||
@@ -100,11 +100,11 @@ class usuarios extends controlador
                 } else if (!preg_match($letras, $apellido)) {
                     $msg = array('msg' => 'No agregue caracteres indevidos en su apellido', 'icono' => 'warning');
                 } else if (!preg_match($pass, $contrasena)) {
-                    $msg = array('msg' => 'La contraseña NO cumple con las especificaciones', 'icono' => 'warning');
-                    // } else if (!preg_match($email, $correo)) {
-                    //     $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
-                    // } else if (!preg_match($phone, $telef)) {
-                    //     $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
+                    $msg = array('msg' => 'La contraseña no cumple con las especificaciones', 'icono' => 'warning');
+                } else if (!preg_match($email, $correo) && $correo != "") {
+                    $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
+                } else if (!preg_match($phone, $telef) && $telef != "") {
+                    $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
                     $error = false;
                     /*Tras las validaciones, si el usuario no existe, se interpreta como uno nuevo, por ende
@@ -124,21 +124,33 @@ class usuarios extends controlador
                     if (!$error) {
                         $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
                         $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'registrar', "Registró usuario: $usuario");
+                    } else if ($error == "existe") {
+                        $msg = array('msg' => 'La persona ya está registrada', 'icono' => 'warning');
                     } else {
                         $msg = array('msg' => 'Error al registrar el usuario', 'icono' => 'error');
                     }
                 }
             } else {
-                /*Caso contrario, si el usuario existe, se interpreta que se desea modificar ese usuario,
-                por ende lleva los datos a la función modifUsuario en el modelo/usuariosModel.php*/
-                $data = $this->model->modifUsuario($ci, $usuario, $rango, $nombre, $apellido, $correo, $telef, $id);
-                if ($data == "modificado") {
-                    $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
-                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario ID: $id - $usuario");
-                } else if ($data == "existe") {
-                    $msg = array('msg' => 'El usuario ya existe', 'icono' => 'warning');
+                if (!preg_match($letras, $nombre)) {
+                    $msg = array('msg' => 'No agregue caracteres indevidos en su nombre', 'icono' => 'warning');
+                } else if (!preg_match($letras, $apellido)) {
+                    $msg = array('msg' => 'No agregue caracteres indevidos en su apellido', 'icono' => 'warning');
+                } else if (!preg_match($email, $correo) && $correo != "") {
+                    $msg = array('msg' => 'Escriba correctamente el correo', 'icono' => 'warning');
+                } else if (!preg_match($phone, $telef) && $telef != "") {
+                    $msg = array('msg' => 'Escriba correctamente el teléfono', 'icono' => 'warning');
                 } else {
-                    $msg = array('msg' => 'Error al actualizar el Usuario', 'icono' => 'error');
+                    /*Caso contrario, si el usuario existe, se interpreta que se desea modificar ese usuario,
+                por ende lleva los datos a la función modifUsuario en el modelo/usuariosModel.php*/
+                    $data = $this->model->modifUsuario($ci, $usuario, $rango, $nombre, $apellido, $correo, $telef, $id);
+                    if ($data == "modificado") {
+                        $msg = array('msg' => 'Usuario actualizado', 'icono' => 'success');
+                        $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Usuarios', 'modificar', "Modificó usuario Ci: $ci - $usuario");
+                    } else if ($data == "existe") {
+                        $msg = array('msg' => 'El usuario ya existe', 'icono' => 'warning');
+                    } else {
+                        $msg = array('msg' => 'Error al actualizar el Usuario', 'icono' => 'error');
+                    }
                 }
             }
         }
@@ -205,6 +217,7 @@ class usuarios extends controlador
         $pdf = new pdfGenerator();
         $pdf->cargarVista('usuarios_pdf', [
             'usuarios' => $usuarios,
+            'filtro_estado' => $estado,
             'filtro_fecha_desde' => $fecha_desde,
             'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Usuarios_' . date('Y-m-d') . '.pdf');

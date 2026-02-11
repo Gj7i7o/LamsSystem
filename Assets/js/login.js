@@ -10,7 +10,7 @@ function frmInicio(e) {
   //Patrón de validación de usuario
   const password = /^[A-Za-z0-9-_]{3,16}$/;
   if (contrasena.value == "" || usuario.value == "") {
-    alertas("Todos los campos SON obligatorios", "warning");
+    alertas("Todos los campos son obligatorios", "warning");
     // } else if (!password.test(contrasena)) {
     //   alertas(
     //     "El formato de la contraseña no es válida (*_-, mínimo 3 máximo 16 de largo), una mayúscula y una minúscula",

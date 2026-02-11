@@ -31,13 +31,6 @@
                     </a>
                 </li>
                 <li>
-                    <!-- Botón del módulo de producto -->
-                    <a href="<?php echo APP_URL; ?>productos" title="Inventario"
-                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'productos') !== false) ? 'active' : ''; ?>">
-                        <span class="nav-item"><i class="fas fa-boxes-stacked icon"></i> Productos</span>
-                    </a>
-                </li>
-                <li>
                     <!-- Botón del módulo de categorías -->
                     <a href="<?php echo APP_URL; ?>categorias" title="Categorias de productos"
                         class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'categorias') !== false) ? 'active' : ''; ?>">
@@ -49,6 +42,13 @@
                     <a href="<?php echo APP_URL; ?>marcas" title="Marcas de productos"
                         class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'marcas') !== false) ? 'active' : ''; ?>">
                         <span class="nav-item"><i class="fas fa-copyright"></i> Marcas</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Botón del módulo de producto -->
+                    <a href="<?php echo APP_URL; ?>productos" title="Inventario"
+                        class="<?php echo (strpos($_SERVER['REQUEST_URI'], 'productos') !== false) ? 'active' : ''; ?>">
+                        <span class="nav-item"><i class="fas fa-boxes-stacked icon"></i> Productos</span>
                     </a>
                 </li>
                 <li>

@@ -11,6 +11,12 @@
             box-sizing: border-box;
         }
 
+        .logo-reporte {
+            width: 90px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -132,6 +138,7 @@
     </div>
 
     <div class="header">
+        <img src="<?php echo APP_URL; ?>assets/img/logo.png" class="logo-reporte">
         <h1>REPORTE DE INVENTARIO DE PRODUCTOS</h1>
         <p>LamsSystem - Sistema de Gestion de Inventario</p>
     </div>
@@ -159,8 +166,8 @@
                 <th style="width: 10%;">P. COSTO</th>
                 <th style="width: 10%;">CANTIDAD</th>
                 <th style="width: 18%;">CATEGORIA</th>
-                <th style="width: 15%;">MARCA</th>
-                <th style="width: 10%;">ESTADO</th>
+                <th style="width: 25%;">MARCA</th>
+                <!-- <th style="width: 10%;">ESTADO</th> -->
             </tr>
         </thead>
         <tbody>
@@ -173,9 +180,9 @@
                     <td style="text-align: center;"><?php echo $producto['cantidad']; ?></td>
                     <td><?php echo strtoupper($producto['categoria'] ?? 'N/A'); ?></td>
                     <td><?php echo strtoupper($producto['marca'] ?? 'N/A'); ?></td>
-                    <td class="<?php echo $producto['estado'] == 'activo' ? 'estado-activo' : 'estado-inactivo'; ?>">
+                    <!-- <td class="<?php echo $producto['estado'] == 'activo' ? 'estado-activo' : 'estado-inactivo'; ?>">
                         <?php echo strtoupper($producto['estado']); ?>
-                    </td>
+                    </td> -->
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -10,9 +10,12 @@ class entradasModel extends query
     }
 
     /*filtersSQL: Genera el WHERE de la consulta según los filtros*/
-    public function filtersSQL(string $value, string $fecha_desde = '', string $fecha_hasta = ''): string
+    public function filtersSQL(string $value, string $estado, string $fecha_desde = '', string $fecha_hasta = ''): string
     {
         $conditions = [];
+        if ($estado != "todo") {
+            $conditions[] = "e.estado = '$estado'";
+        }
         if (!empty($value)) {
             $conditions[] = "(e.cod_docum LIKE '%$value%' OR e.total LIKE '%$value%' OR p.nombre LIKE '%$value%' OR e.tipo_pago LIKE '%$value%' OR EXISTS (SELECT 1 FROM entradaproducto ep2 INNER JOIN producto pr2 ON ep2.idproducto = pr2.id WHERE ep2.identrada = e.id AND (pr2.nombre LIKE '%$value%' OR pr2.codigo LIKE '%$value%')))";
         }
@@ -30,7 +33,7 @@ class entradasModel extends query
     {
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
         $sql = "SELECT e.id FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters";
         $data = $this->selectAll($sql);
         return count($data);
@@ -42,9 +45,9 @@ class entradasModel extends query
         $offset = ($params["page"] - 1) * 10;
         $fecha_desde = $params["fecha_desde"] ?? '';
         $fecha_hasta = $params["fecha_hasta"] ?? '';
-        $filters = $this->filtersSQL($params["query"], $fecha_desde, $fecha_hasta);
-        $sql = $params["page"] <= 0 ? "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC" :
-            "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC LIMIT 10 OFFSET $offset";
+        $filters = $this->filtersSQL($params["query"], $params["estado"], $fecha_desde, $fecha_hasta);
+        $sql = $params["page"] <= 0 ? "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago, e.estado FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC" :
+            "SELECT e.id, e.cod_docum, e.total, e.fecha, e.hora, p.nombre as proveedor, e.tipo_pago, e.estado FROM entrada e LEFT JOIN proveedor p ON e.idproveedor = p.id $filters ORDER BY e.id DESC LIMIT 10 OFFSET $offset";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -118,10 +121,29 @@ class entradasModel extends query
         return $this->selectAll($sql);
     }
 
-    /*revertirStockEntrada: Resta del stock las cantidades de una entrada (para edición)*/
-    public function revertirStockEntrada(int $id_entrada)
+    /*entradaStock: Obtiene la cantidad de cada linea de producto*/
+    public function entradaStock(int $id)
     {
-        $detalles = $this->obtenerDetalleEntrada($id_entrada);
+        $sql = "SELECT cantidad, idproducto FROM entradaproducto WHERE identrada = $id";
+        return $this->selectAll($sql);
+    }
+
+    /*revertirStockEntradaSumar: Suma del stock las cantidades de una entrada*/
+    public function revertirStockEntradaSumar(int $id)
+    {
+        $detalles = $this->entradaStock($id);
+        foreach ($detalles as $detalle) {
+            $sql = "UPDATE producto SET cantidad = cantidad + ? WHERE id = ?";
+            $datos = array($detalle['cantidad'], $detalle['idproducto']);
+            $this->save($sql, $datos);
+        }
+        return true;
+    }
+
+    /*revertirStockEntradaRestar: Resta del stock las cantidades de una entrada (para edición)*/
+    public function revertirStockEntradaRestar(int $id)
+    {
+        $detalles = $this->entradaStock($id);
         foreach ($detalles as $detalle) {
             $sql = "UPDATE producto SET cantidad = cantidad - ? WHERE id = ?";
             $datos = array($detalle['cantidad'], $detalle['idproducto']);
@@ -152,6 +174,22 @@ class entradasModel extends query
         } else {
             return "existe";
         }
+    }
+
+    /*desEntrada: Hace la consulta SQL que traerá la entrada acorde al id, y le cambia su estado a inactivo*/
+    public function desEntrada(int $id)
+    {
+        $sql = "UPDATE entrada SET estado = 'inactivo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    /*actEntrada: Hace la consulta SQL que traerá la entrada que posteriormente se cambiará su estado a activo*/
+    public function actEntrada(int $id)
+    {
+        $sql = "UPDATE entrada SET estado = 'activo' WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
     }
 
     /*tomarEntradasReporte: Obtiene todas las líneas de entradas con datos de cabecera para reportes*/

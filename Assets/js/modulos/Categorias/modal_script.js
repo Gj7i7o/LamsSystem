@@ -50,7 +50,7 @@ formularioCategoria.addEventListener("submit", function (event) {
   const nombre = document.getElementById("nombre");
   let letras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]+$/;
   if (nombre.value == "") {
-    alertas("Todos los campos son obligatorios", "warning");
+    alertas("El nombre es obligatorio", "warning");
   } else if (letras.test(nombre)) {
     alertas("No agregue caracteres indevidos en el nombre", "warning");
   } else {

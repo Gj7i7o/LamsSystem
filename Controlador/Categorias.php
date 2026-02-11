@@ -65,7 +65,6 @@ class categorias extends controlador
                 </div>';
                 } else {
                     $data[$i]['acciones'] = '<div>
-                <button class="primary" type="button" onclick="btnEditCategoria(' . $data[$i]['id'] . ');" title="Modificar"><i class="fa-regular fa-pen-to-square"></i></button>
                 <button class="secure" type="button" onclick="btnActCategoria(' . $data[$i]['id'] . ');" title="Activar"><i class="fa-solid fa-check"></i></button>
                 </div>';
                 }
@@ -171,6 +170,7 @@ class categorias extends controlador
         $pdf = new pdfGenerator();
         $pdf->cargarVista('categorias_pdf', [
             'categorias' => $categorias,
+            'filtro_estado' => $estado,
             'filtro_fecha_desde' => $fecha_desde,
             'filtro_fecha_hasta' => $fecha_hasta
         ])->generar('Reporte_Categorias_' . date('Y-m-d') . '.pdf');

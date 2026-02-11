@@ -11,6 +11,12 @@
             box-sizing: border-box;
         }
 
+        .logo-reporte {
+            width: 90px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -132,6 +138,7 @@
     </div>
 
     <div class="header">
+        <img src="<?php echo APP_URL; ?>assets/img/logo.png" class="logo-reporte">
         <h1>REPORTE DE PROVEEDORES</h1>
         <p>LamsSystem - Sistema de Gestion de Inventario</p>
     </div>
@@ -139,6 +146,9 @@
     <div class="info">
         <p><strong>Fecha de generacion:</strong> <?php echo date('d/m/Y h:i:s'); ?></p>
         <p><strong>Total de registros:</strong> <?php echo count($proveedores); ?></p>
+        <?php if (!empty($filtro_estado)): ?>
+            <p><strong>Estado:</strong> <?php echo ucfirst($filtro_estado); ?></p>
+        <?php endif; ?>
         <?php if (!empty($filtro_fecha_desde) || !empty($filtro_fecha_hasta)): ?>
             <p><strong>Rango de fecha:</strong>
                 <?php echo !empty($filtro_fecha_desde) ? $filtro_fecha_desde : 'Inicio'; ?> -
@@ -154,8 +164,8 @@
                 <th style="width: 20%;">NOMBRE</th>
                 <th style="width: 12%;">TELEFONO</th>
                 <th style="width: 15%;">CONTACTO</th>
-                <th style="width: 30%;">DIRECCION</th>
-                <th style="width: 11%;">ESTADO</th>
+                <th style="width: 41%;">DIRECCION</th>
+                <!-- <th style="width: 11%;">ESTADO</th> -->
             </tr>
         </thead>
         <tbody>
@@ -163,12 +173,12 @@
                 <tr>
                     <td><?php echo strtoupper($proveedor['rif']); ?></td>
                     <td><?php echo strtoupper($proveedor['nombre']); ?></td>
-                    <td><?php echo $proveedor['telefono'] ?? 'N/A'; ?></td>
-                    <td><?php echo strtoupper($proveedor['persona_contacto'] ?? 'N/A'); ?></td>
+                    <td><?php echo $proveedor['telefono'] ?? ''; ?></td>
+                    <td><?php echo strtoupper($proveedor['persona_contacto'] ?? ''); ?></td>
                     <td><?php echo strtoupper($proveedor['direccion'] ?? ''); ?></td>
-                    <td class="<?php echo $proveedor['estado'] == 'activo' ? 'estado-activo' : 'estado-inactivo'; ?>">
+                    <!-- <td class="<?php echo $proveedor['estado'] == 'activo' ? 'estado-activo' : 'estado-inactivo'; ?>">
                         <?php echo strtoupper($proveedor['estado']); ?>
-                    </td>
+                    </td> -->
                 </tr>
             <?php endforeach; ?>
         </tbody>

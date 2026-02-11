@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.usuario}</td>
                 <td>${item.rango}</td>
                 <td>${item.estado}</td>
-                <td>${item.acciones}</td>
+                <td style="text-align: center;">${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });

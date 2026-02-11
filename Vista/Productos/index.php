@@ -43,14 +43,14 @@ include "vista/componentes/header.php";
                         <tr>
                             <th data-column="codigo" data-order="desc">Código</th>
                             <th data-column="nombre" data-order="desc">Nombre</th>
-                            <th data-column="precioVenta" data-order="desc">P. Venta</th>
-                            <th data-column="precioCosto" data-order="desc">P. Costo</th>
-                            <th data-column="cantidad" data-order="desc">Cantidad</th>
-                            <th data-column="cantidadMinima" data-order="desc">Stock Min</th>
+                            <th data-column="precioVenta" data-order="desc" style="text-align: center;">P. Venta</th>
+                            <th data-column="precioCosto" data-order="desc" style="text-align: center;">P. Costo</th>
+                            <th data-column="cantidad" data-order="desc" style="text-align: center;">Cantidad</th>
+                            <th data-column="cantidadMinima" data-order="desc" style="text-align: center;">Stock Min</th>
                             <th data-column="categoria" data-order="desc">Categoría</th>
                             <th data-column="marca" data-order="desc">Marca</th>
-                            <th data-column="estado" data-order="desc">Estado</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="estado" data-order="desc" style="text-align: center;">Estado</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,7 @@ include "vista/componentes/header.php";
 
 <!-- Modal -->
 <div id="modalProducto" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" style="width: 900px;">
         <span class="close" title="Cerrar">&times;</span>
         <div class="modal-header">
             <h2 id="title">Registrar Producto</h2>
@@ -78,30 +78,30 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="codigo">Código:<span class="required">*</span></label>
-                    <input type="text" id="codigo" name="codigo" placeholder="Ej: 001-22-777" maxlength="15">
+                    <input type="text" id="codigo" name="codigo" placeholder="Ej: 001-22-777" maxlength="15" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre:<span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Bujía" maxlength="30">
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej: Bujía" maxlength="30" autocomplete="off">
                 </div>
             </div>
 
             <div class="form-file">
                 <div class="form-group">
-                    <label for="precioVenta">Precio Venta $:<span class="required">*</span></label>
-                    <input type="number" id="precioVenta" name="precioVenta" placeholder="Ej: 15" step="0.01" min="0">
+                    <label for="precioVenta">Precio Venta $:</label>
+                    <input type="number" id="precioVenta" name="precioVenta" placeholder="Ej: 15" step="0.01" min="0" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="precioCosto">Precio Costo $:</label>
-                    <input type="number" id="precioCosto" name="precioCosto" placeholder="Ej: 10" step="0.01" min="0" value="0">
+                    <input type="number" id="precioCosto" name="precioCosto" placeholder="Ej: 10" step="0.01" min="0" value="0" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" value="0" min="0" step="1">
+                    <input type="number" id="cantidad" name="cantidad" value="0" min="0" step="1" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="cantidadMinima">Stock Mínimo:<span class="required">*</span></label>
-                    <input type="number" id="cantidadMinima" name="cantidadMinima" value="1" min="1" step="1">
+                    <input type="number" id="cantidadMinima" name="cantidadMinima" value="1" min="1" step="1" autocomplete="off">
                 </div>
             </div>
 
@@ -117,7 +117,7 @@ include "vista/componentes/header.php";
                     </select>
                 </div>
             </div>
-
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

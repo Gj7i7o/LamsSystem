@@ -44,8 +44,8 @@ include "vista/componentes/header.php";
                             <th data-column="telefono" data-order="desc">Teléfono</th>
                             <th data-column="persona_contacto" data-order="desc">Persona Contacto</th>
                             <th data-column="direccion" data-order="desc">Dirección</th>
-                            <th data-column="estado" data-order="desc">Estado</th>
-                            <th data-column="acciones" data-order="desc">Acciones</th>
+                            <th data-column="estado" data-order="desc" style="text-align: center;">Estado</th>
+                            <th data-column="acciones" data-order="desc" style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,31 +72,34 @@ include "vista/componentes/header.php";
             <div class="form-file">
                 <div class="form-group">
                     <label for="rif">Rif/CI:<span class="required">*</span></label>
-                    <input type="text" id="rif" name="rif" placeholder="Ej: J-123456789" maxlength="11">
+                    <input type="text" id="rif" name="rif" placeholder="Ej: J-123456789" maxlength="11" autocomplete="off" style="text-transform: none;">
+                    <p class="ejemplo">Formatos de rif: J-, V-, E-, G-, C-, P-</p>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="nombre">Nombre:<span class="required">*</span></label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ej: Empresa o Nombre Completo" maxlength="50">
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Empresa o Nombre Completo" maxlength="15" autocomplete="off">
             </div>
 
             <div class="form-file">
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" id="telefono" name="telefono" placeholder="Ej: 0412-1234567" maxlength="12">
+                    <input type="text" id="telefono" name="telefono" placeholder="Ej: 0412-1234567" maxlength="12" autocomplete="off">
+                    <p class="ejemplo">Formatos de teléfono: 0412-, 0414-, 0416-, 0424-</p>
                 </div>
                 <div class="form-group">
                     <label for="persona_contacto">Persona de Contacto:</label>
-                    <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Ej: Juan Pérez" maxlength="40">
+                    <input type="text" id="persona_contacto" name="persona_contacto" placeholder="Ej: Juan Pérez" maxlength="40" autocomplete="off">
+                    <p class="ejemplo">Caracteres indevidos: *,."/-_...</p>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="direccion">Dirección:<span class="required">*</span></label>
-                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Ej: Calle Acosta casa Nº..." maxlength="255">
+                <input type="text" id="direccion" name="direccion" style="padding-bottom: 60px;" placeholder="Ej: Calle Acosta casa Nº..." maxlength="255" autocomplete="off">
             </div>
-
+            <p class="ejemplo">*: Campos obligatorios</p>
             <div class="modal-footer">
                 <button type="submit" id="btnAccion" class="btn-submit">
                     <i class="fas fa-save"></i> Registrar

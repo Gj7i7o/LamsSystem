@@ -75,8 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.telefono || "-"}</td>
                 <td>${item.persona_contacto || "-"}</td>
                 <td>${item.direccion}</td>
-                <td>${item.estado}</td>
-                <td>${item.acciones}</td>
+                <td style="text-align: center;">${item.estado}</td>
+                <td style="text-align: center;">${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });
@@ -215,7 +215,15 @@ function descargarPDF() {
   const fecha_desde = document.getElementById("fecha_desde")?.value || "";
   const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   window.open(
-    APP_URL + "proveedores/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta,
+    APP_URL +
+      "proveedores/reportePDF?estado=" +
+      estado +
+      "&query=" +
+      query +
+      "&fecha_desde=" +
+      fecha_desde +
+      "&fecha_hasta=" +
+      fecha_hasta,
     "_blank",
   );
 }

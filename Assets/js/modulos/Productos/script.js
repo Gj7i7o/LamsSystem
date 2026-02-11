@@ -75,14 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
       row.innerHTML = `
                 <td>${item.codigo}</td>
                 <td>${item.nombre}</td>
-                <td>${item.precioVenta}$</td>
-                <td>${item.precioCosto}$</td>
-                <td>${item.cantidad}</td>
-                <td>${item.cantidadMinima}</td>
+                <td style="text-align: center;">${item.precioVenta}$</td>
+                <td style="text-align: center;">${item.precioCosto}$</td>
+                <td style="text-align: center;">${item.cantidad}</td>
+                <td style="text-align: center;">${item.cantidadMinima}</td>
                 <td>${item.categoria}</td>
                 <td>${item.marca}</td>
-                <td>${item.estado}</td>
-                <td>${item.acciones}</td>
+                <td style="text-align: center;">${item.estado}</td>
+                <td style="text-align: center;">${item.acciones}</td>
             `;
       tableBody.appendChild(row);
     });
@@ -223,7 +223,17 @@ function descargarPDF() {
   const urlParams = new URLSearchParams(window.location.search);
   const stockBajo = urlParams.get("stock_bajo") || "";
   window.open(
-    APP_URL + "productos/reportePDF?estado=" + estado + "&query=" + query + "&fecha_desde=" + fecha_desde + "&fecha_hasta=" + fecha_hasta + "&stock_bajo=" + stockBajo,
+    APP_URL +
+      "productos/reportePDF?estado=" +
+      estado +
+      "&query=" +
+      query +
+      "&fecha_desde=" +
+      fecha_desde +
+      "&fecha_hasta=" +
+      fecha_hasta +
+      "&stock_bajo=" +
+      stockBajo,
     "_blank",
   );
 }

@@ -11,6 +11,12 @@
             box-sizing: border-box;
         }
 
+        .logo-reporte {
+            width: 90px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -142,6 +148,7 @@
     </div>
 
     <div class="header">
+        <img src="<?php echo APP_URL; ?>assets/img/logo.png" class="logo-reporte">
         <h1>REPORTE DE HISTORIAL DE ACCIONES</h1>
         <p>LamsSystem - Sistema de Gestion de Inventario</p>
     </div>
