@@ -144,10 +144,32 @@ class productos extends controlador
             } else {
                 /*Caso contrario, si el producto existe, se interpreta que se desea modificar ese producto,
                 por ende lleva los datos a la función modifProducto en el modelo/productosModel.php*/
+
+                // Obtener datos actuales del producto antes de modificar
+                $productoAnterior = $this->model->editarProducto($id);
+
                 $data = $this->model->modifProducto($codigo, $nombre, $precioVenta, $precioCosto, $categoria, $marca, $id, $cantidad, $cantidadMinima);
                 if ($data == "modificado") {
                     $msg = array('msg' => 'Producto modificado', 'icono' => 'success');
-                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'modificar', "Modificó producto ID: $id - $nombre");
+
+                    // Construir descripción detallada de los cambios
+                    $cambios = [];
+                    if ($productoAnterior['cantidad'] != $cantidad) {
+                        $cambios[] = "Cantidad: {$productoAnterior['cantidad']} → $cantidad";
+                    }
+                    if ($productoAnterior['precioCosto'] != $precioCosto) {
+                        $cambios[] = "P.Costo: \${$productoAnterior['precioCosto']} → \$$precioCosto";
+                    }
+                    if ($productoAnterior['precioVenta'] != $precioVenta) {
+                        $cambios[] = "P.Venta: \${$productoAnterior['precioVenta']} → \$$precioVenta";
+                    }
+
+                    $descripcion = "Modificó producto: $nombre (Código: $codigo)";
+                    if (!empty($cambios)) {
+                        $descripcion .= " | Cambios: " . implode(", ", $cambios);
+                    }
+
+                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'modificar', $descripcion);
                 } else if ($data == "existe") {
                     $msg = array('msg' => 'El producto ya existe', 'icono' => 'warning');
                 } else {

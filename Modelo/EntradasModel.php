@@ -100,6 +100,13 @@ class entradasModel extends query
         return $this->save($sql, $datos);
     }
 
+    /*obtenerProducto: Obtiene los datos actuales de un producto*/
+    public function obtenerProducto(int $id_producto)
+    {
+        $sql = "SELECT id, codigo, nombre, precioCosto, precioVenta, cantidad FROM producto WHERE id = $id_producto";
+        return $this->select($sql);
+    }
+
     /*editarEntrada: Obtiene la cabecera de una entrada con datos del proveedor*/
     public function editarEntrada(int $id)
     {
@@ -196,6 +203,10 @@ class entradasModel extends query
     public function tomarEntradasReporte(array $params)
     {
         $conditions = [];
+        if (!empty($params["estado"]) && $params["estado"] != "todo") {
+            $estado = $params["estado"];
+            $conditions[] = "e.estado = '$estado'";
+        }
         if (!empty($params["query"])) {
             $value = $params["query"];
             $conditions[] = "(e.cod_docum LIKE '%$value%' OR p.nombre LIKE '%$value%' OR pr.nombre LIKE '%$value%' OR pr.codigo LIKE '%$value%' OR e.tipo_pago LIKE '%$value%')";

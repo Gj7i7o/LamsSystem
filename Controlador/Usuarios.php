@@ -75,8 +75,8 @@ class usuarios extends controlador
         $usuario = $_POST['usuario'];
         $nombre = $_POST['nombre'];
         $apellido = $_POST['apellido'];
-        $correo = $_POST['correo'] || "";
-        $telef = $_POST['telef'] || "";
+        $correo = $_POST['correo'] ?? "";
+        $telef = $_POST['telef'] ?? "";
         $contrasena = $_POST['contrasena'];
         $rango = $_POST['rango'];
         $id = $_POST['id'];

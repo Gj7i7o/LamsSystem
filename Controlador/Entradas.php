@@ -134,6 +134,7 @@ class entradas extends controlador
                         $msg = array('msg' => 'El código de entrada ya existe', 'icono' => 'warning');
                     } else if ($id_entrada > 0) {
                         $error_detalle = false;
+                        $cambiosProductos = [];
 
                         foreach ($lineas as $linea) {
                             $id_producto = $linea['producto'];
@@ -141,6 +142,9 @@ class entradas extends controlador
                             $precioCosto = $linea['precioCosto'];
                             $precioVenta = $linea['precioVenta'];
                             $subTotal = $linea['subTotal'];
+
+                            // Obtener datos actuales del producto antes de actualizar
+                            $productoAnterior = $this->model->obtenerProducto($id_producto);
 
                             $detalle = $this->model->detalleEntrada($id_entrada, $id_producto, $cantidad, $precioCosto, $precioVenta, $subTotal);
 
@@ -150,11 +154,37 @@ class entradas extends controlador
                             }
 
                             $this->model->actualizarStock($id_producto, $cantidad);
+
+                            // Registrar cambios de precios si hubo modificaciones
+                            if ($productoAnterior) {
+                                $cambios = [];
+                                $cantidadAnterior = $productoAnterior['cantidad'];
+                                $cantidadNueva = $cantidadAnterior + $cantidad;
+                                $cambios[] = "Cantidad: $cantidadAnterior → $cantidadNueva (+$cantidad)";
+
+                                if ($productoAnterior['precioCosto'] != $precioCosto) {
+                                    $cambios[] = "P.Costo: \${$productoAnterior['precioCosto']} → \$$precioCosto";
+                                }
+                                if ($productoAnterior['precioVenta'] != $precioVenta) {
+                                    $cambios[] = "P.Venta: \${$productoAnterior['precioVenta']} → \$$precioVenta";
+                                }
+
+                                if (count($cambios) > 0) {
+                                    $cambiosProductos[] = "{$productoAnterior['nombre']}: " . implode(", ", $cambios);
+                                }
+                            }
                         }
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Entrada registrada y stock actualizado', 'icono' => 'success');
                             $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Entradas', 'registrar', "Registró entrada #$codigo - Total: $$total");
+
+                            // Registrar cambios de productos en el historial
+                            if (!empty($cambiosProductos)) {
+                                foreach ($cambiosProductos as $cambio) {
+                                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'actualizar_entrada', "Entrada #$codigo | $cambio");
+                                }
+                            }
                         } else {
                             $msg = array('msg' => 'Error al registrar el detalle de la entrada', 'icono' => 'error');
                         }
@@ -174,6 +204,7 @@ class entradas extends controlador
 
                     if ($resultado == "modificado") {
                         $error_detalle = false;
+                        $cambiosProductos = [];
 
                         // 4. Insertar nuevos detalles y actualizar stock
                         foreach ($lineas as $linea) {
@@ -183,6 +214,9 @@ class entradas extends controlador
                             $precioVenta = $linea['precioVenta'];
                             $subTotal = $linea['subTotal'];
 
+                            // Obtener datos actuales del producto antes de actualizar
+                            $productoAnterior = $this->model->obtenerProducto($id_producto);
+
                             $detalle = $this->model->detalleEntrada($id, $id_producto, $cantidad, $precioCosto, $precioVenta, $subTotal);
 
                             if ($detalle != "ok") {
@@ -191,11 +225,37 @@ class entradas extends controlador
                             }
 
                             $this->model->actualizarStock($id_producto, $cantidad);
+
+                            // Registrar cambios de precios si hubo modificaciones
+                            if ($productoAnterior) {
+                                $cambios = [];
+                                $cantidadAnterior = $productoAnterior['cantidad'];
+                                $cantidadNueva = $cantidadAnterior + $cantidad;
+                                $cambios[] = "Cantidad: $cantidadAnterior → $cantidadNueva (+$cantidad)";
+
+                                if ($productoAnterior['precioCosto'] != $precioCosto) {
+                                    $cambios[] = "P.Costo: \${$productoAnterior['precioCosto']} → \$$precioCosto";
+                                }
+                                if ($productoAnterior['precioVenta'] != $precioVenta) {
+                                    $cambios[] = "P.Venta: \${$productoAnterior['precioVenta']} → \$$precioVenta";
+                                }
+
+                                if (count($cambios) > 0) {
+                                    $cambiosProductos[] = "{$productoAnterior['nombre']}: " . implode(", ", $cambios);
+                                }
+                            }
                         }
 
                         if (!$error_detalle) {
                             $msg = array('msg' => 'Entrada actualizada correctamente', 'icono' => 'success');
                             $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Entradas', 'modificar', "Modificó entrada ID: $id - #$codigo");
+
+                            // Registrar cambios de productos en el historial
+                            if (!empty($cambiosProductos)) {
+                                foreach ($cambiosProductos as $cambio) {
+                                    $this->historialModel->registrarAccion($_SESSION['id_usuario'], 'Productos', 'actualizar_entrada', "Entrada #$codigo | $cambio");
+                                }
+                            }
                         } else {
                             $msg = array('msg' => 'Error al actualizar el detalle de la entrada', 'icono' => 'error');
                         }

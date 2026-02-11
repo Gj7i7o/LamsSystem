@@ -219,10 +219,12 @@ function limpiarFechas() {
 
 /*Función para descargar reporte PDF listado de salidas*/
 function descargarPDF() {
+  const estado = document.getElementById("estado")?.value || "todo";
   let query = document.getElementById("query")?.value || "";
   const fecha_desde = document.getElementById("fecha_desde")?.value || "";
   const fecha_hasta = document.getElementById("fecha_hasta")?.value || "";
   const params = new URLSearchParams();
+  if (estado) params.set("estado", estado);
   if (query) params.set("query", query);
   if (fecha_desde) params.set("fecha_desde", fecha_desde);
   if (fecha_hasta) params.set("fecha_hasta", fecha_hasta);

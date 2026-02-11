@@ -208,6 +208,10 @@ class salidasModel extends query
     public function tomarSalidasReporte(array $params)
     {
         $conditions = [];
+        if (!empty($params["estado"]) && $params["estado"] != "todo") {
+            $estado = $params["estado"];
+            $conditions[] = "s.estado = '$estado'";
+        }
         if (!empty($params["query"])) {
             $value = $params["query"];
             $conditions[] = "(s.cod_docum LIKE '%$value%' OR pr.nombre LIKE '%$value%' OR pr.codigo LIKE '%$value%' OR s.tipo_despacho LIKE '%$value%')";
