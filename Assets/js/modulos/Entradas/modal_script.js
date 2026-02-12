@@ -554,7 +554,7 @@ formulario.addEventListener("submit", function (e) {
   const total = document.getElementById("total");
 
   lineasDelFormulario.forEach((lineaDiv) => {
-    const id = lineaDiv.querySelector('input[name*="[id]"]')?.value;
+    const id = lineaDiv.querySelector('input[name*="[id]"]')?.value || "";
     const producto = lineaDiv.querySelector('input[name*="[producto]"]')?.value;
     const cantidad = lineaDiv.querySelector('input[name*="[cantidad]"]')?.value;
     const precioCosto = lineaDiv.querySelector(
@@ -564,11 +564,9 @@ formulario.addEventListener("submit", function (e) {
       'input[name*="[precioVenta]"]',
     )?.value;
     const subTotal = lineaDiv.querySelector('input[name*="[subTotal]"]')?.value;
-    if (!id || !producto || !cantidad) {
+    if (!producto || !cantidad) {
       console.log(
         "Error, datos nulos",
-        "Id: ",
-        id,
         "Producto: ",
         producto,
         "Cantidad: ",
@@ -688,7 +686,7 @@ function getSubTotal(idx) {
     'input[name="lines[' + idx + '][subTotal]"]',
   );
 
-  subTotal.value = (cantidad ?? 0) * (precio ?? 0);
+  subTotal.value = ((cantidad ?? 0) * (precio ?? 0)).toFixed(2);
   getTotal();
 }
 

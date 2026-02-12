@@ -61,7 +61,7 @@ class entradasModel extends query
 
         if (empty($existe)) {
             // 2. Insertar cabecera
-            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago, idusuario) VALUES (?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO entrada (fecha, hora, idproveedor, total, cod_docum, tipo_pago, idusuario, estado) VALUES (?,?,?,?,?,?,?,'activo')";
             $datos = array($fecha, $hora, $id_proveedor, $total, $codigo, $tipo_pago, $id_usuario);
             $data = $this->insertar($sql, $datos); // Asumiendo que 'insertar' devuelve el ID generado
 
